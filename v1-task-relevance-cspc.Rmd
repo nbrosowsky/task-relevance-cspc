@@ -99,7 +99,7 @@ A secondary goal was to conceptually replicate previous findings and test the ge
 (ref:figure1)
 Illustration of the stimuli and trial construction. Figure 1A shows the feature dimensions for each of the conditions. Figure 1B shows an example trial stimulus containing both the context and flanker images. Figure 1C shows an example of how feature dimensions could have been assigned to each proportion congruency (PC) condition, and an example of the secondary task assignments. The secondary task order, as well as the feature and congruency assignments were all randomized for each participant.
 
-```{r figure1, echo=FALSE, fig.cap='(ref:figure1)', out.width = "75%", fig.align="center"}
+```{r figure1, echo=FALSE, fig.cap="(ref:figure1)", fig.width=6.7,fig.height=4.51}
 knitr::include_graphics("images/Task.jpg")
 ```
 
@@ -137,17 +137,17 @@ source("data-analysis/analysis.R")
 (ref:figure2)
 Results from experiment 1 showing congruency effects (incongruent - congruent) for frequency unbiased items in reaction times (left) and error rates (right) as a function of the task-relevant context (100% proportion congruent versus 0% proportion congruent).
 
-```{r figure2, echo=FALSE, fig.cap='(ref:figure2)', out.width = "75%", fig.align="center"}
-knitr::include_graphics("images/E1_bar.jpg")
+```{r figure2, echo=FALSE, fig.cap="(ref:figure2)", fig.width=6.875, fig.height= 4}
+figure2
 ```
 
 Participants with mean error rates greater than 25% were excluded from the analyses, eliminating `r N_subjects_removed` participants. For all remaining participants, the correct RTs from frequency unbiased trials in each condition were submitted to an outlier removal procedure. The non-recursive Van Selst and Jolicoeur outlier removal procedure was applied after removing response times greater than 3000 ms [@van_selst_solution_1994]. This procedure removed `r round(percent_removed*100,digits = 2)`% of the total observations.
 
 The primary question of interest was whether the task-relevance of context features associated with different levels of conflict would influence the size of the congruency effect for frequency unbiased items (see Table 1). To that end, mean correct RTs and mean error rates from frequency unbiased trials were submitted to a mixed analysis of variance (ANOVA) with task-relevant context (0% and 100% PC) and unbiased-item congruency (congruent and incongruent) as within-subject factors, and context-type (object, social, and social/non-repeating) as the between-subjects factor.
 
-The results of the RT analysis revealed the critical, two-way interaction between task-relevant context and unbiased-item congruency to be significant, `r RT_ANOVA$countProp_trialCongruency`, demonstrating smaller congruency effects when the context dimension associated with high conflict was made task-relevant. Additionally, the three-way interaction between the task-relevant context, unbiased-item congruency, and context-type was non-significant,  showing no evidence for differences between the CSPC effects across context-type manipulations.
+The results of the RT analysis revealed the critical, two-way interaction between task-relevant context and unbiased-item congruency to be significant, `r RT_ANOVA$Task_Relevant_Context_Congruency`, demonstrating smaller congruency effects when the context dimension associated with high conflict was made task-relevant. Additionally, the three-way interaction between the task-relevant context, unbiased-item congruency, and context-type was non-significant, `r RT_ANOVA$Condition_Task_Relevant_Context_Congruency`, showing no evidence for differences between the CSPC effects across context-type manipulations.
 
-Similarly, the corresponding error analysis also resulted in a significant two-way interaction between the task-relevant context and unbiased-item congruency, F(1,128) = 6.57, *MSE*  = 13.98, *p* = .01, $\eta$~p~2 = .05, and a non-significant three-way interaction between task-relevant context, unbiased-item congruency, and context-type, F(2,128) = .9, *MSE* = 13.98, *p* = .41, $\eta$~p~2 = .01. Therefore, the congruency effects in error rates were also smaller when the context dimension associated with high conflict was made task-relevant, corroborating the results of the reaction time analysis.
+Similarly, the corresponding error analysis also resulted in a significant two-way interaction between the task-relevant context and unbiased-item congruency, `r RT_ANOVA$Task_Relevant_Context_Congruency`, and a non-significant three-way interaction between task-relevant context, unbiased-item congruency, and context-type, `r RT_ANOVA$Condition_Task_Relevant_Context_Congruency`. Therefore, the congruency effects in error rates were also smaller when the context dimension associated with high conflict was made task-relevant, corroborating the results of the reaction time analysis.
 
 # General Discussion
 	
