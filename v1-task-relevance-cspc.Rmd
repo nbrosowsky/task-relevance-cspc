@@ -5,7 +5,7 @@ shorttitle        : "Contextual recruitment of selective attention"
 author: 
   - name          : "Nicholaus P. Brosowsky"
     affiliation   : "1"
-    corresponding : yes    # Define only one corresponding author
+    corresponding : yes    #  Define only one corresponding author
     address       : "The Graduate Center, CUNY, 365 5th Ave, New York, NY 10016"
     email         : "nbrosowsky@gradcenter.cuny.edu"
   - name          : "Matthew J. C. Crump"
@@ -39,36 +39,34 @@ lang              : english
 
 
 class             : "man"
+# output:
+#  bookdown::html_document2:
+#     toc: true
+#     toc_float: true
+#     collapsed: false
+#     number_sections: false
+#     toc_depth: 2
+#     code_folding: hide
+#     css: webpaper.css
+
+
+
 output:
- bookdown::html_document2:
-    toc: true
-    toc_float: true
-    collapsed: false
-    number_sections: false
-    toc_depth: 2
-    code_folding: hide
-#    css: webpaper.css
-
-
-header-includes:
-  - \usepackage{setspace}
-  - \AtBeginEnvironment{tabular}{\onehalfspacing}
-  - \AtBeginEnvironment{lltable}{\onehalfspacing}
-  - \captionsetup[table]{font={stretch=1.5}}
-  - \captionsetup[figure]{font={stretch=1}}
-  - \setlength{\skip\footins}{1cm}
-  - \setlength{\footnotesep}{0.5cm}
-
-#output:
-#  papaja::apa6_pdf
+ papaja::apa6_pdf
 ---
 
 ```{r setup, include=FALSE, eval=TRUE,echo=FALSE}
-#options(htmltools.dir.version = FALSE)
+# options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache = FALSE)
+
+library("dplyr")
+library("afex")
+library("papaja")
 ```
 
-#Introduction
+
+
+#  Introduction
 
 Selective attention processes are commonly investigated using interference paradigms such as the Stroop [-@stroop_studies_1935] and flanker [@eriksen_effects_1974] tasks, where participants identify a target while ignoring a response-congruent or -incongruent distractor. Performance is typically better on congruent versus incongruent trials and the difference-the congruency effect-taken as an index of attentional priorities. Large congruency effects are thought to reflect ineffective filtering of the distracting stimuli whereas small congruency effects are thought to reflect effective filtering. By probing factors that systematically alter congruency effects, we can then make inferences about processes that control attentional filtering. For example, manipulating the frequency of conflict via the proportion of congruent versus incongruent trials has shown to influence the size of the congruency effect. Typically, a high proportion congruent experiment produces large congruency effects, whereas a low proportion congruent experiment produces small congruency effects [@logan_when_1979; @lowe_selective_1982; @west_effects_1998]. This result is usually  explained as strategic control, where participants increase attentional control under high-conflict demands and relax attentional control under low-conflict demands [@logan_attention_1980; @logan_strategies_1984; @logan_when_1979; @lowe_selective_1982]. Recent work however, has demonstrated that attentional control is not only adjusted by top-down regulation, but can also be triggered automatically by environmental cues [@brosowsky_memory-guided_2018; @bugg_support_2012; @egner_creatures_2014; @fischer_predicting_2015; @king_priming_2012; @mayr_outsourcing_2007]. 
 
@@ -82,9 +80,9 @@ The importance of the latter issue becomes increasingly clear if we speculate ab
 
 Task-relevance might be one factor that is important for establishing and using context-attention associations. This proposal might seem counter-intuitive as it is typically assumed that the context, within selective attention tasks at least, is completely irrelevant to the task. In fact, referring to such stimulus dimensions as the "context" carries with it an implication that the feature is background information, irrelevant to the task-at-hand, and should be ignored by the participant. A closer look at CSPC designs however, suggests that the context cues may not be as irrelevant as implied. For example, the most commonly used context cue is location [@brosowsky_context-specific_2016; @corballis_independent_2003; @crump_context-specific_2006; @crump_context-specific_2008; @crump_learning_2016; @weidler_attentional_2018; @weidler_transfer_2016]. Although in some sense, the location is irrelevant for identifying the color of a word, it seems disingenuous to consider it completely task-irrelevant. In order to identify the target, the participant must first identify and orient to its location on the screen. In this is sense, it is relevant to their ability to complete the task and furthermore, location information may receive priority during encoding [@logan_what_1998; @mayr_spatial_1996]. Similar arguments could be made about other context features that are inherent to processing the target stimulus, like font-type [@bugg_multiple_2008] and color [@vietze_context_2009]. 
 
-To date, we are aware of only one study that has looked at task-relevance within the CSPC literature. Crump, Vaquero, & Milliken [-@crump_context-specific_2008] used a Stroop prime-probe task where the distractor word is presented first followed by a color patch probe. Critically, they used the shape of the color patch probe, either a square or a circle, as the contextual dimension; one associated with a high frequency of conflict, the other with a low frequency. In one experiment participants were made aware of the shape-proportion contingencies but given no additional instructions. In the second, participants were given a secondary task to count the number of trials that contained a square. The first experiment failed to find evidence for context-specificity, whereas the second did. Although not testing task-relevance directly, Cañadas, Rodríguez-Bailón, Milliken, & Lupiáñez [-@canadas_social_2013]) found similar effects. In this study they used images of male and female faces as context cues in a flanker task. When given instructions to think of the faces as members of the gender categories they found CSPC effects, but when given instructions to think of the faces as individuals they did not. These results suggest that making a context dimension relevant to the on-going task is important for producing CSPC effects. 
+To date, we are aware of only one study that has looked at task-relevance within the CSPC literature. Crump, Vaquero, & Milliken [-@crump_context-specific_2008] used a Stroop prime-probe task where the distractor word is presented first followed by a color patch probe. Critically, they used the shape of the color patch probe, either a square or a circle, as the contextual dimension; one associated with a high frequency of conflict, the other with a low frequency. In one experiment participants were made aware of the shape-proportion contingencies but given no additional instructions. In the second, participants were given a secondary task to count the number of trials that contained a square. The first experiment failed to find evidence for context-specificity, whereas the second did. Although not testing task-relevance directly, [-@canadas_social_2013]) found similar effects. In this study they used images of male and female faces as context cues in a flanker task. When given instructions to think of the faces as members of the gender categories they found CSPC effects, but when given instructions to think of the faces as individuals they did not. These results suggest that making a context dimension relevant to the on-going task is important for producing CSPC effects. 
 
-#The Current Study
+# The Current Study
 
 Some prior suggests that the task-relevance of contextual information is important for establishing new associations between context cues and attentional priorities. Simply put, CSPC effects emerge when context cues are somehow made relevant to the task, but do not when made irrelevant [@canadas_social_2013; @crump_context-specific_2006; @crump_context-specific_2008]. However, it still remains unclear how task-relevance may or may not inform the use of previously learned associations. In the current study, we examined whether manipulating task-relevance would cause participants to ignore a previously learned association and adopt a new context-specific control strategy.
 
@@ -96,20 +94,20 @@ The critical measure of interest is the congruency effect produced in the freque
 
 A secondary goal was to conceptually replicate previous findings and test the generalizability of any task-relevance effects. Therefore, we included three conditions that differed only in the kinds of stimuli used to create context cues. In one condition we used face images where context dimensions were defined by social categories, similar to Cañadas et al.,  [-@canadas_social_2013]. However, they found that social categorization occurred spontaneously and it was unclear what impact that would have on the current results. Therefore, we included another condition that used images of simple objects where context dimensions were defined by object features. Finally, Cañadas et al.[-@canadas_social_2013] also found that context effects generalized to novel face images. In our third condition we used non-repeating face exemplars to examine whether any task-relevance effects would also generalize in our design or if learning would be image-specific. 
 
-#Methods
+# Methods
 
 (ref:figure1)
 Illustration of the stimuli and trial construction. Figure 1A shows the feature dimensions for each of the conditions. Figure 1B shows an example trial stimulus containing both the context and flanker images. Figure 1C shows an example of how feature dimensions could have been assigned to each proportion congruency (PC) condition, and an example of the secondary task assignments. The secondary task order, as well as the feature and congruency assignments were all randomized for each participant.
 
-```{r figure1, echo=FALSE, fig.cap="A caption", out.width = "75%", fig.align="center"}
+```{r figure1, echo=FALSE, fig.cap='(ref:figure1)', out.width = "75%", fig.align="center"}
 knitr::include_graphics("images/Task.jpg")
 ```
 
-##Participants
+## Participants
 
 All participants were recruited from Amazon Mechanical Turk (AMT) and compensated $2.00 for participating. The amount compensated was calculated by estimating the maximum amount of time required to complete each experiment and multiplying by $6.00 per hour. For each experiment the number of HITs (Human intelligence tasks, an Amazon term for a work-unit) refers to the number of participants who initiated the study. Participants were included in the study if they completed all trials. We posted 150 HITs and 145 participants completed all trials. 
  
-##Apparatus & Stimuli
+## Apparatus & Stimuli
 
 The experiments were programmed using JavaScript, CSS and HTML. The program allowed participants to complete task only if they were running Safari, Google Chrome, or Firefox web browsers. Flanker stimuli consisted of images of five arrows pointed left or right presented at 250 x 50 pixels (each arrow was 50 x 50 pixels). Context stimuli were constructed using images selected from @brady_visual_2013 color-rotated to blue and green, and face images from the Chicago Face Database [@ma_chicago_2015], supplemented with the NimStim Set of Facial Expressions [@tottenham_nimstim_2009]. The object images were displayed at 250 x 250 pixels, while the face images were displayed at 250 x 313 pixels. The experiment ran as a pop-up window that filled the entire screen. The background was white, and stimuli were presented in the center of the screen.
 
@@ -120,30 +118,38 @@ On every flanker trial, participants were presented with flanker stimuli paired 
 
 All critical aspects of the task were randomized between participants. This includes the three chosen context images, the features assigned to proportion levels, the features assigned to each counting condition, the secondary task order, and the order of trials.
 
-##Procedure
+## Procedure
 
 All participants were AMT workers who found the experiment using the AMT system. The participant recruitment procedure and tasks were approved by the Brooklyn College Institutional Review Board. Each participant read a short description of the task and gave consent by pressing a button acknowledging they had read the displayed consent form. Participants then completed a short demographic survey, and proceeded to the main task, which was displayed as a pop-up window. Participants were instructed to identify the direction of the center arrow on each trial as quickly and accurately as possible by pressing 'z' if the arrow pointed left, and 'm' if the arrow pointed right. Additionally, they were instructed to silently keep count of the number of trials that contained a feature. In the object context condition, they were asked to count trials that contained a certain color (blue or green) or object-identity (hat or chair) and in the social context conditions they were asked to count the number of trials that contained appeared a certain gender (male or female) or race (black or white). Periodically throughout the experiment, participants were asked to report how many trials they had counted until that point and to restart their count from 0. Halfway through the experiment participants received new instructions about which feature to count (see Figure 1C).
 Each trial began with a blank inter-stimulus interval (ISI) of 400 ms, followed by a fixation cross presented in the center of the screen for 200 ms, then a second blank ISI of 400 ms. Next, the flanker and context stimuli appeared in the center of screen (the flanker above the context image; see Figure 1B) and remained on screen until a response was made. Following a response, accuracy feedback was presented for 1000 ms. A response automatically triggered the next trial. 
 Halfway through the experiment (157 trials), participants received new instructions about which feature to count and to press the button on-screen when they were ready to continue.
 
 
-#Results 
+# Results 
+
+```{r analysis}
+source("data-analysis/analysis.R")
+
+
+```
+
 
 (ref:figure2)
 Results from experiment 1 showing congruency effects (incongruent - congruent) for frequency unbiased items in reaction times (left) and error rates (right) as a function of the task-relevant context (100% proportion congruent versus 0% proportion congruent).
 
-```{r figure2, echo=FALSE, fig.cap="A caption", out.width = "75%", fig.align="center"}
+```{r figure2, echo=FALSE, fig.cap='(ref:figure2)', out.width = "75%", fig.align="center"}
 knitr::include_graphics("images/E1_bar.jpg")
 ```
 
-Participants with mean error rates greater than 25% were excluded from the analyses, eliminating fourteen participants. For all remaining participants, the correct RTs from frequency unbiased trials in each condition were submitted to an outlier removal procedure. The non-recursive Van Selst and Jolicoeur outlier removal procedure was applied after removing response times greater than 3000 ms [@van_selst_solution_1994]. This procedure removed 3.76% of the total observations.
+Participants with mean error rates greater than 25% were excluded from the analyses, eliminating `r N_subjects_removed` participants. For all remaining participants, the correct RTs from frequency unbiased trials in each condition were submitted to an outlier removal procedure. The non-recursive Van Selst and Jolicoeur outlier removal procedure was applied after removing response times greater than 3000 ms [@van_selst_solution_1994]. This procedure removed `r round(percent_removed*100,digits = 2)`% of the total observations.
+
 The primary question of interest was whether the task-relevance of context features associated with different levels of conflict would influence the size of the congruency effect for frequency unbiased items (see Table 1). To that end, mean correct RTs and mean error rates from frequency unbiased trials were submitted to a mixed analysis of variance (ANOVA) with task-relevant context (0% and 100% PC) and unbiased-item congruency (congruent and incongruent) as within-subject factors, and context-type (object, social, and social/non-repeating) as the between-subjects factor.
 
-The results of the RT analysis revealed the critical, two-way interaction between task-relevant context and unbiased-item congruency to be significant, F(1,128) = 8.76, *MSE* = 1672.8, *p* = .004, η~p~2 = .06, demonstrating smaller congruency effects when the context dimension associated with high conflict was made task-relevant. Additionally, the three-way interaction between the task-relevant context, unbiased-item congruency, and context-type was non-significant, F(2,128) = .01, *MSE* = 1672.8, *p* = .99, η~p~2 < .0001, showing no evidence for differences between the CSPC effects across context-type manipulations.
+The results of the RT analysis revealed the critical, two-way interaction between task-relevant context and unbiased-item congruency to be significant, `r RT_ANOVA$countProp_trialCongruency`, demonstrating smaller congruency effects when the context dimension associated with high conflict was made task-relevant. Additionally, the three-way interaction between the task-relevant context, unbiased-item congruency, and context-type was non-significant,  showing no evidence for differences between the CSPC effects across context-type manipulations.
 
-Similarly, the corresponding error analysis also resulted in a significant two-way interaction between the task-relevant context and unbiased-item congruency, F(1,128) = 6.57, *MSE*  = 13.98, *p* = .01, η~p~2 = .05, and a non-significant three-way interaction between task-relevant context, unbiased-item congruency, and context-type, F(2,128) = .9, *MSE* = 13.98, *p* = .41, η~p~2 = .01. Therefore, the congruency effects in error rates were also smaller when the context dimension associated with high conflict was made task-relevant, corroborating the results of the reaction time analysis.
+Similarly, the corresponding error analysis also resulted in a significant two-way interaction between the task-relevant context and unbiased-item congruency, F(1,128) = 6.57, *MSE*  = 13.98, *p* = .01, $\eta$~p~2 = .05, and a non-significant three-way interaction between task-relevant context, unbiased-item congruency, and context-type, F(2,128) = .9, *MSE* = 13.98, *p* = .41, $\eta$~p~2 = .01. Therefore, the congruency effects in error rates were also smaller when the context dimension associated with high conflict was made task-relevant, corroborating the results of the reaction time analysis.
 
-#General Discussion
+# General Discussion
 	
 The aim of the current study was to investigate whether task-relevance plays a role in the contextual recruitment of selective attention. Specifically, we tested whether manipulating the relative task-relevance of context cues could cause participants to ignore a previously learned context-association and apply a new association. We created a frequency unbiased context cue that shared features with two frequency biased contexts and included a feature-counting task to manipulate the task-relevance of context dimensions across two blocks of trials. Critically, halfway through the experiment participants received new instructions changing the task-relevant feature from one frequency biased cue to the other. 
 
@@ -161,4 +167,13 @@ In sum, our results provide new evidence that changes in task-relevance can upda
  
 
 
-#References
+\newpage
+
+# References
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+<div id = "refs"></div>
+\endgroup

@@ -1,0 +1,10 @@
+base
+dplyr
+Matrix
+lme4
+emmeans
+afex
+papaja
+knitr
+ggplot2
+bindrcpp
