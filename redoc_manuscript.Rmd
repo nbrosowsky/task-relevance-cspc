@@ -1,0 +1,787 @@
+---
+title             : "Contextual recruitment of selective attention can be updated via changes in task-relevance"
+shorttitle        : "Contextual recruitment of selective attention"
+
+author: 
+  - name          : "Nicholaus P. Brosowsky"
+    affiliation   : "1"
+    corresponding : yes    #  Define only one corresponding author
+    address       : "The Graduate Center, CUNY, 365 5th Ave, New York, NY 10016"
+    email         : "nbrosowsky@gradcenter.cuny.edu"
+  - name          : "Matthew J. C. Crump"
+    affiliation   : "2"
+
+affiliation:
+  - id            : "1"
+    institution   : "The Graduate Center of the City University of New York"
+  - id            : "2"
+    institution   : "Brooklyn College of the City University of New York"
+
+
+  
+abstract: |
+  Evidence across a wide variety of attention paradigms shows that environmental cues can trigger adjustments to ongoing priorities for attending to relevant and irrelevant information. This context-specific control over attention suggests that cognitive control can be both automatic and flexible. For instance, in selective attention tasks, congruency effects are larger for items that appear in a context associated with infrequent conflict than in a context associated with frequent conflict. Since the to-be-presented context cannot be predicted or prepared for in advance, attention is assumed to be rapidly updated on-the-fly, triggered by the currently presented context. Context-specific control exemplifies how learning and memory processes can influence attention to enable cognitive flexibility. However, what determines the use of previously learned associations still remains unclear. In the current study, we examined whether task-relevance would influence the learning and use of context cues in a flanker task. Using a secondary counting task, context dimensions associated with differing levels of conflict were made task-relevant or -irrelevant across the experiment. In short, we found that making new contextual information task-relevant caused participants to ignore a previously learned context-attention association and adopt a new context-specific control strategy; all without changing the experimental stimuli. This result suggests that task-relevance is a key determinant of context-specific control.
+  
+keywords          : "Attention, Memory, Cognitive Control, Conflict Adaptation, Context-specific, Task Relevance"
+wordcount         : "4402"
+
+bibliography      : ["task-relevance-cspc.bib"]
+
+figsintext        : yes
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+lineno            : no
+mask              : no
+
+#class             : doc
+lang              : english
+
+
+class             : "man"
+# output:
+#  bookdown::html_document2:
+#     toc: true
+#     toc_float: true
+#     collapsed: false
+#     number_sections: false
+#     toc_depth: 2
+#     code_folding: hide
+#     css: webpaper.css
+
+
+#output: 
+#  word_document
+
+output:
+#  papaja::apa6_word: default
+#  papaja::apa6_pdf: default
+   redoc::rdocx_reversible
+ 
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding,
+  output_format = "all") })
+  
+header-includes:
+  - \usepackage{setspace}\singlespacing 
+  - \AtBeginEnvironment{tabular}{\onehalfspacing}
+  - \AtBeginEnvironment{lltable}{\onehalfspacing}
+  - \captionsetup[table]{font={stretch=1.5}}
+  - \captionsetup[figure]{font={stretch=1}}
+  - \setlength{\skip\footins}{1cm}
+  - \setlength{\footnotesep}{0.5cm}
+  - \usepackage{float}
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage{array}
+  - \usepackage{multirow}
+  - \usepackage[table]{xcolor}
+  - \usepackage{wrapfig}
+  - \usepackage{colortbl}
+  - \usepackage{pdflscape}
+  - \usepackage{tabu}
+  - \usepackage{threeparttable}
+  - \usepackage{threeparttablex}
+  - \usepackage[normalem]{ulem}
+  - \usepackage{makecell}
+  - \usepackage{setspace}\singlespacing 
+  - \AtBeginEnvironment{tabular}{\onehalfspacing}
+  - \AtBeginEnvironment{lltable}{\onehalfspacing}
+  - \newenvironment{zeroindent}
+     {\par\setlength{\parindent}{0pt}}
+     {\par}  
+
+
+---
+
+```{r setup, include=FALSE, eval=TRUE,echo=FALSE}
+library("dplyr")
+library("afex")
+library("papaja")
+library("magrittr")
+library("kableExtra")
+#As of 2018/12/07 apa_print() requires development version of Papaja
+#devtools::install_github("crsh/papaja")
+library(papaja)
+```
+
+Selective attention is commonly investigated using interference paradigms such
+as the Stroop (1935) and flanker (Eriksen and Eriksen 1974) tasks, where
+participants identify a target while ignoring a response-congruent or
+-incongruent distractor. {++ Typically, p ++}{-- P --}erformance is
+{-- typically --} better {++ (quicker reaction times and higher accuracy) ++} on
+congruent versus incongruent trials and the difference-the congruency
+effect-taken as an index of attentional priorities. Large congruency effects are
+thought to reflect ineffective filtering of the distracting stimuli whereas
+small congruency effects are thought to reflect effective filtering. By probing
+factors that systematically alter congruency effects, we can then make
+inferences about processes that control attentional filtering. For example,
+manipulating the frequency of conflict via the proportion of congruent versus
+incongruent trials has shown to influence the size of the congruency effect.
+Typically, a high proportion congruent experiment produces large congruency
+effects, whereas a low proportion congruent experiment produces small congruency
+effects (Logan and Zbrodoff 1979; Lowe and Mitterer 1982; West and Baylis 1998).
+This result is usually explained as strategic control, where participants
+increase attentional control under high-conflict demands and relax attentional
+control under low-conflict demands (Logan 1980; Logan, Zbrodoff, and Williamson
+1984; Logan and Zbrodoff 1979; Lowe and Mitterer 1982). Recent work however, has
+demonstrated that attentional control is not only adjusted by top-down
+regulation, but can also be triggered automatically by environmental cues
+(Brosowsky and Crump 2018; Bugg and Crump 2012; Egner 2014; Fischer and
+Dreisbach 2015; King, Korb, and Egner 2012; Mayr and Bryck 2007).
+
+For example, Crump, Gong, and Milliken (Crump, Gong, and Milliken 2006; see
+also, Corballis and Gratton 2003) presented Stroop stimuli in one of two
+randomly chosen locations and manipulated the frequency of conflict associated
+with each location. One location was associated with a high frequency of
+conflict (25% congruent trials) and the other with a low frequency of conflict
+(75% congruent trials). Overall, the proportion of congruent trials was 50% and
+randomized such that the upcoming location could not be predicted. Even so,
+congruency effects were shown to be smaller for trials where the stimulus
+appeared in the high conflict location as compared to the low conflict location.
+This effect, known now as the context-specific proportion congruent effect
+(CSPC), has now been replicated in a number of different selective attention
+paradigms (e.g., Alards-Tomalin, Brosowsky, and Mondor 2017; Blais et al. 2015;
+Bugg 2014; Crump et al. 2018; Crump 2016; Fischer, Gottschalk, and Dreisbach
+2014; Hübner and Mishra 2016).
+
+Critical evidence however, that CSPC effects reflect context-specific control
+rather than other non-control learning processes (e.g., Schmidt and Besner
+2008), comes from work showing that CSPC effects can transfer to frequency
+unbiased items (Brosowsky and Crump 2016; Crump and Milliken 2009; Weidler, Dey,
+and Bugg 2018; Weidler and Bugg 2016; though, see Hutcheon and Spieler 2017).
+Crump and Milliken (2009), for example, divided Stroop items into two mutually
+exclusive sets (e.g., RED/GREEN and BLUE/YELLOW). One set was defined as the
+frequency biased set, and presented with 75% congruency in one location, and 25%
+congruency in the other. The second set however, was presented with 50%
+congruency in both locations. Nevertheless, they found smaller congruency
+effects for unbiased items presented in the high conflict location as compared
+to the low conflict location.
+
+One explanation for CSPC effects is that the repeated application of attentional
+priorities in a particular context creates an associative link in episodic
+memory between the attentional control procedures and the contextual information
+(Abrahamse et al. 2016; Brosowsky and Crump 2018; Crump 2016; Egner 2014). Once
+the associative link is established, processing the context is assumed to
+trigger the retrieval of previous experiences, automatically reinstating the
+associated attentional priorities. Although this explanation seems plausible, it
+remains largely unclear how such associations are established and perhaps more
+importantly, it remains unclear what determines which learned associations will
+be used to guide attention at any given moment.
+
+The importance of the latter issue becomes increasingly clear if we speculate
+about context-specificity in more complex, real-world environments. Consider
+myself, right now, writing this article in a coffee shop. The coffee shop is a
+complex environment that contains a multitude of contextual cues (e.g., pictures
+on the wall, chairs, coffee, laptop), each of which I have had many different
+experiences applying attentional control. Although my laptop might cue
+attentional processing helpful for finishing this article, other features of the
+coffee shop might cue other, unhelpful attentional processing related to other
+experiences like socializing and people-watching. This is all to say that our
+environments, and experiences within them, afford many different associative
+relationships between cognitive processing and environmental cues. What then
+determines which associative relationships will be used to guide attention (or
+even if such associative relationships are used at all)?
+
+Task-relevance might be one factor that is important for establishing and using
+context-attention associations. This proposal might seem counter-intuitive as it
+is typically assumed that the context, within selective attention tasks at
+least, is completely irrelevant to the task. In fact, referring to such stimulus
+dimensions as the "context" carries with it an implication that the feature is
+background information, irrelevant to the task-at-hand, and should be ignored by
+the participant. A closer look at CSPC designs however, suggests that the
+context cues may not be as irrelevant as implied. For example, the most commonly
+used context cue is location (Brosowsky and Crump 2016; Corballis and Gratton
+2003; Crump, Gong, and Milliken 2006; Crump, Vaquero, and Milliken 2008; Crump
+2016; Weidler, Dey, and Bugg 2018; Weidler and Bugg 2016). Although in some
+sense, the location is irrelevant for identifying the color of a word, it seems
+disingenuous to consider it completely task-irrelevant. In order to identify the
+target, the participant must first identify and orient to its location on the
+screen. In this is sense, it is relevant to their ability to complete the task
+and furthermore, location information may receive priority during encoding
+(Logan 1998; Mayr 1996). Similar arguments could be made about other context
+features that are inherent to processing the target stimulus, like font-type
+(Bugg, Jacoby, and Toth 2008) and color (Vietze and Wendt 2009).
+
+To date, we are aware of only one study that has looked at task-relevance within
+the CSPC literature. Crump, Vaquero, & Milliken (2008) used a Stroop prime-probe
+task where the distractor word is presented first followed by a color patch
+probe. Critically, they used the shape of the color patch probe, either a square
+or a circle, as the contextual dimension; one associated with a high frequency
+of conflict, the other with a low frequency. In one experiment participants were
+made aware of the shape-proportion contingencies but given no additional
+instructions. In the second, participants were given a secondary task to count
+the number of trials that contained a square. The first experiment failed to
+find evidence for context-specificity, whereas the second did. Although not
+testing task-relevance directly, Cañadas et al. (2013)\] found similar effects.
+In this study they used images of male and female faces as context cues in a
+flanker task. When given instructions to think of the faces as members of the
+gender categories they found CSPC effects, but when given instructions to think
+of the faces as individuals they did not. These results suggest that making a
+context dimension relevant to the on-going task is important for producing CSPC
+effects.
+
+The Current Study
+=================
+
+Prior work suggests that the task-relevance of contextual information is
+important for establishing new associations between context cues and attentional
+priorities. Simply put, CSPC effects emerge when context cues are somehow made
+relevant to the task, but do not when made irrelevant (Cañadas et al. 2013;
+Crump, Gong, and Milliken 2006; Crump, Vaquero, and Milliken 2008). However, it
+still remains unclear how task-relevance may or may not inform the use of
+previously learned associations. In the current study, we examined whether
+manipulating task-relevance would cause participants to ignore a previously
+learned association and adopt a new context-specific control strategy.
+
+A flanker task was used to measure attentional control in an adapted CSPC design
+(Crump and Milliken 2009; Crump, Brosowsky, and Milliken 2017). Similar to
+previous studies, flanker stimuli were presented in contexts associated with
+differing levels of conflict (0%, 50%, or 100% congruent). However, unlike
+previous CSPC designs where contexts were defined by a single discriminating
+feature (e.g., upper vs. lower screen locations), contexts were defined by two
+feature dimensions (see Figure 1A). In one condition, for example, contexts were
+defined by object identity (hat or chair) and color (blue or green). Only three
+out of the four possible feature combinations were presented, each associated
+with a different proportion of congruent trials (0%, 50%, or 100% congruent).
+Critically, the frequency unbiased context (50% congruent) always shared a
+feature with each of the frequency-biased contexts (0% and 100% congruent). The
+frequency biased contexts (0% and 100% congruent) however, did not share any
+features (see Figure 1C for an example).
+
+A secondary counting task was used to manipulate the task-relevance of the
+context dimensions (Crump and Milliken 2009) which critically, switched halfway
+through the experiment. Participants were instructed to keep a running count of
+one of the overlapping features (e.g., "count whenever a hat is presented")
+which was associated with either a high or low frequency of conflict. Halfway
+through the experiment they received new instructions to count the other
+overlapping feature (e.g., "count whenever a green item is presented").
+Critically, the set of context images remained the same throughout the
+experiment (see Figure 1C for an example) and the task-relevance of the context
+dimensions was the only aspect of the experiment that changed from the first to
+second phases.
+
+The critical measure of interest is the congruency effect produced in the
+frequency unbiased context. If, on the one hand, task-relevance has no impact on
+the use of context-attention associations we would expect no differences between
+the congruency effects when the high-conflict context dimension is made
+task-relevant or the low-conflict context dimension is made task-relevant. This
+could occur because all three contexts are treated as individual contexts
+throughout the whole experiment (e.g., Cañadas et al. 2013). Or it could occur
+because associations formed in the first block interfere with learning new
+associations in the second (e.g., Brosowsky and Crump 2016). On other hand,
+task-relevance might not only dictate how associations are formed, but also
+whether learned associations are used. In this case, we would expect smaller
+congruency effects when the high-conflict context dimension is made
+task-relevant as compared to when the low-conflict context dimension is made
+task-relevant. This would demonstrate that participants were able to ignore a
+previously learned association and adopt a new context-specific control
+strategy.
+
+A secondary goal was to conceptually replicate previous findings and test the
+generalizability of any task-relevance effects. Therefore, we included three
+conditions that differed only in the kinds of stimuli used to create context
+cues. In one condition we used face images where context dimensions were defined
+by social categories, similar to Cañadas et al. (2013). However, they found that
+social categorization occurred spontaneously and it was unclear what impact that
+would have on the current results. Therefore, we included another condition that
+used images of simple objects where context dimensions were defined by object
+features. Finally, Cañadas et al. (2013) also found that context effects
+generalized to novel face images. In our third condition we used non-repeating
+face exemplars to examine whether any task-relevance effects would also
+generalize in our design or if learning would be image-specific.
+
+Methods
+=======
+
+(ref:figure1) Illustration of the stimuli and trial construction. Figure 1A
+shows the feature dimensions for each of the conditions. Figure 1B shows an
+example trial stimulus containing both the context and flanker images. Figure 1C
+shows an example of how feature dimensions could have been assigned to each
+proportion congruency (PC) condition, and an example of the secondary task
+assignments. The secondary task order, as well as the feature and congruency
+assignments were all randomized for each participant.
+
+```{r figure1, echo=FALSE, fig.width=6.7,fig.height=4.51, fig.cap='(ref:figure1)'}
+knitr::include_graphics("images/Task.jpg")
+```
+
+Participants
+------------
+
+All participants were recruited from Amazon Mechanical Turk (AMT) and
+compensated \$2.00 for participating. The amount compensated was calculated by
+estimating the maximum amount of time required to complete each experiment and
+multiplying by \$6.00 per hour. For each experiment the number of HITs (Human
+intelligence tasks, an Amazon term for a work-unit) refers to the number of
+participants who initiated the study. Participants were included in the study if
+they completed all trials. We posted 150 HITs and 144 participants completed all
+trials.
+
+Apparatus & Stimuli
+-------------------
+
+The experiments were programmed using JavaScript, CSS and HTML. The program
+allowed participants to complete task only if they were running Safari, Google
+Chrome, or Firefox web browsers. Flanker stimuli consisted of images of five
+arrows pointed left or right presented at 250 x 50 pixels (each arrow was 50 x
+50 pixels). Context stimuli were constructed using images selected from Brady et
+al. (2013) color-rotated to blue and green, and face images from the Chicago
+Face Database (Ma, Correll, and Wittenbrink 2015), supplemented with the NimStim
+Set of Facial Expressions (Tottenham et al. 2009). The object images were
+displayed at 250 x 250 pixels, while the face images were displayed at 250 x 313
+pixels. The experiment ran as a pop-up window that filled the entire screen. The
+background was white, and stimuli were presented in the center of the screen.
+
+Design. Experiment 1 used a 2x2x3 mixed design with task-relevant context (0%
+and 100%) and unbiased-item congruency (congruent and incongruent) as
+within-subject factors, and context-type (object, social, and
+social/non-repeating) as the between-subjects factor. All three conditions were
+constructed using the same general method. The experiment was divided into two
+phases. Each phase consisted of 144 flanker trials (48 trials per context), and
+13 count response trials for a total of 314 trials. On the count response
+trials, participants indicated how many trials they had counted until that
+point. The count response trials occurred once for every 12 flanker trials and
+was randomly inserted between trial 6 and 12 of each 12-trial block. Each phase
+ended with one additional count response trial.
+
+On every flanker trial, participants were presented with flanker stimuli paired
+with one of three contexts. Each context was associated with a different
+proportion congruency such that two cues were associated with a biased frequency
+(0% and 100% proportion congruency), while one was associated with an unbiased
+frequency (50% proportion congruency). The feature dimensions and corresponding
+context images assigned to each of the biased and unbiased item sets were
+randomly determined for each participant. However, context images used for the
+frequency biased trials never shared features, while the frequency unbiased
+context image always shared a feature with each of the frequency biased context
+images (see Figure 1). Additionally, the feature assignments remained the same
+throughout phases 1 and 2, and critically, the only change to the task was which
+feature the participant was instructed to count (see Figure 1C for an example).
+
+All critical aspects of the task were randomized between participants. This
+includes the three chosen context images, the features assigned to proportion
+levels, the features assigned to each counting condition, the secondary task
+order, and the order of trials.
+
+Procedure
+---------
+
+All participants were AMT workers who found the experiment using the AMT system.
+The participant recruitment procedure and tasks were approved by the Brooklyn
+College Institutional Review Board. Each participant read a short description of
+the task and gave consent by pressing a button acknowledging they had read the
+displayed consent form. Participants then completed a short demographic survey,
+and proceeded to the main task, which was displayed as a pop-up window.
+Participants were instructed to identify the direction of the center arrow on
+each trial as quickly and accurately as possible by pressing 'z' if the arrow
+pointed left, and 'm' if the arrow pointed right. Additionally, they were
+instructed to silently keep count of the number of trials that contained a
+feature. In the object context condition, they were asked to count trials that
+contained a certain color (blue or green) or object-identity (hat or chair) and
+in the social context conditions they were asked to count the number of trials
+that contained appeared a certain gender (male or female) or race (black or
+white). Periodically throughout the experiment, participants were asked to
+report how many trials they had counted until that point and to restart their
+count from 0. Halfway through the experiment participants received new
+instructions about which feature to count (see Figure 1C). Each trial began with
+a blank inter-stimulus interval (ISI) of 400 ms, followed by a fixation cross
+presented in the center of the screen for 200 ms, then a second blank ISI of 400
+ms. Next, the flanker and context stimuli appeared in the center of screen (the
+flanker above the context image; see Figure 1B) and remained on screen until a
+response was made. Following a response, accuracy feedback was presented for
+1000 ms. A response automatically triggered the next trial. Halfway through the
+experiment (157 trials), participants received new instructions about which
+feature to count and to press the button on-screen when they were ready to
+continue.
+
+Results
+=======
+
+```{r analysis}
+source("data-analysis/analysis.R")
+```
+
+(ref:figure2) Results from experiment 1 showing congruency effects (incongruent
+- congruent) for frequency unbiased items in reaction times (left) and error
+rates (right) as a function of the task-relevant context (100% proportion
+congruent versus 0% proportion congruent).
+
+```{r figure2, echo=FALSE,fig.width=6.875, fig.height= 4, fig.cap='(ref:figure2)'}
+figure2
+```
+
+Participants with mean error rates greater than 25% were excluded from the
+analyses, eliminating `r N_subjects_removed` participants. For all remaining participants,
+the correct RTs from frequency unbiased trials in each condition were submitted
+to an outlier removal procedure. The non-recursive Van Selst and Jolicoeur
+outlier removal procedure was applied after removing response times greater than
+3000 ms (Van Selst and Jolicoeur 1994). This procedure removed `r round(percent_removed*100,digits = 2)`% of
+the total observations.
+
+The primary question of interest was whether the task-relevance of context
+features associated with different levels of conflict would influence the size
+of the congruency effect for frequency unbiased items (see Table 1). To that
+end, mean correct RTs and mean error rates from frequency unbiased trials were
+submitted to a mixed analysis of variance (ANOVA) with task-relevant context (0%
+and 100% PC) and unbiased-item congruency (congruent and incongruent) as
+within-subject factors, and context-type (object, social, and
+social/non-repeating) as the between-subjects factor.
+
+The results of the RT analysis revealed the critical, two-way interaction
+between task-relevant context and unbiased-item congruency to be significant,
+$F(1,128) = 8.30$`r RT_ANOVA$Task_Relevant_Context_Congruency` $\text{MSE} = 1,608.54$`r RT_ANOVA$Task_Relevant_Context_Congruency`
+$p = .005$`r RT_ANOVA$Task_Relevant_Context_Congruency` ${\widehat{\eta}}_{p}^{2} = .061$, demonstrating smaller
+congruency effects when the context dimension associated with high conflict was
+made task-relevant. Additionally, the three-way interaction between the
+task-relevant context, unbiased-item congruency, and context-type was
+non-significant, $F(2,128) = 0.00$`r RT_ANOVA$Condition_Task_Relevant_Context_Congruency`
+$\text{MSE} = 1,608.54$`r RT_ANOVA$Condition_Task_Relevant_Context_Congruency` $p = .996$`r RT_ANOVA$Condition_Task_Relevant_Context_Congruency`
+${\widehat{\eta}}_{p}^{2} = .000$, showing no evidence for differences between
+the CSPC effects across context-type manipulations.
+
+Similarly, the corresponding error analysis also resulted in a significant
+two-way interaction between the task-relevant context and unbiased-item
+congruency, $F(1,128) = 6.72$`r ACC_ANOVA$Task_Relevant_Context_Congruency` $\text{MSE} = 13.93$`r ACC_ANOVA$Task_Relevant_Context_Congruency`
+$p = .011$`r ACC_ANOVA$Task_Relevant_Context_Congruency` ${\widehat{\eta}}_{p}^{2} = .050$, and a non-significant
+three-way interaction between task-relevant context, unbiased-item congruency,
+and context-type, $F(2,128) = 0.92$`r ACC_ANOVA$Condition_Task_Relevant_Context_Congruency` $\text{MSE} = 13.93$`r ACC_ANOVA$Condition_Task_Relevant_Context_Congruency`
+$p = .400$`r ACC_ANOVA$Condition_Task_Relevant_Context_Congruency` ${\widehat{\eta}}_{p}^{2} = .014$. Therefore, the
+congruency effects in error rates were also smaller when the context dimension
+associated with high conflict was made task-relevant, corroborating the results
+of the reaction time analysis.
+
+General Discussion
+==================
+
+The aim of the current study was to investigate whether task-relevance plays a
+role in the contextual recruitment of selective attention. Specifically, we
+tested whether manipulating the relative task-relevance of context cues could
+cause participants to ignore a previously learned context-association and apply
+a new association. We created a frequency unbiased context cue that shared
+features with two frequency biased contexts and included a feature-counting task
+to manipulate the task-relevance of context dimensions across two blocks of
+trials. Critically, halfway through the experiment participants received new
+instructions changing the task-relevant feature from one frequency biased cue to
+the other.
+
+The key finding was that the congruency effects for the frequency unbiased items
+were significantly larger when the low-conflict context was made task-relevant
+as compared to when the high-conflict context was made task-relevant. This
+result is consistent with prior CSPC effects and, like the previous work,
+suggests that the context cues triggered rapid adjustments to attentional
+control (Crump and Milliken 2009). However, unlike prior studies, we were able
+to experimentally manipulate the CSPC effect across blocks of trials without
+changing any of the physical properties of the stimuli. This novel finding
+demonstrates that participants were able to learn and apply one
+context-attention association in the first phase, and subsequently ignore that
+association to learn a new association in the second phase.
+
+This result implicates an important role for task-relevance in producing CSPC
+phenomena. Crump, Vaquero, and Milliken (2008) used shapes as context cues in a
+prime-probe Stroop task and did not find CSPC effects until the context cues
+were made task-relevant. Similarly, Cañadas et al. (2013) eliminated the CSPC
+effect by making the contextual cue effectively unrelated to the task. These
+studies suggest that task-relevance plays an important role in establishing
+associations between contextual information and attentional priorities to
+produce CSPC effects. Our finding extends this work in two important ways.
+First, we show that changing the task-relevance of the presented cues
+corresponded with a change in attentional control in the predicted direction.
+This demonstrates that task-relevance is also a key determinant of whether a
+previously learned attention-context association will be used or ignored in
+favor of a new association. Second, we show that task-relevance allowed
+participants resolve competition between two competing contextual cues,
+responding on the basis of one at the expense of the other. To our knowledge,
+this is the first demonstration that CSPC effects can be produced when there are
+multiple, overlapping contextual cues available.
+
+In light of prior work, we take this as evidence that the contextual recruitment
+of selective attention, although likely implicit, is not obligatory (e.g.,
+Brosowsky and Crump 2016), requiring that environmental information be
+incorporated into the task representation. Similarly, there appears to be
+flexibility in which environmental features are selected and used to guide
+attention, which can be rapidly updated depending on the task-relevance of those
+features. Such a result lends some insight into how context-specific control
+might operate in more complex, real-world environments, where there is an
+over-abundance of environmental features that afford many different learned
+associations. From a theoretical perspective, this result is consistent
+memory-based accounts of CSPC phenomena (Brosowsky and Crump 2018; Bugg and
+Hutchison 2013; Crump et al. 2018; Crump and Milliken 2009; Crump, Brosowsky,
+and Milliken 2017). Under this view, a memory process encodes attentional
+priorities in the representation of individual experiences and, as a result,
+become associated with the environment where they were used. The subsequent
+reoccurrence of a prior context triggers the retrieval and reinstatement of
+those attentional priorities. Our results show however, that all the features of
+the environment may not be treated equally and that only task-relevant features
+are used to probe memory and guide attention.
+
+Another key result of this study concerned the different stimuli used as context
+cues. Across the three conditions, we varied the type of context image and
+dimensions. We manipulated the type of image presented, including both objects
+(identity and color dimensions) and faces (gender and racial dimensions). We
+also manipulated whether a single set of three repeating images were presented
+(object and social) or a set of non-repeating images were presented
+(social/non-repeating). Across all three conditions, we found no evidence that
+using different stimuli had an influence on the size or direction of the CSPC
+demonstrating generalizability of this phenomenon. Furthermore, CSPC effects
+were present even when using non-repeating images which suggests that
+context-dependency did rely on image-specific associations but higher-order,
+learned categorical information.
+
+Traditional models of person perception posit that social categories are
+automatically activated in the presence of social stimuli (e.g., Brewer 1988;
+Devine 1989; Fiske and Neuberg 1990). Cañadas et al. (2013) however, found that
+directing participants to think about faces in terms of individual features
+eliminated context-specific attention effect and suggested that momentary
+motivations may influence the automaticity of social categorization. Our results
+add to this literature by observing the influence of momentary motivations
+(i.e., task-relevance) when there is competition between two salient social
+categories. Specifically, we found that participants could categorize on the
+basis of one social cue at the expense of the other, and subsequently switch
+between them. These findings may speak to issues of automaticity in social
+categorization (Macrae and Bodenhausen 2001) as well as understanding how the
+situational context can prime one social identity over another (Crisp and
+Hewstone 2007). Furthermore, we found no evidence for differences between the
+social and object conditions. This suggests that categorization within the CSPC
+task is quickly and easily learned when the task supports such learning and is
+non-unique to social stimuli.
+
+In sum, our results provide new evidence that changes in task-relevance can
+update the contextual recruitment of selective attention in a CSPC flanker task.
+Importantly, we show that making one feature task-relevant produced a CSPC
+effect, even in the presence of a competing contextual cue. Moreover, changing
+the task-relevant context-cue midway through the experiment was accompanied by
+predictable changes in the congruency effects. This effect was found to be
+generalizable across two different kinds of stimuli and occurred even when using
+non-repeating images. These results implicate an important role for
+task-relevance in producing context-dependency and are consistent with
+memory-based accounts of CSPC phenomena.
+
+References
+==========
+
+Abrahamse, Elger, Senne Braem, Wim Notebaert, and Tom Verguts. 2016. "Grounding
+Cognitive Control in Associative Learning." *Psychological Bulletin* 142:
+693--728. <https://doi.org/10.1037/bul0000047>.
+
+Alards-Tomalin, Doug, Nicholaus P. Brosowsky, and Todd A. Mondor. 2017.
+"Auditory Statistical Learning: Predictive Frequency Information Affects the
+Deployment of Contextually Mediated Attentional Resources on Perceptual Tasks."
+*Journal of Cognitive Psychology* 0 (0): 1--11.
+<https://doi.org/10.1080/20445911.2017.1353518>.
+
+Blais, Chris, Michael B. Harris, Michael H. Sinanian, and Silvia A. Bunge. 2015.
+"Trial-by-Trial Adjustments in Control Triggered by Incidentally Encoded
+Semantic Cues." *The Quarterly Journal of Experimental Psychology* 68: 1920--30.
+<https://doi.org/10.1080/17470218.2014.1000346>.
+
+Brady, Timothy F., Talia Konkle, Jonathan Gill, Aude Oliva, and George A.
+Alvarez. 2013. "Visual Long-Term Memory Has the Same Limit on Fidelity as Visual
+Working Memory." *Psychological Science* 24: 981--90.
+<https://doi.org/10.1177/0956797612465439>.
+
+Brewer, M. B. 1988. "A Dual Process Model of Impression Formation." In *A
+Dual-Process Model of Impression Formation: Advances in Social Cognition*,
+edited by Robert S. Wyer Jr and Thomas K. Srull, 1:1--36. Hillsdale, NJ:
+Erlbaum.
+
+Brosowsky, Nicholaus P., and Matthew J. C. Crump. 2018. "Memory-Guided Selective
+Attention: Single Experiences with Conflict Have Long-Lasting Effects on
+Cognitive Control." *Journal of Experimental Psychology: General*.
+<https://doi.org/10.1037/xge0000431>.
+
+Brosowsky, Nicholaus P., and Matthew J.C. Crump. 2016. "Context-Specific
+Attentional Sampling: Intentional Control as a Pre-Requisite for Contextual
+Control." *Consciousness and Cognition* 44: 146--60.
+<https://doi.org/10.1016/j.concog.2016.07.001>.
+
+Bugg, J.M. 2014. "Conflict-Triggered Top-down Control: Default Mode, Last
+Resort, or No Such Thing?" *Journal of Experimental Psychology: Learning,
+Memory, and Cognition* 40 (2): 567.
+
+Bugg, J.M., and Matthew J.C. Crump. 2012. "In Support of a Distinction Between
+Voluntary and Stimulus-Driven Control: A Review of the Literature on Proportion
+Congruent Effects." *Frontiers in Psychology* 3: 367.
+<https://doi.org/10.3389/fpsyg.2012.00367>.
+
+Bugg, J.M., and Keith A. Hutchison. 2013. "Converging Evidence for Control of
+Color--Word Stroop Interference at the Item Level." *Journal of Experimental
+Psychology: Human Perception and Performance* 39 (2): 433.
+
+Bugg, J.M., Larry L. Jacoby, and Jeffrey P. Toth. 2008. "Multiple Levels of
+Control in the Stroop Task." *Memory & Cognition* 36: 1484--94.
+<https://doi.org/10.3758/MC.36.8.1484>.
+
+Cañadas, Elena, Rosa Rodríguez-Bailón, Bruce Milliken, and Juan Lupiáñez. 2013.
+"Social Categories as a Context for the Allocation of Attentional Control."
+*Journal of Experimental Psychology: General* 142: 934--43.
+<https://doi.org/10.1037/a0029794>.
+
+Corballis, Paul M., and Gabriele Gratton. 2003. "Independent Control of
+Processing Strategies for Different Locations in the Visual Field." *Biological
+Psychology* 64: 191--209. <https://doi.org/10.1016/S0301-0511(03)00109-1>.
+
+Crisp, Richard J., and Miles Hewstone. 2007. "Multiple Social Categorization."
+*Advances in Experimental Social Psychology* 39: 163--254.
+
+Crump, Matthew J.C. 2016. "Learning to Selectively Attend from Context-Specific
+Attentional Histories: A Demonstration and Some Constraints." *Canadian Journal
+of Experimental Psychology/Revue Canadienne de Psychologie Expérimentale* 70:
+59--77. <https://doi.org/10.1037/cep0000066>.
+
+Crump, Matthew J.C., Nicholaus P. Brosowsky, and Bruce Milliken. 2017.
+"Reproducing the Location-Based Context-Specific Proportion Congruent Effect for
+Frequency Unbiased Items: A Reply to Hutcheon and Spieler (2016)." *The
+Quarterly Journal of Experimental Psychology* 70: 1792--1807.
+<https://doi.org/10.1080/17470218.2016.1206130>.
+
+Crump, Matthew J.C., Zhiyu Gong, and Bruce Milliken. 2006. "The Context-Specific
+Proportion Congruent Stroop Effect: Location as a Contextual Cue." *Psychonomic
+Bulletin & Review* 13: 316--21. <https://doi.org/10.3758/BF03193850>.
+
+Crump, Matthew J. C., B. Milliken, J. Leboe-McGowan, L. Leboe-McGowan, and X.
+Gao. 2018. "Context-Dependent Control of Attention Capture: Evidence from
+Proportion Congruent Effects." *Canadian Journal of Experimental Psychology=
+Revue Canadienne de Psychologie Experimentale*.
+
+Crump, Matthew J. C., and Bruce Milliken. 2009. "The Flexibility of
+Context-Specific Control: Evidence for Context-Driven Generalization of
+Item-Specific Control Settings." *The Quarterly Journal of Experimental
+Psychology* 62: 1523--32. <https://doi.org/10.1080/17470210902752096>.
+
+Crump, Matthew J.C., Joaquín M.M. Vaquero, and Bruce Milliken. 2008.
+"Context-Specific Learning and Control: The Roles of Awareness, Task Relevance,
+and Relative Salience." *Consciousness and Cognition* 17: 22--36.
+<https://doi.org/10.1016/j.concog.2007.01.004>.
+
+Devine, Patricia G. 1989. "Stereotypes and Prejudice: Their Automatic and
+Controlled Components." *Journal of Personality and Social Psychology* 56 (1):
+5.
+
+Egner, Tobias. 2014. "Creatures of Habit (and Control): A Multi-Level Learning
+Perspective on the Modulation of Congruency Effects." *Frontiers in Psychology*
+5: 1247. <https://doi.org/10.3389/fpsyg.2014.01247>.
+
+Eriksen, Barbara A., and Charles W. Eriksen. 1974. "Effects of Noise Letters
+Upon the Identification of a Target Letter in a Nonsearch Task." *Perception &
+Psychophysics* 16: 143--49. <https://doi.org/10.3758/BF03203267>.
+
+Fischer, Rico, and Gesine Dreisbach. 2015. "Predicting High Levels of
+Multitasking Reduces Between-Tasks Interactions."
+<http://psycnet.apa.org/psycinfo/2015-47211-001/>.
+
+Fischer, Rico, Caroline Gottschalk, and Gesine Dreisbach. 2014.
+"Context-Sensitive Adjustment of Cognitive Control in Dual-Task Performance."
+*Journal of Experimental Psychology: Learning, Memory, and Cognition* 40 (2):
+399.
+
+Fiske, Susan T., and Steven L. Neuberg. 1990. "A Continuum of Impression
+Formation, from Category-Based to Individuating Processes: Influences of
+Information and Motivation on Attention and Interpretation." In *Advances in
+Experimental Social Psychology*, 23:1--74. Elsevier.
+
+Hutcheon, Thomas G., and Daniel H. Spieler. 2017. "Limits on the
+Generalizability of Context-Driven Control." *Quarterly Journal of Experimental
+Psychology* 70 (7): 1292--1304. <https://doi.org/10.1080/17470218.2016.1182193>.
+
+Hübner, Ronald, and Shreyasi Mishra. 2016. "Location-Specific Attentional
+Control Is Also Possible in the Simon Task." *Psychonomic Bulletin & Review* 23:
+1867--72. <https://doi.org/10.3758/s13423-016-1057-y>.
+
+King, Joseph A., Franziska M. Korb, and Tobias Egner. 2012. "Priming of Control:
+Implicit Contextual Cuing of Top-down Attentional Set." *The Journal of
+Neuroscience* 32: 8192--8200. <https://doi.org/10.1523/JNEUROSCI.0934-12.2012>.
+
+Logan, Gordon D. 1980. "Attention and Automaticity in Stroop and Priming Tasks:
+Theory and Data." *Cognitive Psychology* 12 (4): 523--53.
+
+---------. 1998. "What Is Learned During Automatization? II. Obligatory Encoding
+of Spatial Location." *Journal of Experimental Psychology: Human Perception and
+Performance* 24 (6): 1720.
+
+Logan, Gordon D., and N. Jane Zbrodoff. 1979. "When It Helps to Be Misled:
+Facilitative Effects of Increasing the Frequency of Conflicting Stimuli in a
+Stroop-Like Task." *Memory & Cognition* 7: 166--74.
+<https://doi.org/10.3758/BF03197535>.
+
+Logan, Gordon D., N. Jane Zbrodoff, and James Williamson. 1984. "Strategies in
+the Color-Word Stroop Task." *Bulletin of the Psychonomic Society* 22 (2):
+135--38.
+
+Lowe, Douglas G., and John O. Mitterer. 1982. "Selective and Divided Attention
+in a Stroop Task." *Canadian Journal of Psychology/Revue Canadienne de
+Psychologie* 36 (4): 684.
+
+Ma, Debbie S., Joshua Correll, and Bernd Wittenbrink. 2015. "The Chicago Face
+Database: A Free Stimulus Set of Faces and Norming Data." *Behavior Research
+Methods* 47 (4): 1122--35. <https://doi.org/10.3758/s13428-014-0532-5>.
+
+Macrae, C. Neil, and Galen V. Bodenhausen. 2001. "Social Cognition: Categorical
+Person Perception." *British Journal of Psychology* 92 (1): 239--55.
+
+Mayr, Ulrich. 1996. "Spatial Attention and Implicit Sequence Learning: Evidence
+for Independent Learning of Spatial and Nonspatial Sequences." *Journal of
+Experimental Psychology: Learning, Memory, and Cognition* 22 (2): 350.
+
+Mayr, Ulrich, and Richard L. Bryck. 2007. "Outsourcing Control to the
+Environment: Effects of Stimulus/Response Locations on Task Selection."
+*Psychological Research* 71 (1): 107--16.
+<https://doi.org/10.1007/s00426-005-0039-x>.
+
+Schmidt, James R., and Derek Besner. 2008. "The Stroop Effect: Why Proportion
+Congruent Has Nothing to Do with Congruency and Everything to Do with
+Contingency." *Journal of Experimental Psychology: Learning, Memory, and
+Cognition* 34: 514--23. <https://doi.org/10.1037/0278-7393.34.3.514>.
+
+Stroop, J. Ridley. 1935. "Studies of Interference in Serial Verbal Reactions."
+*Journal of Experimental Psychology* 18: 643.
+<https://doi.org/10.1037/h0054651>.
+
+Tottenham, Nim, James W. Tanaka, Andrew C. Leon, Thomas McCarry, Marcella Nurse,
+Todd A. Hare, David J. Marcus, Alissa Westerlund, BJ Casey, and Charles Nelson.
+2009. "The NimStim Set of Facial Expressions: Judgments from Untrained Research
+Participants." *Psychiatry Research* 168 (3): 242--49.
+<https://doi.org/10.1016/j.psychres.2008.05.006>.
+
+Van Selst, Mark, and Pierre Jolicoeur. 1994. "A Solution to the Effect of Sample
+Size on Outlier Elimination." *The Quarterly Journal of Experimental Psychology
+Section A* 47: 631--50. <https://doi.org/10.1080/14640749408401131>.
+
+Vietze, Ina, and Mike Wendt. 2009. "Context Specificity of Conflict
+Frequency-Dependent Control." *The Quarterly Journal of Experimental Psychology*
+62: 1391--1400. <https://doi.org/10.1080/17470210802426908>.
+
+Weidler, Blaire J., and J.M. Bugg. 2016. "Transfer of Location-Specific Control
+to Untrained Locations." *The Quarterly Journal of Experimental Psychology* 69:
+2202--17. <https://doi.org/10.1080/17470218.2015.1111396>.
+
+Weidler, Blaire J., Abhishek Dey, and Julie M. Bugg. 2018. "Attentional Control
+Transfers Beyond the Reference Frame." *Psychological Research*, 1--14.
+
+West, Robert, and Gordon C. Baylis. 1998. "Effects of Increased Response
+Dominance and Contextual Disintegration on the Stroop Interference Effect in
+Older Adults." *Psychology and Aging* 13 (2): 206.
+
+Table 1
+-------
+
+### Reaction times and error rates from Experiment 1.
+
+\\begin{zeroindent}
+
+```{r tableLatex}
+
+if (knitr::opts_knit$get("rmarkdown.pandoc.to")== "latex"){
+source("data-analysis/table1.R")
+latexTable1
+
+}
+```
+
+\\end{zeroindent}
+
+```{r tableWord, echo=FALSE, out.width = '100%'}
+if (knitr::opts_knit$get("rmarkdown.pandoc.to")== "docx"){
+  knitr::include_graphics("data-analysis/table1.png")
+}
+  
+```
