@@ -55,8 +55,8 @@ class             : "man"
 
 output:
  # papaja::apa6_word: default
-  papaja::apa6_pdf: default
-  #redoc::rdocx_reversible
+#  papaja::apa6_pdf: default
+  redoc::rdocx_reversible
  
 knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding,
@@ -125,11 +125,13 @@ A secondary goal was to conceptually replicate previous findings and test the ge
 
 # Methods
 
-(ref:figure1) Illustration of the stimuli and trial construction. Figure 1A shows the feature dimensions for each of the conditions. Figure 1B shows an example trial stimulus containing both the context and flanker images. Figure 1C shows an example of how feature dimensions could have been assigned to each proportion congruency (PC) condition, and an example of the secondary task assignments. The secondary task order, as well as the feature and congruency assignments were all randomized for each participant.
 
 ```{r figure1, echo=FALSE, fig.width=6.7,fig.height=4.51, fig.cap='(ref:figure1)'}
 knitr::include_graphics("images/Task.jpg")
 ```
+
+(ref:figure1) Illustration of the stimuli and trial construction. Figure 1A shows the feature dimensions for each of the conditions. Figure 1B shows an example trial stimulus containing both the context and flanker images. Figure 1C shows an example of how feature dimensions could have been assigned to each proportion congruency (PC) condition, and an example of the secondary task assignments. The secondary task order, as well as the feature and congruency assignments were all randomized for each participant.
+
 
 ## Participants
 
@@ -153,15 +155,16 @@ Each trial began with a blank inter-stimulus interval (ISI) of 400 ms, followed 
 Halfway through the experiment (157 trials), participants received new instructions about which feature to count and to press the button on-screen when they were ready to continue.
 
 
-```{r analysis}
+```{r analysis, echo=FALSE, include=FALSE, eval=TRUE}
 source("data-analysis/analysis.R")
 ```
-
-(ref:figure2) Results from experiment 1 showing congruency effects (incongruent - congruent) for frequency unbiased items in reaction times (left) and error rates (right) as a function of the task-relevant context (100% proportion congruent versus 0% proportion congruent).
 
 ```{r figure2, echo=FALSE,fig.width=6.875, fig.height= 4, fig.cap='(ref:figure2)'}
 figure2
 ```
+
+(ref:figure2) Results from experiment 1 showing congruency effects (incongruent - congruent) for frequency unbiased items in reaction times (left) and error rates (right) as a function of the task-relevant context (100% proportion congruent versus 0% proportion congruent).
+
 
 # Results 
 
@@ -178,7 +181,7 @@ Similarly, the corresponding error analysis also resulted in a significant two-w
 \vspace{2.5mm}
 \textbf{Table 1. \\ \textit{Reaction times and error rates from Experiment 1.}}
 
-![ ](images/table1.pdf) 
+![ ](images/table1.png) 
 \endgroup
 
 
