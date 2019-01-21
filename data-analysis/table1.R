@@ -3,9 +3,6 @@ library(tidyr)
 library(afex)
 library(ggplot2)
 library(cowplot)
-#library(tables)
-library(magrittr)
-library(kableExtra)
 #As of 2018/12/07 apa_print() requires development version of Papaja
 #devtools::install_github("crsh/papaja")
 library(papaja)
@@ -167,36 +164,51 @@ table$TRC<-as.factor(c(rep("100% PC", 9), rep("0% PC", 9)))
 table<-table[c(7,1:6)]
 colnames(table)<-c("Task-Relevant Context","Condition","PC","RT","ER","RT","ER")
 
+forTable<-as.matrix(table[,4:7])
 
-latexTable1<-kable(table,"latex", booktabs = T, row.names = F,align="c", linesep = '') %>%
-  kable_styling(full_width = T, font_size = 7) %>%
-  add_header_above(c(" "," "," ", "Congruent" = 2, "Incongruent" = 2), bold = T, align="c") %>%
-  row_spec(0, bold = T, align="c") %>%
-  column_spec(3, width = "0.5em") %>%
-  column_spec(2, width = "1.1em") %>%
-  collapse_rows(1:2,latex_hline = 'custom', custom_latex_hline = 1:2) %>%
-  footnote(general = "RT = Reaction times (ms); ER = Error rates (%); PC = Proportion Congruent; Standard errors are presented in parentheses.") 
-
-
-
-kable_as_image(landscape(
-  kable(table,"latex", booktabs = T, row.names = F) %>%
-        kable_styling(full_width = T) %>%
-        add_header_above(c(" "," "," ", "Congruent" = 2, "Incongruent" = 2), bold = T, align="c") %>%
-        row_spec(0, bold = T, align="c") %>%
-        collapse_rows(1:2,latex_hline = 'custom', custom_latex_hline = 1:2) %>%
-        footnote(general = "RT = Reaction times (ms); ER = Error rates (%); PC = Proportion Congruent; Standard errors are presented in parentheses.") %>%
-        kable_styling(latex_options = c("scale_down"))
-  ),
-  filename="data-analysis/table1",file_format ="png",keep_pdf = T, density = 600)
-
-#<-kable(table,"latex", booktabs = T, row.names = F) %>%
-#  kable_styling(full_width = T, font_size= 7) %>%
-#  add_header_above(c(" "," ", 
-#                     "Congruent" = 2, "Incongruent" = 2,
-#                     "Congruent" = 2, "Incongruent" = 2), bold = T, align="c")  %>%
-#  add_header_above(c(" ", " ", "Task-Relevant Context: 100% PC"=4,"Task-Relevant Context: 0% PC" = 4), bold = T, align="c")  %>%
-#  row_spec(0, bold = T, align="c") %>%
-#  collapse_rows(columns = 1, latex_hline = "major") %>%
-#  footnote(general = "RT = Reaction times (ms); ER = Error rates (%); PC = Proportion Congruent; Standard errors are presented in parentheses.") %>%
-#  kable_styling(latex_options = c("scale_down"))
+TR_Table<-paste(
+    "\\begin{table}[htbp]",
+    "\\caption{Reaction times and error rates from Experiment 1.}",
+    "\\label{TR_table}",
+    "\\centering",
+    "\\begin{tabular}{lllcccc}",
+    "\\toprule",
+    " & & & \\multicolumn{2}{c}{Congruent} & \\multicolumn{2}{c}{Incongruent} \\\\", 
+    "\\cmidrule(rl){4-5}",
+    "\\cmidrule(rl){6-7}",
+    "\\multicolumn{1}{c}{Task-Relevant Context} & \\multicolumn{1}{c}{Condition} & \\multicolumn{1}{c}{PC} & \\multicolumn{1}{c}{RT} & \\multicolumn{1}{c}{ER} & \\multicolumn{1}{c}{RT} & \\multicolumn{1}{c}{ER}  \\\\",
+    "\\midrule", 
+    paste0("\\multirow{9}{*}{100\\% PC} & \\multirow{3}{*}{Object} & \\multicolumn{1}{l}{0\\%} & \\multicolumn{1}{l}{", paste(forTable[1,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    paste0("& & \\multicolumn{1}{l}{50\\%} & \\multicolumn{1}{l}{", paste(forTable[2,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    paste0("& & \\multicolumn{1}{l}{100\\%} & \\multicolumn{1}{l}{", paste(forTable[3,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    "\\cmidrule(rl){2-7}",
+    paste0("& \\multirow{3}{*}{Social} & \\multicolumn{1}{l}{0\\%} & \\multicolumn{1}{c}{", paste(forTable[4,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    paste0("& & \\multicolumn{1}{l}{50\\%} & \\multicolumn{1}{l}{", paste(forTable[5,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    paste0("& & \\multicolumn{1}{l}{100\\%} & \\multicolumn{1}{l}{", paste(forTable[6,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    "\\cmidrule(rl){2-7}",
+    paste0("& \\multirow{3}{*}{Social (NR)} & \\multicolumn{1}{l}{0\\%} & \\multicolumn{1}{l}{", paste(forTable[7,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    paste0("& & \\multicolumn{1}{l}{50\\%} & \\multicolumn{1}{l}{", paste(forTable[8,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    paste0("& & \\multicolumn{1}{l}{100\\%} & \\multicolumn{1}{l}{", paste(forTable[9,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    "\\midrule", 
+    
+    paste0("\\multirow{9}{*}{0\\% PC} & \\multirow{3}{*}{Object} & \\multicolumn{1}{l}{0\\%} & \\multicolumn{1}{l}{", paste(forTable[10,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    paste0("& & \\multicolumn{1}{l}{50\\%} & \\multicolumn{1}{l}{", paste(forTable[11,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    paste0("& & \\multicolumn{1}{l}{100\\%} & \\multicolumn{1}{l}{", paste(forTable[12,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    "\\cmidrule(rl){2-7}",
+    paste0("& \\multirow{3}{*}{Social} & \\multicolumn{1}{l}{0\\%} & \\multicolumn{1}{l}{", paste(forTable[13,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    paste0("& & \\multicolumn{1}{l}{50\\%} & \\multicolumn{1}{l}{", paste(forTable[14,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    paste0("& & \\multicolumn{1}{l}{100\\%} & \\multicolumn{1}{l}{", paste(forTable[15,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    "\\cmidrule(rl){2-7}",
+    paste0("& \\multirow{3}{*}{Social (NR)} & \\multicolumn{1}{l}{0\\%} & \\multicolumn{1}{l}{", paste(forTable[16,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    paste0("& & \\multicolumn{1}{l}{50\\%} & \\multicolumn{1}{l}{", paste(forTable[17,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    paste0("& & \\multicolumn{1}{l}{100\\%} & \\multicolumn{1}{l}{", paste(forTable[18,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    
+    " & & & & & & \\\\",
+    "\\bottomrule",
+    "\\multicolumn{7}{l}{\\textit{Note}: RT = Reaction Time (ms);  ER = Error Rates (\\%); PC = Proportion Congruent;} \\\\",
+    "\\multicolumn{7}{l}{NR = Non-Repeating; Standard Errors are presented in parantheses.} \\\\",
+    "\\end{tabular}%",
+    "\\end{table}",
+    sep = "\n"
+)
+    

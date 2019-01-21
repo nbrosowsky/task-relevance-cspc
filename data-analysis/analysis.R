@@ -4,9 +4,6 @@ library(tidyr)
 library(afex)
 library(ggplot2)
 library(cowplot)
-library(tables)
-library(magrittr)
-library(kableExtra)
 #As of 2018/12/07 apa_print() requires development version of Papaja
 #devtools::install_github("crsh/papaja")
 library(papaja)
@@ -128,8 +125,7 @@ RT.graph <- ggplot(RT.Diff,aes(x=Condition, y=Flanker,fill=Task_Relevant_Context
   geom_errorbar(limits, width = .2, position=position_dodge(width=0.9))+
   coord_cartesian(ylim = c(0,150))+
   scale_y_continuous(breaks=seq(0, 150, 10), expand = c(0,0))+
-  theme(panel.grid.major.y = element_line(colour="gray80", size=0.2),
-        axis.text=element_text(size=7.5),
+  theme(axis.text=element_text(size=7.5),
         axis.title=element_text(size=10,face="bold")) +
   labs(title="")+
   ylab("Congruency Effect (ms)")+
@@ -179,8 +175,7 @@ ACC.graph <- ggplot(ACC.Diff,aes(x=Condition, y=Flanker,fill=Task_Relevant_Conte
   geom_errorbar(limits, width = .2, position=position_dodge(width=0.9))+
   coord_cartesian(ylim = c(0,10))+
   scale_y_continuous(breaks=seq(0, 10, 1), expand = c(0,0))+
-  theme(panel.grid.major.y = element_line(colour="gray80", size=0.2),
-        axis.text=element_text(size=7.5),
+  theme(axis.text=element_text(size=7.5),
         axis.title=element_text(size=10,face="bold")) +
   labs(title="")+
   ylab("Congruency Effect (% Error)")+
