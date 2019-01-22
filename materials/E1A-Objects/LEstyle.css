@@ -1,0 +1,214 @@
+*{
+font-family: 'Helvetica', arial;
+}
+
+p{
+	margin-top: 0.125em;
+	margin-bottom: 0.125em;
+}
+
+.spaceAbove{
+	margin-top: 1.25em;
+}
+.spaceBelow{
+	margin-bottom: 1.25em;
+}
+
+header{
+	width: 100%;
+	height: 126px;
+	background-color: #292929;
+	border-bottom: 4px #1e1e1e solid;
+
+
+}
+
+footer{
+	width: 100%;
+	height: 100PX;
+	background: #292929;
+	border-top: 1px #e1e0e0 solid;
+	margin-top: -1px;
+
+}
+
+#title{
+	display: block;
+	float: left;
+	margin-top: 30px;
+	margin-left: 10%;
+	margin-right: 10%;
+	font-family: 'Helvetica', arial;
+	font-weight: bold;
+	font-size: 25pt;
+	color: white;
+	}
+
+.wrapper{
+	height: auto;
+	margin: 0 auto;
+}
+
+
+#landing,
+#main,
+#explorerInst,
+#endExp,
+#repInstructions,
+#debrief {
+	font-family: 'Helvetica', arial;
+	font-size: 16px;
+	color: #000;
+	line-height: 20px;
+	margin-left: 10%;
+	margin-right:10%;
+	}
+
+#noFlex {
+		font-family: 'Helvetica', arial;
+		font-size: 16px;
+		color: #000;
+		line-height: 20px;
+		margin-left: 10%;
+		margin-right:10%;
+		width: 75vw;
+		height: 75vh;
+		padding-top: 10%;
+		}
+
+.flexAbsent{
+	display: none;
+}
+
+#trial,
+#NextQ,
+#QuizButton {
+	font-family: 'Helvetica', arial;
+	display: block;
+	padding: 10px 30px 13px 30px;
+	background: #ffffff;
+	border: 2px #0066CC solid;
+	color: #0066CC;
+	text-decoration: none;
+	margin: 50px auto;
+	font-size: 14px;
+	outline:none;
+
+
+	border-radius: 100px;
+	-webkit-border-radius: 100px;
+	-moz-border-radius: 100px;
+	-o-border-radius: 100px;
+	-ms-border-radius: 100px;
+}
+
+
+
+#trial:hover{
+	border: 2px #ffffff solid;
+	background: #0066CC;
+	color: #ffffff;
+	cursor: pointer;
+	}
+
+#NextQ:hover{
+	border: 2px #ffffff solid;
+	background: #0066CC;
+	color: #ffffff;
+	cursor: pointer;
+	}
+
+.examples {
+	  display: -webkit-flex; /* Safari */
+	  -webkit-flex-direction: column; /* Safari 6.1+ */
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	}
+
+
+/* Debriefing */
+textarea {
+	width: 100%;
+	height: 126px;
+	}
+
+input[type=submit] {
+	font-family: 'Helvetica', arial;
+	display: block;
+	padding: 10px 75px 13px 75px;
+	background: #ffffff;
+	border: 2px #0066CC solid;
+	color: #0066CC;
+	text-decoration: none;
+	margin: 50 auto;
+	font-size: 16px;
+	outline:none;
+	border-radius: 100px;
+	-webkit-border-radius: 100px;
+	-moz-border-radius: 100px;
+	-o-border-radius: 100px;
+	-ms-border-radius: 100px;
+
+}
+
+
+input[type=submit]:hover{
+	border: 2px #ffffff solid;
+	background: #0066CC;
+	color: #ffffff;
+	cursor: pointer;
+	}
+
+/* TURKconsent.html */
+#consentWrapper {
+	height: 100px;
+	background-color: #292929;
+	border-bottom: 4px #1e1e1e solid;
+	color: #ffffff;
+	width: 100%;
+	}
+
+#consentH {
+	display: block;
+	color: #ffffff;
+	float: left;
+	margin: 20px 20px 20px 20px;
+	line-height: 40px;
+	}
+
+H3 {
+	margin: 30px 0 0px 0;
+	}
+
+#previewMode {
+	display: relative;
+	height: 10px;
+	z-index: -1;
+}
+
+
+#ShowInstructions {
+	font-family: 'Helvetica', arial;
+	display: block;
+	background: #ffffff;
+	border: 2px #0066CC solid;
+	color: #0066CC;
+	text-decoration: none;
+	font-size: 12px;
+	outline:none;
+	border-radius: 50px;
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	-o-border-radius: 50px;
+	-ms-border-radius: 50px;
+
+	margin-left: 20px;
+}
+
+#ShowInstructions:hover{
+	border: 2px #ffffff solid;
+	background: #0066CC;
+	color: #ffffff;
+	cursor: pointer;
+	}
