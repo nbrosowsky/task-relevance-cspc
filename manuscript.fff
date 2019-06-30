@@ -1,0 +1,12 @@
+\begin{figure*}
+\includegraphics[width=\textwidth]{images/Task} \caption{Illustration of the stimuli and trial construction. Figure 1A shows the feature dimensions for each of the conditions. Figure 1B shows an example trial stimulus containing both the context and flanker images. Figure 1C shows an example of how feature dimensions could have been assigned to each proportion congruency (PC) condition, and an example of the secondary task assignments. The secondary task order, as well as the feature and congruency assignments were all randomized for each participant.}\label{fig:figure1}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}
+
+{\centering \includegraphics[width=\textwidth]{table_print}
+
+}
+
+\end{figure*}

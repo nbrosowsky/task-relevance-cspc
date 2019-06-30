@@ -34,7 +34,7 @@ vjoutNR <- function(x,n) {
 
 
 ## manuscript.Rmd is called from parent
-load("data-analysis/raw_data.Rda")
+load("data-analysis/raw_data_E1.Rda")
 
 
 
@@ -211,4 +211,6 @@ TR_Table<-paste(
     "\\end{table}",
     sep = "\n"
 )
+
+print(kableExtra::kable(TR_Table,format="latex"))
     
