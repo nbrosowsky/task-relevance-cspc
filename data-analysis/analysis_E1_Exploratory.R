@@ -6,6 +6,7 @@ library(afex)
 library(ggplot2)
 library(cowplot)
 library(forcats)
+library(BayesFactor)
 #As of 2018/12/07 apa_print() requires development version of Papaja
 #devtools::install_github("crsh/papaja")
 library(papaja)
@@ -113,6 +114,27 @@ order_effect_plot <-ggplot(RT.summary,aes(x=Order, y=m, fill=Task_Relevant_Conte
 
 E1_Order_A <- aov_car(vjoutRT ~ Congruency*Task_Relevant_Context*Order + Error(Subject/Congruency*Task_Relevant_Context), data = RT.DF %>% filter(Frequency == "unbiased"))
 E1_Order_A <- apa_print(E1_Order_A, es = "pes")$full_result
+
+
+
+################### Bayesian Analysis #####################
+
+## Analyze RTs for frequency unbiased items
+RT.Analysis <- RT.DF  %>%
+  filter(!is.nan(vjoutRT)) %>%
+  filter(Frequency == "unbiased",
+         Subject%in%low_acc == FALSE) %>%
+  group_by(Subject,Order,Task_Relevant_Context,Congruency) %>%
+  summarize(vjoutRT = mean(vjoutRT)) %>%
+  spread(Congruency, vjoutRT) %>%
+  mutate(Diff = inc - con) %>%
+  filter(!is.na(Diff))
+
+
+
+RT_BF_E1_exploreA = BayesFactor::anovaBF(Diff ~ Order*Task_Relevant_Context + Subject, data = RT.Analysis,
+                          whichRandom="Subject", iterations=10000)
+
 
 # 
 # RT.summary <- RT.DF %>%
@@ -377,6 +399,47 @@ E1_Order_B <- aov_car(vjoutRT ~ Congruency*Task_Relevant_Context*Order + Error(S
 E1_Order_B <- apa_print(E1_Order_B, es = "pes")$full_result
 
 
+################### Bayesian Analysis #####################
+
+
+RT.summary <- RT.DF %>%
+  filter(!is.nan(vjoutRT)) %>%
+  filter(Frequency == "unbiased",
+         Transition != "other",
+         Subject%in%missing == FALSE) %>%
+  group_by(Subject,Order,Task_Relevant_Context,Congruency) %>%
+  summarize(vjoutRT = mean(vjoutRT)) %>%
+  spread(Congruency, vjoutRT) %>%
+  mutate(Diff = inc - con) %>%
+  filter(!is.na(Diff)) %>%
+  group_by(Order,Task_Relevant_Context) %>%
+  summarize(
+    n = n(),
+    m = mean(Diff),
+    sd = sd(Diff),
+    se = sd/sqrt(n)
+  )
+
+
+## Analyze RTs for frequency unbiased items
+RT.Analysis <- RT.DF  %>%
+  filter(!is.nan(vjoutRT)) %>%
+  filter(Frequency == "unbiased",
+         Transition != "other",
+         Subject%in%missing == FALSE) %>%
+  group_by(Subject,Order,Task_Relevant_Context,Congruency) %>%
+  summarize(vjoutRT = mean(vjoutRT)) %>%
+  spread(Congruency, vjoutRT) %>%
+  mutate(Diff = inc - con) %>%
+  filter(!is.na(Diff))
+
+
+
+RT_BF_E1_exploreB = BayesFactor::anovaBF(Diff ~ Order*Task_Relevant_Context + Subject, data = RT.Analysis,
+                          whichRandom="Subject", iterations=10000)
+
+
+
 # aov_car(vjoutRT ~ Congruency*Transition + Error(Subject/Congruency*Transition), 
 #         data = RT.DF %>% filter(Frequency == "unbiased", 
 #                                 Transition != "other",
@@ -451,10 +514,14 @@ figure2B<-plot_grid(order_effect_plot,NULL,transition_plot,
                    rel_widths = c(1, 0.05, 1),
                    labels = c("A", "", "B"))
 
-title <- ggdraw() + draw_label("Experiment 1: Phase Order", fontface='bold')
-figure2B<-plot_grid(title, figure2B, ncol=1, rel_heights=c(0.1, 1)) # rel_heights values control title margins
- 
-figure2B
+#title <- ggdraw() + draw_label("Experiment 1: Phase Order", fontface='bold')
+#figure2B <- plot_grid(title, figure2B, ncol=1, rel_heights=c(0.1, 1)) # rel_heights values control title margins
+
 
 ggsave("figure2B.pdf", device = "pdf", dpi = 600,
        width = 6.875, height = 4, units = "in") 
+
+
+
+
+

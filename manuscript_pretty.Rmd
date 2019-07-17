@@ -80,17 +80,20 @@ source("data-analysis/analysis_E2.R")
 source("data-analysis/analysis_E3.R")
 source("data-analysis/table1.R")
 source("data-analysis/analysis_E1_Exploratory.R")
+source("data-analysis/plot-power-simulation.R")
 ```
 
-Selective attention is commonly investigated using interference paradigms such as the Stroop [-@stroop_studies_1935] and flanker [@eriksen_effects_1974] tasks, where participants identify a target while ignoring a response-congruent or -incongruent distractor. Performance is typically better on congruent versus incongruent trials and the difference---the congruency effect---taken as an index of attentional priorities. Large congruency effects are thought to reflect ineffective filtering of the distracting stimuli whereas small congruency effects are thought to reflect effective filtering. By probing factors that systematically alter congruency effects, we can then make inferences about processes that control attentional filtering. For example, manipulating the frequency of conflict via the proportion of congruent versus incongruent trials has shown to influence the size of the congruency effect. Typically, a high proportion congruent experiment produces large congruency effects, whereas a low proportion congruent experiment produces small congruency effects [@logan_when_1979; @lowe_selective_1982; @west_effects_1998]. This result is usually  explained as strategic control, where participants increase attentional control under high-conflict demands and relax attentional control under low-conflict demands [@logan_attention_1980; @logan_strategies_1984; @logan_when_1979; @lowe_selective_1982]. Recent work however, has demonstrated that attentional control is not only adjusted by top-down regulation, but can also be triggered automatically by environmental cues [@brosowsky_memory-guided_2018; @bugg_support_2012; @egner_creatures_2014; @fischer_predicting_2015; @king_priming_2012; @mayr_outsourcing_2007]. 
+Selective attention is commonly investigated using interference paradigms like the Stroop [-@stroop_studies_1935] and flanker [@eriksen_effects_1974] tasks, where participants identify a target while ignoring a response-congruent or -incongruent distractor. Performance is typically better on congruent versus incongruent trials and the difference---the congruency effect---taken as an index of attentional priorities. Large congruency effects are thought to reflect ineffective filtering of the distracting stimuli whereas small congruency effects are thought to reflect effective filtering. By probing factors that systematically alter congruency effects, we can then make inferences about processes that control attentional filtering. For example, manipulating the frequency of conflict via the proportion of congruent versus incongruent trials has shown to influence the size of the congruency effect. Typically, a high proportion congruent experiment produces large congruency effects, whereas a low proportion congruent experiment produces small congruency effects [@logan_when_1979; @lowe_selective_1982; @west_effects_1998]. This result is usually  explained as strategic control, where participants increase attentional control under high-conflict demands and relax attentional control under low-conflict demands [@logan_attention_1980; @logan_strategies_1984; @logan_when_1979; @lowe_selective_1982]. Recent work however, has demonstrated that attentional control is not only adjusted by top-down regulation, but can also be triggered automatically by environmental cues [@brosowsky_memory-guided_2018; @bugg_support_2012; @egner_creatures_2014; @fischer_predicting_2015; @king_priming_2012; @mayr_outsourcing_2007]. 
 
 For example, Crump, Gong, and Milliken [@crump_context-specific_2006; see also, @corballis_independent_2003] presented Stroop stimuli in one of two randomly chosen locations and manipulated the frequency of conflict associated with each location. One location was associated with a high frequency of conflict (25% congruent trials) and the other with a low frequency of conflict (75% congruent trials). Overall, the proportion of congruent trials was 50% and randomized such that the upcoming location could not be predicted. Even so, congruency effects were shown to be smaller for trials where the stimulus appeared in the high conflict location as compared to the low conflict location. This effect, known now as the context-specific proportion congruent effect (CSPC), has now been replicated in a number of different selective attention paradigms [e.g., @alards-tomalin_auditory_2017; @blais_trial-by-trial_2015; @bugg_conflict-triggered_2014; @crump_context-dependent_2018; @crump_learning_2016; @fischer_context-sensitive_2014; @hubner_location-specific_2016].
 
 Critical evidence however, that CSPC effects reflect context-specific control rather than other non-control learning processes [e.g., @schmidt_stroop_2008], comes from work showing that CSPC effects can transfer to frequency unbiased items [@brosowsky_context-specific_2016; @crump_flexibility_2009; @weidler_attentional_2018; @weidler_transfer_2016; though, see @hutcheon_limits_2017]. Crump and Milliken (2009), for example, divided Stroop items into two mutually exclusive sets (e.g., RED/GREEN and BLUE/YELLOW). One set was defined as the frequency biased set, and presented with 75% congruency in one location, and 25% congruency in the other. The second set however, was presented with 50% congruency in both locations. Nevertheless, they found smaller congruency effects for unbiased items presented in the high conflict location as compared to the low conflict location.	
 
-One explanation for CSPC effects is that the repeated application of attentional priorities in a particular context creates an associative link in episodic memory between the attentional control procedures and the contextual information [@abrahamse_grounding_2016; @brosowsky_memory-guided_2018; @crump_learning_2016; @egner_creatures_2014]. Once the associative link is established, processing the context is assumed to trigger the retrieval of previous experiences, automatically reinstating associated attentional priorities. As a result, automatic memory-based retrieval allows attentional priorities to be rapidly adjusted in a context-appropriate fashion. How associations between attentional priorities and context cues are formed and used still remains unclear however. The current study addresses two issues.
+One explanation for CSPC effects is that the repeated application of attentional priorities in a particular context creates an associative link in episodic memory between the attentional control procedures and the contextual information [@abrahamse_grounding_2016; @brosowsky_memory-guided_2018; @crump_learning_2016; @egner_creatures_2014]. Once the associative link is established, processing the context is assumed to trigger the retrieval of previous experiences, automatically reinstating associated attentional priorities. As a result, automatic memory-based retrieval allows attentional priorities to be rapidly adjusted in a context-appropriate fashion. How associations between attentional priorities and context cues are formed and used still remains unclear however. The current study addresses two related issues.
 
-First, how is attentional control resolved when multiple contextual features could be used as cues? Second, it remains unclear how  Historically, theories of automaticity and attentional control have emphasized the role of practice and likened the process to skill-learning (). 
+First, how is attentional control resolved when multiple contextual features could be used as cues? Second, it remains unclear how  
+
+Historically, theories of automaticity and attentional control have emphasized the role of practice and likened the learning process to the automaticity of skill-learning (). 
 
 However, the obligatory nature of memory-based attentional control remains unclear, in particular in situations when multiple contextual features could be used as cues for retrieval.
 
@@ -165,14 +168,19 @@ figure2
 (ref:figure2) Results from Experiment 1 showing congruency effects (incongruent - congruent) for frequency unbiased items in reaction times (left) and error rates (right) as a function of the task-relevant context (100% proportion congruent versus 0% proportion congruent). Task-relevance was manipulated by the secondary feature-counting task.
 
 
-# Results 
-Participants with mean error rates greater than 25% were excluded from the analyses, eliminating `r N_subjects_removed` participants. For all remaining participants, the correct RTs from frequency unbiased trials in each condition were submitted to an outlier removal procedure. The non-recursive Van Selst and Jolicoeur outlier removal procedure was applied after removing response times greater than 3000 ms [@van_selst_solution_1994]. This procedure removed `r round(percent_removed*100,digits = 2)`% of the total observations.
+## Data Analysis 
+All analyses in this and the following experiments were performed in R [@r_software_2019] using a variety of R packages (). In particular, we used the afex and car packages [@r_afex_2019; @r_car_2019] to perform all the Null Hypothesis Significance Tests, the BayesFactor package to perform Bayesian analyses [@r_bayesfactor_2018], and the conflictPower package to perform the simulation-based sensitivity and power analyses [@r_conflictPower_2019]. All data and scripts can be found
 
-The primary question of interest was whether the task-relevance of context features associated with different levels of conflict would influence the size of the congruency effect for frequency unbiased items (see Table 1). To that end, mean correct RTs and mean error rates from frequency unbiased trials were submitted to a mixed analysis of variance (ANOVA) with task-relevant context (0% and 100% PC) and unbiased-item congruency (congruent and incongruent) as within-subject factors, and context-type (object, social, and social/non-repeating) as the between-subjects factor.
+We supplemented each Null Hypothesis Significance Test with a Bayes Factor analysis (Rouder, Speckman.. 2009). Using conventional frequentist testing it is not possible to quantify the evidence for a null effect. Bayes Factors, however, quantify the degree to which the observed data are compatible with either the alternative or null hypothesis (Dienes, 2014; Rouder et al., 2014). All Bayesian analyses were performed using the R package BayesFactor and Bayes Factors (BFs) were calculated using its default settings (Morey and Rouder, 2014). Following the guidelines recommended by Rouder et al. (2009)
 
-The results of the RT analysis revealed the critical, two-way interaction between task-relevant context and unbiased-item congruency to be significant, `r RT_ANOVA$Task_Relevant_Context_Congruency`, demonstrating smaller congruency effects when the context dimension associated with high conflict was made task-relevant. Additionally, the three-way interaction between the task-relevant context, unbiased-item congruency, and context-type was non-significant, `r RT_ANOVA$Condition_Task_Relevant_Context_Congruency`, showing no evidence for differences between the CSPC effects across context-type manipulations.
+# Results
+Participants with mean error rates greater than 25% were excluded from the analyses, eliminating `r N_subjects_removed` participants. For all remaining participants, the correct RTs from frequency unbiased trials in each condition were submitted to an outlier removal procedure. The non-recursive Van Selst and Jolicoeur outlier removal procedure was applied after removing response times greater than 3000 ms [@van_selst_solution_1994]. This procedure removed `r round(percent_removed*100,digits = 2)`% of the total observations. 
 
-Similarly, the corresponding error analysis also resulted in a significant two-way interaction between the task-relevant context and unbiased-item congruency, `r ACC_ANOVA$Task_Relevant_Context_Congruency`, and a non-significant three-way interaction between task-relevant context, unbiased-item congruency, and context-type, `r ACC_ANOVA$Condition_Task_Relevant_Context_Congruency`. Therefore, the congruency effects in error rates were also smaller when the context dimension associated with high conflict was made task-relevant, corroborating the results of the reaction time analysis.
+The primary question of interest was whether the task-relevance of context features associated with different levels of conflict would influence the size of the congruency effect for frequency unbiased items (see Table 1). To that end, congruency effects (incongruent minus congruent performance) from frequency unbiased trials were submitted to a mixed analysis of variance (ANOVA) with task-relevant context (0% and 100% PC) and context-type (object, social, and social/non-repeating) as the between-subjects factor. 
+
+The results of the RT analysis revealed the critical, two-way interaction between task-relevant context and unbiased-item congruency to be significant, `r RT_ANOVA$Task_Relevant_Context`, demonstrating smaller congruency effects when the context dimension associated with high conflict was made task-relevant. Additionally, the three-way interaction between the task-relevant context, unbiased-item congruency, and context-type was non-significant, `r RT_ANOVA$Condition_Task_Relevant_Context`, showing no evidence for differences between the CSPC effects across context-type manipulations.
+
+Similarly, the corresponding error analysis also resulted in a significant two-way interaction between the task-relevant context and unbiased-item congruency, `r ACC_ANOVA$Task_Relevant_Context`, and a non-significant three-way interaction between task-relevant context, unbiased-item congruency, and context-type, `r ACC_ANOVA$Condition_Task_Relevant_Context`. Therefore, the congruency effects in error rates were also smaller when the context dimension associated with high conflict was made task-relevant, corroborating the results of the reaction time analysis. 
 
 ## Exploratory Analyses: Order Effects
 
@@ -232,14 +240,6 @@ All participants were AMT workers who found the experiment using the AMT system.
 Each trial began with a blank inter-stimulus interval (ISI) of 400 ms, followed by a fixation cross presented in the center of the screen for 200 ms, then a second blank ISI of 400 ms. Next, the flanker and context stimuli appeared in the center of screen (the flanker above the context image; see Figure 1B) and remained on screen until a response was made. Following a response, accuracy feedback was presented for 1000 ms. A response automatically triggered the next trial. 
 
 
-```{r figure3, echo=FALSE, fig.width=3.6, fig.height=4, fig.cap='(ref:figure3)'}
-#print figure 3
-#source: data-analysis/analysis_E2.R
-figure3
-```
-
-(ref:figure3) Results from Experiment 2 showing congruency effects (incongruent - congruent) across proportion congruency (25%, 75%, and 100% PC) in reaction times (left) and error rates (right).
-
 
 # Results
 Participants with mean error rates greater than 25% were excluded from the analyses, eliminating `r N_subjects_removed_E2` participants. For all remaining participants, the correct RTs from frequency unbiased trials in each condition were submitted to an outlier removal procedure. The non-recursive Van Selst and Jolicoeur outlier removal procedure was applied after removing response times greater than 3000 ms [@van_selst_solution_1994]. This procedure removed `r round(percent_removed_E2*100,digits = 2)`% of the total observations.
@@ -247,6 +247,15 @@ Participants with mean error rates greater than 25% were excluded from the analy
 The questions of interest were whether participants would learn the associations between the context cues without the task-relevance manipulation (i.e., the counting task) and whether responding to the unbiased cues would be influenced by the presence of the biased cues. To that end, mean correct RTs and mean error rates were submitted to an analysis of variance (ANOVA) with proportion congruent (25%, 50%, and 75%) and congruency (congruent and incongruent) as within-subject factors.
 
 The results of the RT analysis revealed the critical, two-way interaction between proportion congruency and congruency to be non-significant, `r RT_ANOVA_E2$PC_Congruency`. Similarly, the corresponding error analysis also resulted in a non-significant two-way interaction between the task-relevant context and unbiased-item congruency, `r ACC_ANOVA_E2$PC_Congruency`. Therefore, there was no evidence that the context cues, absent the counting task, systematically influenced the congruency effect.
+
+```{r figure3, echo=FALSE, fig.width=3.25, fig.height=4, fig.cap='(ref:figure3)'}
+#print figure 3
+#source: data-analysis/analysis_E2.R
+figure3
+```
+
+(ref:figure3) Results from Experiment 2 showing congruency effects (incongruent - congruent) across proportion congruency (25%, 75%, and 100% PC) in reaction times (left) and error rates (right).
+
 
 # Experiment 3
 
@@ -269,7 +278,7 @@ All participants were AMT workers who found the experiment using the AMT system.
 Each trial began with a blank inter-stimulus interval (ISI) of 400 ms, followed by a fixation cross presented in the center of the screen for 200 ms, then a second blank ISI of 400 ms. Next, the flanker and context stimuli appeared in the center of screen (the flanker above the context image; see Figure 1B) and remained on screen until a response was made. Following a response, accuracy feedback was presented for 1000 ms. A response automatically triggered the next trial. 
 
 
-```{r figure4, echo=FALSE, fig.cap='(ref:figure4)', fig.width=3.6, fig.height=3.5}
+```{r figure4, echo=FALSE, fig.cap='(ref:figure4)', fig.width=3.25, fig.height=3.5}
 #print figure 3
 #source: data-analysis/analysis_E2.R
 figure4
@@ -285,6 +294,16 @@ Participants with mean error rates greater than 25% were excluded from the analy
 The primary question of interest was whether the task-relevance of context features (made relevant through explicit task instructions) associated with different levels of conflict would influence the size of the congruency effect for frequency unbiased items. Mean correct RTs and mean error rates from frequency unbiased trials were submitted to an analysis of variance (ANOVA) with task-relevant context (0% and 100% PC) and unbiased-item congruency (congruent and incongruent) as within-subject factors.
 
 The results of the RT analysis revealed the critical, two-way interaction between task-relevant context and unbiased-item congruency to be non-significant, `r RT_ANOVA_E3$Task_Relevant_Context_Congruency`. Similarly, the corresponding error analysis also resulted in a non-significant two-way interaction between the task-relevant context and unbiased-item congruency, `r ACC_ANOVA_E3$Task_Relevant_Context_Congruency`.
+
+# Estimating reproducability by simulation-based sensitivity- and power-analyses
+
+```{r figure5, echo=FALSE, fig.cap='(ref:figure5)', fig.width=6.875, fig.height= 5}
+#print figure 3
+#source: data-analysis/plot-power-simulation.R
+figure5
+```
+
+(ref:figure5) Results from Experiment 3 showing congruency effects (incongruent - congruent) for frequency unbiased items in reaction times (left) and error rates (right) as a function of the task-relevant context (100% proportion congruent versus 0% proportion congruent). Task-relevance was manipulated through explicit instructions.
 
 # General Discussion
 The aim of the current study was to determine whether task-relevance plays a role in the contextual recruitment of selective attention. Specifically, we tested whether manipulating the relative task-relevance of context cues could cause participants to ignore a previously learned context-association and apply a new association. We created a frequency unbiased context cue that shared features with two frequency biased contexts and used a feature-counting task to manipulate the task-relevance of context dimensions across two blocks of trials. Critically, halfway through the experiment participants received new instructions changing the task-relevant feature from one frequency biased cue to the other. 

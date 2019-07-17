@@ -192,12 +192,31 @@ figure3<-plot_grid(RT.graph,NULL,ACC.graph,
                    rel_widths = c(1, 0.05, 1),
                    labels = c("A", "", "B"))
 
-title <- ggdraw() + draw_label("Experiment 2", fontface='bold')
-figure3<-plot_grid(title, figure3, ncol=1, rel_heights=c(0.1, 1)) # rel_heights values control title margins
+#title <- ggdraw() + draw_label("Experiment 2", fontface='bold')
+#figure3<-plot_grid(title, figure3, ncol=1, rel_heights=c(0.1, 1)) # rel_heights values control title margins
 
  ggsave("figure3.pdf", device = "pdf", dpi = 600,
-       width = 6.875, height = 4, units = "in") 
+       width = 3.25, height = 3.75, units = "in") 
 
 #clean up environment
 #rm(list=c("ACC.analysis","aov.out","raw_data_E2","RT.Analysis","RT.DF","low_acc","vjoutNR", "RT.Diff"))
 
+ 
+ ################### Bayesian Analysis #####################
+ 
+ ## Analyze RTs for frequency unbiased items
+ RT.Analysis <- RT.DF %>%
+   ungroup() %>%
+   mutate(Subject = factor(Subject),
+          PC = factor(PC)) %>%
+   group_by(Subject,PC,Congruency) %>%
+   summarise(meanRT = mean(vjoutRT)) %>%
+   spread(Congruency, meanRT) %>%
+   ungroup()%>%
+   mutate(Diff = inc - con)
+ 
+ 
+ 
+ RT_BF_E2 = BayesFactor::anovaBF(Diff ~ PC + Subject, data = RT.Analysis,
+                           whichRandom="Subject", iterations=10000)
+ 
