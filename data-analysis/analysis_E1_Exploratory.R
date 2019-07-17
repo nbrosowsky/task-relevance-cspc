@@ -11,6 +11,8 @@ library(BayesFactor)
 #devtools::install_github("crsh/papaja")
 library(papaja)
 
+set.seed(10000)
+
 # van selst and jolicour outlier removal (non-recursive)
 vjoutNR <- function(x,n) {
   xm <- mean(x)
@@ -36,11 +38,43 @@ vjoutNR <- function(x,n) {
   return(finaldata[[n]])
 }
 
+
+print_eta_CI <- function(Fval, conf = .90, df1, df2){
+  limits <- apaTables::get.ci.partial.eta.squared(F.value=Fval, df1=df1, df2=df2, conf.level=conf)
+  return(paste0(", 90\\% CI $[",round(limits$LL, 2),"$, $",round(limits$UL, 2),"]$"))
+}
+
+print_apa_ci <- function(aov_table){
+  pap <- apa_print(aov_table, es = "pes")$full_result
+  
+  for(i in 1:length(pap)){
+    pap[i] <- paste0(pap[i], print_eta_CI(Fval = aov_table$anova_table$`F`[i], df1 = aov_table$anova_table$`num Df`[i], df2 = aov_table$anova_table$`den Df`[i]))
+    pap[i] <- gsub("p = .000", "p < .001", pap[i])
+    pap[i] <- gsub(") = 0.00", ") < 0.01", pap[i])
+  }
+  return(pap)
+}
+
+print_bf <- function(bf){
+  result <- list()
+  for (i in 1:length(bf)){
+    if(extractBF(bf[i])$bf < 1){
+      result[i] <- paste0("$\\mathrm{BF}_{\\textrm{01}} = ", round(extractBF(1/bf[i])$bf, digits = 2),"$ $[\\pm ", round(extractBF(bf[i])$error*100,digits=2), "\\%]$")
+    } else {
+      result[i] <- paste0("$\\mathrm{BF}_{\\textrm{10}} = ", round(extractBF(bf[i])$bf, digits = 2),"$ $[\\pm ", round(extractBF(bf[i])$error*100,digits=2), "\\%]$")
+      
+    }
+  }
+  
+  return(result)
+}
+
+
 ## Pre-process data ------------------------------------
 load("data-analysis/raw_data_E1.Rda")
 
-levels(raw_data$Order) <- c("MI-MC","MC-MI")
-raw_data$Order <- factor(raw_data$Order, c("MC-MI","MI-MC" ))
+levels(raw_data$Order) <- c("0% to 100% PC","100% to 0% PC")
+raw_data$Order <- factor(raw_data$Order, c("100% to 0% PC","0% to 100% PC" ))
  
 # Find subs with < 75% accuracy
   low_acc <- raw_data %>%
@@ -66,30 +100,27 @@ RT.DF <- raw_data %>%
   mutate(outlier = RT%in%vjoutNR(RT,4)) %>%
   filter(outlier == FALSE) %>%
   group_by(Condition,Subject,Order,Phase,Frequency,Task_Relevant_Context,Congruency)%>%
-  summarize(vjoutRT = mean(RT))
+  summarize(vjoutRT = mean(RT)) %>%
+    spread(Congruency, vjoutRT) %>%
+    mutate(CE = inc - con)
 
 
 
 RT.summary <- RT.DF %>%
-  filter(!is.nan(vjoutRT)) %>%
   filter(Frequency == "unbiased") %>%
-  group_by(Subject,Order,Task_Relevant_Context,Congruency) %>%
-  summarize(vjoutRT = mean(vjoutRT)) %>%
-  spread(Congruency, vjoutRT) %>%
-  mutate(Diff = inc - con) %>%
-  filter(!is.na(Diff)) %>%
+  filter(!is.na(CE)) %>%
   group_by(Order, Task_Relevant_Context) %>%
   summarize(
     n = n(),
-    m = mean(Diff),
-    sd = sd(Diff),
+    m = mean(CE),
+    sd = sd(CE),
     se = sd/sqrt(n)
   )
 
 limits <- aes(ymax = m + se, ymin = m - se)
 order_effect_plot <-ggplot(RT.summary,aes(x=Order, y=m, fill=Task_Relevant_Context))+
   geom_bar(stat="identity", position=position_dodge(width=0.9), colour = "black") +
-  scale_fill_manual(values=c("#018571", "#80cdc1"))+
+  scale_fill_manual(values=c("#a6611a", "#dfc27d"))+
   geom_errorbar(limits, width = .2, position=position_dodge(width=0.9))+
   coord_cartesian(ylim = c(0,150))+
   scale_y_continuous(breaks=seq(0, 150, 10), expand = c(0,0))+
@@ -97,6 +128,7 @@ order_effect_plot <-ggplot(RT.summary,aes(x=Order, y=m, fill=Task_Relevant_Conte
         axis.title=element_text(size=10,face="bold")) +
   labs(title="All Trials")+
   ylab("Congruency Effect (ms)")+
+  xlab("Phase Order") +
   theme(       legend.position=c(1,1),
                legend.justification = c(1,1),
                legend.direction = "horizontal",
@@ -112,71 +144,13 @@ order_effect_plot <-ggplot(RT.summary,aes(x=Order, y=m, fill=Task_Relevant_Conte
 
 #order_effect_plot
 
-E1_Order_A <- aov_car(vjoutRT ~ Congruency*Task_Relevant_Context*Order + Error(Subject/Congruency*Task_Relevant_Context), data = RT.DF %>% filter(Frequency == "unbiased"))
-E1_Order_A <- apa_print(E1_Order_A, es = "pes")$full_result
+E1_Order_A <- aov_car(CE ~ Task_Relevant_Context*Order + Error(Subject/Task_Relevant_Context), data = RT.DF %>% filter(Frequency == "unbiased"))
+E1_Order_A <- print_apa_ci(E1_Order_A)
 
 
-
-################### Bayesian Analysis #####################
-
-## Analyze RTs for frequency unbiased items
-RT.Analysis <- RT.DF  %>%
-  filter(!is.nan(vjoutRT)) %>%
-  filter(Frequency == "unbiased",
-         Subject%in%low_acc == FALSE) %>%
-  group_by(Subject,Order,Task_Relevant_Context,Congruency) %>%
-  summarize(vjoutRT = mean(vjoutRT)) %>%
-  spread(Congruency, vjoutRT) %>%
-  mutate(Diff = inc - con) %>%
-  filter(!is.na(Diff))
-
-
-
-RT_BF_E1_exploreA = BayesFactor::anovaBF(Diff ~ Order*Task_Relevant_Context + Subject, data = RT.Analysis,
-                          whichRandom="Subject", iterations=10000)
-
-
-# 
-# RT.summary <- RT.DF %>%
-#   filter(!is.nan(vjoutRT)) %>%
-#   filter(Frequency == "unbiased") %>%
-#   group_by(Subject,Order,Phase,Congruency) %>%
-#   summarize(vjoutRT = mean(vjoutRT)) %>%
-#   spread(Congruency, vjoutRT) %>%
-#   mutate(Diff = inc - con) %>%
-#   filter(!is.na(Diff)) %>%
-#   group_by(Order, Phase) %>%
-#   summarize(
-#     n = n(),
-#     m = mean(Diff),
-#     sd = sd(Diff),
-#     se = sd/sqrt(n)
-#   ) %>%
-#   arrange(desc(Order))
-# 
-# limits <- aes(ymax = m + se, ymin = m - se)
-# ggplot(RT.summary,aes(x=Order, y=m, fill=Phase))+
-#   geom_bar(stat="identity", position=position_dodge(width=0.9), colour = "black") + 
-#   scale_fill_manual(values=c("#018571", "#80cdc1"))+
-#   geom_errorbar(limits, width = .2, position=position_dodge(width=0.9))+
-#   coord_cartesian(ylim = c(0,150))+
-#   scale_y_continuous(breaks=seq(0, 150, 10), expand = c(0,0))+
-#   theme(axis.text=element_text(size=7.5),
-#         axis.title=element_text(size=10,face="bold")) +
-#   labs(title="")+
-#   ylab("Congruency Effect (ms)")+
-#   theme(       legend.position=c(1,1),
-#                legend.justification = c(1,1),
-#                legend.direction = "horizontal",
-#                legend.background = element_rect(colour = "black", fill = "white", size=1),
-#                legend.box.background = element_rect(colour = "black"),
-#                legend.margin = margin(t = .1, r = .10, b = .05, l = .1, unit = "cm"),
-#                legend.text = element_text(size = 8),
-#                legend.title = element_text(size = 8)
-#   ) +
-#   guides(fill=guide_legend(title="Phase",title.position = "top"))
-# 
-# aov_car(vjoutRT ~ Congruency*Task_Relevant_Context*Order + Error(Subject/Congruency*Task_Relevant_Context), data = RT.DF %>% filter(Frequency == "unbiased"))
+E1_Order_A_BF = BayesFactor::anovaBF(CE ~ Condition*Task_Relevant_Context + Subject, data = RT.DF %>% filter(Frequency == "unbiased"),
+                             whichRandom="Subject", iterations=10000)
+pE1_Order_A_BF = print_bf(E1_Order_A_BF)
 
 
 ## Exploratory analysis: Phase boundary --------------------------------------------------
@@ -194,14 +168,14 @@ raw_data <- raw_data %>%
 
 
 # re-label order and PC phases
-levels(raw_data$Order) <- c("MI-MC","MC-MI")
-raw_data$Order <- factor(raw_data$Order, c("MC-MI","MI-MC" ))
+levels(raw_data$Order) <- c("0% to 100% PC","100% to 0% PC")
+raw_data$Order <- factor(raw_data$Order, c("100% to 0% PC","0% to 100% PC" ))
 raw_data<-raw_data %>%
   mutate(
-    PC = case_when(Order == "MI-MC" & Phase == 1 ~ "MI",
-                   Order == "MI-MC" & Phase == 2 ~ "MC",
-                   Order == "MC-MI" & Phase == 1 ~ "MC",
-                   Order == "MC-MI" & Phase == 2 ~ "MI")
+    PC = case_when(Order == "0% to 100% PC" & Phase == 1 ~ "MI",
+                   Order == "0% to 100% PC" & Phase == 2 ~ "MC",
+                   Order == "100% to 0% PC" & Phase == 1 ~ "MC",
+                   Order == "100% to 0% PC" & Phase == 2 ~ "MI")
   )
 
 
@@ -218,64 +192,22 @@ RT.DF <- raw_data %>%
   mutate(outlier = RT%in%vjoutNR(RT,4)) %>%
   filter(outlier == FALSE) %>%
   group_by(Condition,Subject,Order,Phase,Frequency,Task_Relevant_Context,sm_bl,Congruency)%>%
-  summarize(vjoutRT = mean(RT))
+  summarize(vjoutRT = mean(RT),
+            n = n())
 
 
-
-RT.summary <- RT.DF %>%
+# check for missing data
+missing <- RT.DF %>%
      filter(!is.nan(vjoutRT)) %>%
      filter(Frequency == "unbiased") %>%
      group_by(Subject,Order,sm_bl,Phase,Congruency) %>%
      summarize(vjoutRT = mean(vjoutRT)) %>%
      spread(Congruency, vjoutRT) %>%
-     mutate(Diff = inc - con) 
-
-## check for missing data and remove
-# with the split-half analysis, no subjects are removed
-missing <- RT.summary %>%
+     mutate(Diff = inc - con) %>%
   group_by(Subject) %>%
   filter(is.na(Diff)) %>%
   .$Subject
   
-  
-RT.summary <- RT.summary %>%
-  filter(Subject%in%missing == FALSE) %>%
-     group_by(Order,Phase,sm_bl) %>%
-     summarize(
-         n = n(),
-         m = mean(Diff),
-         sd = sd(Diff),
-         se = sd/sqrt(n)
-       )
-
-# 
-# aov_car(vjoutRT ~ Congruency*Task_Relevant_Context*Order + Error(Subject/Congruency*Task_Relevant_Context), data = RT.DF %>% filter(Frequency == "biased"))
-# 
-# 
-# ggplot(RT.summary,aes(x=sm_bl, y=m))+
-#      #ggtitle("Exp. 1")+
-#      geom_errorbar(limits, width = .2, position=position_dodge(width=0.9), color = "dark grey")+
-#      geom_line(aes(group = 1), show.legend = FALSE)+
-#      geom_point(aes(group = sm_bl, shape=Order), show.legend = FALSE, size=2) + 
-#      theme_classic(base_size=21)+
-#      facet_grid(Order~Phase)  
-
-RT.summary <- RT.DF %>%
-  filter(!is.nan(vjoutRT)) %>%
-  filter(Frequency == "unbiased") %>%
-  group_by(Subject,Order,Phase,Task_Relevant_Context,sm_bl,Congruency) %>%
-  summarize(vjoutRT = mean(vjoutRT)) %>%
-  spread(Congruency, vjoutRT) %>%
-  mutate(Diff = inc - con) %>%
-  filter(!is.na(Diff)) %>%
-  group_by(Order,Phase,Task_Relevant_Context,sm_bl) %>%
-  summarize(
-    n = n(),
-    m = mean(Diff),
-    sd = sd(Diff),
-    se = sd/sqrt(n)
-  )
-
 
 # re-label as the transition from pre-change to post-change
 RT.DF <- RT.DF %>%
@@ -286,69 +218,9 @@ RT.DF <- RT.DF %>%
       TRUE ~ "other"
     )
   )
-# 
-# 
-# RT.summary <- RT.DF %>%
-#   filter(!is.nan(vjoutRT)) %>%
-#   filter(Frequency == "unbiased",
-#          Transition != "other",
-#          Subject%in%missing == FALSE) %>%
-#   group_by(Subject,Order,Task_Relevant_Context,Transition,Congruency) %>%
-#   summarize(vjoutRT = mean(vjoutRT)) %>%
-#   spread(Congruency, vjoutRT) %>%
-#   mutate(Diff = inc - con) %>%
-#   filter(!is.na(Diff)) %>%
-#   group_by(Order,Task_Relevant_Context,Transition) %>%
-#   summarize(
-#     n = n(),
-#     m = mean(Diff),
-#     sd = sd(Diff),
-#     se = sd/sqrt(n)
-#   )
-# 
-# 
-# 
-# limits <- aes(ymax = m + se, ymin = m - se)
-# ggplot(RT.summary,aes(x=Order, y=m, fill=Transition))+
-#   scale_fill_manual(values=c("#018571", "#80cdc1"))+
-#   geom_bar(stat="identity", position=position_dodge(width=0.9), colour = "black") + 
-#   geom_errorbar(limits, width = .2, position=position_dodge(width=0.9))+
-#   coord_cartesian(ylim = c(0,150))+
-#   scale_y_continuous(breaks=seq(0, 150, 10), expand = c(0,0))+
-#   theme(axis.text=element_text(size=7.5),
-#         axis.title=element_text(size=10,face="bold")) +
-#   labs(title="")+
-#   ylab("Congruency Effect (ms)")+
-#   theme(       legend.position=c(1,1),
-#                legend.justification = c(1,1),
-#                legend.direction = "horizontal",
-#                legend.background = element_rect(colour = "black", fill = "white", size=1),
-#                legend.box.background = element_rect(colour = "black"),
-#                legend.margin = margin(t = .1, r = .10, b = .05, l = .1, unit = "cm"),
-#                legend.text = element_text(size = 8),
-#                legend.title = element_text(size = 8)
-#   ) +
-#   guides(fill=guide_legend(title="Transition",title.position = "top"))
-# 
-# aov_car(vjoutRT ~ Congruency*Transition*Order + Error(Subject/Congruency*Transition), data = RT.DF %>% filter(Frequency == "unbiased", 
-#                                                                                               Transition != "other",
-#                                                                                               Subject%in%missing == FALSE
-#                                                                                               ))
-
-# 
-# aov_car(vjoutRT ~ Congruency*Transition + Error(Subject/Congruency*Transition), 
-#         data = RT.DF %>% filter(Frequency == "unbiased", 
-#                                 Transition != "other",
-#                                 Subject%in%missing == FALSE,
-#                                 Order == "MC-MI"
-#                                 )
-#         )
 
 
-
-
-
-RT.summary <- RT.DF %>%
+RT.DF <- RT.DF %>%
   filter(!is.nan(vjoutRT)) %>%
   filter(Frequency == "unbiased",
          Transition != "other",
@@ -356,17 +228,17 @@ RT.summary <- RT.DF %>%
   group_by(Subject,Order,Task_Relevant_Context,Congruency) %>%
   summarize(vjoutRT = mean(vjoutRT)) %>%
   spread(Congruency, vjoutRT) %>%
-  mutate(Diff = inc - con) %>%
-  filter(!is.na(Diff)) %>%
+  mutate(CE = inc - con) %>%
+  filter(!is.na(CE))
+
+RT.summary <- RT.DF %>%
   group_by(Order,Task_Relevant_Context) %>%
   summarize(
     n = n(),
-    m = mean(Diff),
-    sd = sd(Diff),
+    m = mean(CE),
+    sd = sd(CE),
     se = sd/sqrt(n)
   )
-
-
 
 limits <- aes(ymax = m + se, ymin = m - se)
 transition_plot <- ggplot(RT.summary,aes(x=Order, y=m, fill=Task_Relevant_Context))+
@@ -377,8 +249,9 @@ transition_plot <- ggplot(RT.summary,aes(x=Order, y=m, fill=Task_Relevant_Contex
   scale_y_continuous(breaks=seq(0, 150, 10), expand = c(0,0))+
   theme(axis.text=element_text(size=7.5),
         axis.title=element_text(size=10,face="bold")) +
-  labs(title="At Phase Boundary")+
+  labs(title="At the Phase Boundary")+
   ylab("Congruency Effect (ms)")+
+  xlab("Phase Order") +
   theme(       legend.position=c(1,1),
                legend.justification = c(1,1),
                legend.direction = "horizontal",
@@ -391,121 +264,11 @@ transition_plot <- ggplot(RT.summary,aes(x=Order, y=m, fill=Task_Relevant_Contex
   ) +
   guides(fill=guide_legend(title="Task Relevant Context",title.position = "top"))
 
-E1_Order_B <- aov_car(vjoutRT ~ Congruency*Task_Relevant_Context*Order + Error(Subject/Congruency*Task_Relevant_Context), data = RT.DF %>% filter(Frequency == "unbiased", 
-                                                                                                              Transition != "other",
-                                                                                                              Subject%in%missing == FALSE
-))
+E1_Order_B <- aov_car(CE ~ Task_Relevant_Context*Order + Error(Subject/Task_Relevant_Context), data = RT.DF)
 
-E1_Order_B <- apa_print(E1_Order_B, es = "pes")$full_result
-
-
-################### Bayesian Analysis #####################
-
-
-RT.summary <- RT.DF %>%
-  filter(!is.nan(vjoutRT)) %>%
-  filter(Frequency == "unbiased",
-         Transition != "other",
-         Subject%in%missing == FALSE) %>%
-  group_by(Subject,Order,Task_Relevant_Context,Congruency) %>%
-  summarize(vjoutRT = mean(vjoutRT)) %>%
-  spread(Congruency, vjoutRT) %>%
-  mutate(Diff = inc - con) %>%
-  filter(!is.na(Diff)) %>%
-  group_by(Order,Task_Relevant_Context) %>%
-  summarize(
-    n = n(),
-    m = mean(Diff),
-    sd = sd(Diff),
-    se = sd/sqrt(n)
-  )
-
-
-## Analyze RTs for frequency unbiased items
-RT.Analysis <- RT.DF  %>%
-  filter(!is.nan(vjoutRT)) %>%
-  filter(Frequency == "unbiased",
-         Transition != "other",
-         Subject%in%missing == FALSE) %>%
-  group_by(Subject,Order,Task_Relevant_Context,Congruency) %>%
-  summarize(vjoutRT = mean(vjoutRT)) %>%
-  spread(Congruency, vjoutRT) %>%
-  mutate(Diff = inc - con) %>%
-  filter(!is.na(Diff))
-
-
-
-RT_BF_E1_exploreB = BayesFactor::anovaBF(Diff ~ Order*Task_Relevant_Context + Subject, data = RT.Analysis,
-                          whichRandom="Subject", iterations=10000)
-
-
-
-# aov_car(vjoutRT ~ Congruency*Transition + Error(Subject/Congruency*Transition), 
-#         data = RT.DF %>% filter(Frequency == "unbiased", 
-#                                 Transition != "other",
-#                                 Subject%in%missing == FALSE,
-#                                 Order == "MC-MI"
-#         )
-# )
-
-
-## Exploratory analysis:  Biased items w/ order
-
-# summarize by subject
-# RT.DF <- raw_data %>%
-#   filter(
-#     RT < 3000,
-#     RT > 0,
-#     ACC == TRUE,
-#     Subject%in%low_acc == FALSE
-#   ) %>%
-#   group_by(Condition,Subject,Order,Phase,Block,Frequency,Task_Relevant_Context,Congruency)%>%
-#   mutate(outlier = RT%in%vjoutNR(RT,4)) %>%
-#   filter(outlier == FALSE) %>%
-#   group_by(Condition,Subject,Order,Phase,Frequency,Task_Relevant_Context,Congruency)%>%
-#   summarize(vjoutRT = mean(RT))
-# 
-# 
-# 
-# RT.summary <- RT.DF %>%
-#   filter(!is.nan(vjoutRT)) %>%
-#   filter(Frequency == "biased") %>%
-#   group_by(Subject,Order,Task_Relevant_Context,Congruency) %>%
-#   summarize(vjoutRT = mean(vjoutRT)) %>%
-#   group_by(Order,Task_Relevant_Context,Congruency) %>%
-#   summarize(
-#     n = n(),
-#     m = mean(vjoutRT),
-#     sd = sd(vjoutRT),
-#     se = sd/sqrt(n)
-#   )
-# 
-# limits <- aes(ymax = m + se, ymin = m - se)
-# ggplot(RT.summary,aes(x=Task_Relevant_Context, y=m, fill=Congruency))+
-#   geom_bar(stat="identity", position=position_dodge(width=0.9), colour = "black") + 
-#   scale_fill_manual(values=c("gray60", "white"))+
-#   geom_errorbar(limits, width = .2, position=position_dodge(width=0.9))+
-#   coord_cartesian(ylim = c(500,900))+
-#   scale_y_continuous(breaks=seq(500, 900, 20), expand = c(0,0))+
-#   theme(axis.text=element_text(size=7.5),
-#         axis.title=element_text(size=10,face="bold")) +
-#   labs(title="")+
-#   ylab("Congruency Effect (ms)")+
-#   theme(       legend.position=c(1,1),
-#                legend.justification = c(1,1),
-#                legend.direction = "horizontal",
-#                legend.background = element_rect(colour = "black", fill = "white", size=1),
-#                legend.box.background = element_rect(colour = "black"),
-#                legend.margin = margin(t = .1, r = .10, b = .05, l = .1, unit = "cm"),
-#                legend.text = element_text(size = 8),
-#                legend.title = element_text(size = 8)
-#   ) +
-#   #guides(fill=guide_legend(title="Congruency",title.position = "top")) +
-#   facet_wrap(~Order)
-# 
-# 
-# aov_car(vjoutRT ~ Congruency*Task_Relevant_Context*Order + Error(Subject/Congruency*Task_Relevant_Context), data = RT.DF %>% filter(Frequency == "biased"))
-
+E1_Order_B <- print_apa_ci(E1_Order_B)
+E1_Order_B_BF = BayesFactor::anovaBF(CE ~ Task_Relevant_Context*Order + Subject, data = RT.DF, whichRandom="Subject", iterations = 10000)
+pE1_Order_B_BF = print_bf(E1_Order_B_BF)
 
 
 ########## ARRANGE #########
@@ -520,6 +283,7 @@ figure2B<-plot_grid(order_effect_plot,NULL,transition_plot,
 
 ggsave("figure2B.pdf", device = "pdf", dpi = 600,
        width = 6.875, height = 4, units = "in") 
+
 
 
 

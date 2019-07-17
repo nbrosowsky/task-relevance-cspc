@@ -167,6 +167,7 @@ The experiments were programmed using JavaScript, CSS and HTML. The program allo
 \subsection{Design}\label{design}}
 
 Experiment 1 used a 2x2x3 mixed design with task-relevant context (0\% and 100\%) and unbiased-item congruency (congruent and incongruent) as within-subject factors, and context-type (object, social, and social/non-repeating) as the between-subjects factor.
+
 All three conditions were constructed using the same general method. The experiment was divided into two phases. Each phase consisted of 144 flanker trials (48 trials per context), and 13 count response trials for a total of 314 trials. On the count response trials, participants indicated how many trials they had counted until that point. The count response trials occurred once for every 12 flanker trials and was randomly inserted between trial 6 and 12 of each 12-trial block. Each phase ended with one additional count response trial.
 
 On every flanker trial, participants were presented with flanker stimuli paired with one of three contexts. Each context was associated with a different proportion congruency such that two cues were associated with a biased frequency (0\% and 100\% proportion congruency), while one was associated with an unbiased frequency (50\% proportion congruency). The feature dimensions and corresponding context images assigned to each of the biased and unbiased item sets were randomly determined for each participant. However, context images used for the frequency biased trials never shared features, while the frequency unbiased context image always shared a feature with each of the frequency biased context images (see Figure 1). Additionally, the feature assignments remained the same throughout phases 1 and 2, and critically, the only change to the task was which feature the participant was instructed to count (see Figure 1C for an example).
@@ -191,41 +192,43 @@ Halfway through the experiment (157 trials), participants received new instructi
 
 
 \hypertarget{data-analysis}{%
-\section{Data Analysis}\label{data-analysis}}
+\subsection{Data Analysis}\label{data-analysis}}
 
-All analyses in this and the following experiments were performed in R (R Core Team, 2019) using a variety of R packages (). In particular, we used the afex and car packages (Fox \& Weisberg, 2019; Singmann, Bolker, Westfall, \& Aust, 2019) to perform all the Null Hypothesis Significance Tests, the BayesFactor package to perform Bayesian analyses (Morey \& Rouder, 2018), and the conflictPower package to perform the simulation-based sensitivity and power analyses (Crump \& Brosowsky, 2019). All data and scripts can be found
+All analyses in this and the following experiments were performed in R (R Core Team, 2019) using a variety of R packages and resources (Aust \& Barth, 2018; Wickham, 2016; Wickham, François, Henry, \& Müller, 2019; Wilke, 2019). Of particular note: we used the afex and car packages to perform all the Null Hypothesis Significance Tests (Fox \& Weisberg, 2019; Singmann, Bolker, Westfall, \& Aust, 2019), the BayesFactor package to perform Bayesian analyses (Morey \& Rouder, 2018), and the conflictPower package to perform the simulation-based sensitivity and power analyses (Crump \& Brosowsky, 2019). All data and scripts can be found on the Open Science Framework (\url{https://osf.io/ztcyb/}).
 
-We supplemented each Null Hypothesis Significance Test with a Bayes Factor analysis (Rouder, Speckman.. 2009). Using conventional frequentist testing it is not possible to quantify the evidence for a null effect. Bayes Factors, however, quantify the degree to which the observed data are compatible with either the alternative or null hypothesis (Dienes, 2014; Rouder et al., 2014). All Bayesian analyses were performed using the R package BayesFactor Version XXXXX and Bayes Factors (BFs) were calculated using its default settings (Morey and Rouder, 2014). Following the guidelines recommended by Rouder et al.~(2009)
+We supplemented each Null Hypothesis Significance Test with a Bayes Factor analysis (Rouder, Speckman, Sun, Morey, \& Iverson, 2009). Using conventional frequentist testing it is not possible to quantify the evidence for a null effect. A Bayes Factor, however, is a continuous measure of the relative strength of evidence and can quantify the degree to which the data are compatible with the null over the alternative hypothesis (Dienes, 2014; Rouder et al., 2009). All Bayesian analyses were performed using the R package BayesFactor and Bayes Factors (\(\mathrm{BFs}\)) were calculated using its default settings (Morey \& Rouder, 2018). \(\mathrm{BF}_{\textrm{10}}\) indicates evidence in favor of the alternative hypothesis whereas \(\mathrm{BF}_{\textrm{01}}\) indicates evidence in favor of the null hypothesis. To simplify the interpretation, we report the Bayes Factor in the direction the data supports (e.g., \(\mathrm{BF}_{\textrm{01}}\) when there is more evidence in favor of the null over alternative hypothesis). As per previous recommendations, we refer to a \(\mathrm{BF > 3}\) as \enquote{moderate} and \(\mathrm{BF > 10}\) as \enquote{strong} evidence (Jeffreys, 1961; Rouder et al., 2009).
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
 
 Participants with mean error rates greater than 25\% were excluded from the analyses, eliminating 13 participants. For all remaining participants, the correct RTs from frequency unbiased trials in each condition were submitted to an outlier removal procedure. The non-recursive Van Selst and Jolicoeur outlier removal procedure was applied after removing response times greater than 3000 ms (Van Selst \& Jolicoeur, 1994). This procedure removed 3.39\% of the total observations.
 
-The primary question of interest was whether the task-relevance of context features associated with different levels of conflict would influence the size of the congruency effect for frequency unbiased items (see Table 1). To that end, congruency effects (incongruent minus congruent performance) from frequency unbiased trials were submitted to a mixed analysis of variance (ANOVA) with task-relevant context (0\% and 100\% PC) and context-type (object, social, and social/non-repeating) as the between-subjects factor.
+The primary question of interest was whether the task-relevance of context features associated with different levels of conflict would influence the size of the congruency effect for frequency unbiased items (see Table 1). To that end, congruency effects (incongruent minus congruent performance) from frequency unbiased trials were submitted to a mixed analysis of variance (ANOVA) with task-relevant context (0\% and 100\% PC) as the within-subjects factor and context-type (object, social, and social/non-repeating) as the between-subjects factor. We supplement each Null Hypothesis Significance Test with a corresponding Bayesian analysis.
 
-The results of the RT analysis revealed the critical, two-way interaction between task-relevant context and unbiased-item congruency to be significant, \(F(1, 128) = 8.30\), \(\mathit{MSE} = 3,217.08\), \(p = .005\), \(\hat{\eta}^2_p = .061\) 90\% CI \([0.01\), \(0.14]\), demonstrating smaller congruency effects when the context dimension associated with high conflict was made task-relevant. Additionally, the three-way interaction between the task-relevant context, unbiased-item congruency, and context-type was non-significant, \(F(2, 128) < 0.01\), \(\mathit{MSE} = 3,217.08\), \(p = .996\), \(\hat{\eta}^2_p < .001\) 90\% CI \([0\), \(1]\), showing no evidence for differences between the CSPC effects across context-type manipulations.
+The results of the reaction time analysis revealed a significant effect of the task-relevant context, \(F(1, 128) = 8.30\), \(\mathit{MSE} = 3,217.08\), \(p = .005\), \(\hat{\eta}^2_p = .061\), 90\% CI \([0.01\), \(0.14]\), with moderate evidence in favor of the alternative, \(\mathrm{BF}_{\textrm{10}} = 6.87\) \([\pm 1.41\%]\). Specifically, we found smaller congruency effects when the context dimension associated with high conflict was made task-relevant as compared to when the low conflict dimension was made task-relevant. The main effect of context-type, however, was non-significant, \(F(2, 128) = 1.51\), \(\mathit{MSE} = 6,368.18\), \(p = .225\), \(\hat{\eta}^2_p = .023\), 90\% CI \([0\), \(0.07]\), with moderate evidence in favor of the null hypothesis, \(\mathrm{BF}_{\textrm{01}} = 3.96\) \([\pm 1.52\%]\). The two-way interaction between the task-relevant context and context-type was also non-significant, \(F(2, 128) < 0.01\), \(\mathit{MSE} = 3,217.08\), \(p = .996\), \(\hat{\eta}^2_p < .001\), 90\% CI \([0\), \(1]\), with moderate evidence in favor of the null hypothesis, \(\mathrm{BF}_{\textrm{01}} = 7.9\) \([\pm 1.49\%]\). Finally, the preferred model containing only the task-relevant context was preferred over the model containing the both factors and the interaction by a factor of \(54.25\) \([\pm 2.05\%]\). Therefore, congruency effects did not vary across context-types and, more importantly, the effect of task-relevance did not vary across context-types.
 
-Similarly, the corresponding error analysis also resulted in a significant two-way interaction between the task-relevant context and unbiased-item congruency, \(F(1, 128) = 6.72\), \(\mathit{MSE} = 27.87\), \(p = .011\), \(\hat{\eta}^2_p = .050\), and a non-significant three-way interaction between task-relevant context, unbiased-item congruency, and context-type, \(F(2, 128) = 0.92\), \(\mathit{MSE} = 27.87\), \(p = .400\), \(\hat{\eta}^2_p = .014\). Therefore, the congruency effects in error rates were also smaller when the context dimension associated with high conflict was made task-relevant, corroborating the results of the reaction time analysis.
+Similarly, the corresponding error analysis also resulted a significant effect of the task-relevant context, \(F(1, 128) = 6.72\), \(\mathit{MSE} = 27.87\), \(p = .011\), \(\hat{\eta}^2_p = .050\), 90\% CI \([0.01\), \(0.12]\), with moderate evidence in favor of the alternative evidence \(\mathrm{BF}_{\textrm{10}} = 3.13\) \([\pm 5.2\%]\); A non-significant effect of context-type, \(F(2, 128) = 0.81\), \(\mathit{MSE} = 51.40\), \(p = .449\), \(\hat{\eta}^2_p = .012\), 90\% CI \([0\), \(0.05]\), with moderate evidence for the null hypothesis, \(\mathrm{BF}_{\textrm{01}} = 7.54\) \([\pm 1.22\%]\); And a non-significant interaction between task-relevant context and context-type,\(F(2, 128) = 0.92\), \(\mathit{MSE} = 27.87\), \(p = .400\), \(\hat{\eta}^2_p = .014\), 90\% CI \([0\), \(0.05]\), with strong evidence in favor of the null hypothesis,\(\mathrm{BF}_{\textrm{01}} = 15.04\) \([\pm 2.57\%]\). Therefore, the congruency effects in error rates were also smaller when the context dimension associated with high conflict was made task-relevant and effects did not vary across context-type, corroborating the results of the reaction time analysis.
 
 \hypertarget{exploratory-analyses-order-effects}{%
-\subsection{Exploratory Analyses: Order Effects}\label{exploratory-analyses-order-effects}}
+\subsection{Exploratory analyses: Order effects}\label{exploratory-analyses-order-effects}}
 
 \begin{figure}
 \centering
 \includegraphics{manuscript_pretty_files/figure-latex/figure2b-1.pdf}
-\caption{\label{fig:figure2b}Results from Experiment 1 showing congruency effects (incongruent - congruent) for frequency unbiased items in reaction times (left) and error rates (right) as a function of the task-relevant context (100\% proportion congruent versus 0\% proportion congruent). Task-relevance was manipulated by the secondary feature-counting task.}
+\caption{\label{fig:figure2b}Results from Experiment 1 showing congruency effects (incongruent - congruent) for frequency unbiased items in reaction times as a function of the task-relevant context (100\% proportion congruent versus 0\% proportion congruent) and phase order (100\% to 0\% PC versus 0\% to 100\% PC). Figure A shows a summary of the data containing all trials, whereas Figure B shows a summary of the data restricted to the 24 trials immediately before and 24 trials immediately after the transition. In both cases, the analyses resulted in no significant interaction (\(p > .05\)) and moderate evidence in favor of the null hypothesis (\(\mathrm{BF}_{\textrm{01}} > 3\)).}
 \end{figure}
 
-Previous work has shown that the effects of shifting between list-wide proportion congruent phases is asymmetrical. Abrahamse et al\ldots{}. found that\ldots{} In our study, we were primarily interested in whether (a) participants could use context cues despite the presence of competing, contradictory cues, and (b) whether participants could switch from one context cue to another. We therefore randomized the order across participants to control for the effects of order. However, given that we did find systematic shifts in the CSPC effect for unbiased items, we can also ask whether the shift between phases was symmetrical in our study.
 
-To address this question, we collapsed over context-type and categorized participants according to the order of the counting task: 100\% congruent to 0\% congruent (100\%-0\%) or 0\% congruent to 100\% congruent (0\%-100\%). We again removed participants with error rates greater than 25\% and adopted the same outlier removal procedure as described above. We submitted mean correct RTs for frequency unbiased items to a 2x2x2 mixed ANOVA with task-relevant context (0\% and 100\% PC) and unbiased-item congruency (congruent and incongruent) as within-subject factors, and phase order (100\%-0\% and 0\%-100\%) as the between-subjects factor.
 
-Consistent with the original analysis, two-way interaction between task-relevant context and congruency remained significant,\(F(1, 129) = 8.92\), \(\mathit{MSE} = 1,627.84\), \(p = .003\), \(\hat{\eta}^2_p = .065\). However, the three-way interaction was non-significant, \(F(1, 129) = 2.56\), \(\mathit{MSE} = 1,627.84\), \(p = .112\), \(\hat{\eta}^2_p = .019\). Therefor, we did not find statistical support for a list-shift asymmetry. Additionally, the asymmetry we do see in this sample is in the opposite direction than would be predicted given the prior results ().
+Previous work has shown that shifting between list-wide proportion congruent phases produced asymmetrical effects. Specifically, Abrahamse, Duthoo, Notebaert, and Risko (2013) found that shifting from a mostly-congruent to mostly-incongruent list produced a large change in the size of the congruency effect, whereas shifting from a mostly-incongruent to mostly-congruent list produced a relatively small change in congruency effects. The authors suggested that the assymetry is caused by a learned attentional modulation in the mostly-incongruent block carrying over into the mostly-congruent block. In our study, we were primarily interested in whether (a) participants could use context cues despite the presence of competing, contradictory cues, and (b) whether participants could switch from the use of one context cue to another. We therefore randomized the order across participants to control for the effects of order. However, given that we did find systematic shifts in the CSPC effect for unbiased items, we can also ask whether the shift between phases was asymmetrical.
 
-We also conducted a more severe test of the list-shift hypothesis. Abrahamse et al.'s interpretation of the list shift effect was that participants had to learn to adjust to the new cues. Therefore, we might expect that any asymmetry would be exaggerated near the point of transition. We repeated the above analysis but restricted it to the 24 trials immediately before the transition and 24 trials immediately after the transition.
+To address this question, we collapsed over context-type and categorized participants according to the order of the counting task: 100\% congruent to 0\% congruent (100\%-0\%) or 0\% congruent to 100\% congruent (0\%-100\%). We again removed participants with error rates greater than 25\% and adopted the same outlier removal procedure as described above. We submitted congruency effects for frequency unbiased items to a 2x2 mixed ANOVA with task-relevant context (0\% and 100\% PC) as within-subject factors and phase order (100\%-0\% and 0\%-100\%) as the between-subjects factor, and supplemented each test with a corresponding Bayesian analysis.
 
-Again, the three-way interaction was non-significant, \(F(1, 129) = 0.02\), \(\mathit{MSE} = 2,866.15\), \(p = .902\), \(\hat{\eta}^2_p = .000\). Interestingly, the two-way interaction between congruency and task-relevant context is also still significant, \(F(1, 129) = 6.65\), \(\mathit{MSE} = 2,866.15\), \(p = .011\), \(\hat{\eta}^2_p = .049\). This result supports the notion there was no asymmetry and that the shift in context-dependent effects occur almost immediately after the transition.
+Consistent with the original analysis, the effect of task-relevant context was significant,\(F(1, 129) = 8.92\), \(\mathit{MSE} = 3,255.69\), \(p = .003\), \(\hat{\eta}^2_p = .065\), 90\% CI \([0.01\), \(0.14]\), with moderate evidence in favor of the alternative, \(\mathrm{BF}_{\textrm{10}} = 8.11\) \([\pm 0.83\%]\). However, the two-way interaction between task-relevant context and phase order was non-significant, \(F(1, 129) = 2.56\), \(\mathit{MSE} = 3,255.69\), \(p = .112\), \(\hat{\eta}^2_p = .019\), 90\% CI \([0\), \(0.07]\), with moderate evidence in favor of the null hypothesis, \(\mathrm{BF}_{\textrm{01}} = 4.92\) \([\pm 2.95\%]\). Therefor, we did not find statistical support for a list-shift asymmetry. Additionally, the (non-significant) asymmetry we do see in this sample is in the opposite direction than would be predicted given the prior research (e.g., Abrahamse et al., 2013).
+
+Additionally, we conducted a more severe test of the list-shift hypothesis. Given that the asymmetry is interpreted as resulting from a carry-over of learned attentional modulation across phases, we might expect that any asymmetry would be exaggerated near the point of transition. We therefore repeated the above analysis but restricted it to the 24 trials immediately before the transition and 24 trials immediately after the transition.
+
+Again, the interaction between task-relevant context and phase order was non-significant, \(F(1, 129) = 0.02\), \(\mathit{MSE} = 5,732.31\), \(p = .902\), \(\hat{\eta}^2_p < .001\), 90\% CI \([0\), \(0.01]\), with moderate to strong evidence in favor of the null \(\mathrm{BF}_{\textrm{01}} = 8.88\) \([\pm 2.88\%]\). Interestingly, the main effect of task-relevant context was still significant, \(F(1, 129) = 6.65\), \(\mathit{MSE} = 5,732.31\), \(p = .011\), \(\hat{\eta}^2_p = .049\), 90\% CI \([0.01\), \(0.12]\), with moderate evidence in favor of the alternative, \(\mathrm{BF}_{\textrm{10}} = 3.22\) \([\pm 2.16\%]\). This result supports the conclusion that there was no asymmetry. Additionally, the the shift in context-dependent effects appears to have taken place almost immediately after the transition.
 
 \begin{table}[htbp]
 \caption{Reaction times and error rates from Experiment 1.}
@@ -397,76 +400,85 @@ In sum, our results provide new evidence that changes in task-relevance can upda
 
 \hypertarget{refs}{}
 \leavevmode\hypertarget{ref-abrahamse_grounding_2016}{}%
-Abrahamse, E., Braem, S., Notebaert, W., \& Verguts, T. (2016). Grounding cognitive control in associative learning. \emph{Psychological Bulletin}, \emph{142}, 693--728. \url{https://doi.org/10.1037/bul0000047}
+Abrahamse, E., Braem, S., Notebaert, W., \& Verguts, T. (2016). Grounding cognitive control in associative learning. \emph{Psychological Bulletin}, \emph{142}, 693--728. doi:\href{https://doi.org/10.1037/bul0000047}{10.1037/bul0000047}
+
+\leavevmode\hypertarget{ref-abrahamse_attention_2013}{}%
+Abrahamse, E. L., Duthoo, W., Notebaert, W., \& Risko, E. F. (2013). Attention modulation by proportion congruency: The asymmetrical list shifting effect. \emph{Journal of Experimental Psychology: Learning, Memory, and Cognition}, \emph{39}, 1552. Retrieved from \url{http://psycnet.apa.org/journals/xlm/39/5/1552/}
 
 \leavevmode\hypertarget{ref-alards-tomalin_auditory_2017}{}%
-Alards-Tomalin, D., Brosowsky, N. P., \& Mondor, T. A. (2017). Auditory statistical learning: Predictive frequency information affects the deployment of contextually mediated attentional resources on perceptual tasks. \emph{Journal of Cognitive Psychology}, \emph{29}, 977--987. \url{https://doi.org/10.1080/20445911.2017.1353518}
+Alards-Tomalin, D., Brosowsky, N. P., \& Mondor, T. A. (2017). Auditory statistical learning: Predictive frequency information affects the deployment of contextually mediated attentional resources on perceptual tasks. \emph{Journal of Cognitive Psychology}, \emph{29}, 977--987. doi:\href{https://doi.org/10.1080/20445911.2017.1353518}{10.1080/20445911.2017.1353518}
+
+\leavevmode\hypertarget{ref-r_papaja_2018}{}%
+Aust, F., \& Barth, M. (2018). \emph{papaja: Create APA manuscripts with R Markdown}. Retrieved from \url{https://github.com/crsh/papaja}
 
 \leavevmode\hypertarget{ref-blais_trial-by-trial_2015}{}%
-Blais, C., Harris, M. B., Sinanian, M. H., \& Bunge, S. A. (2015). Trial-by-trial adjustments in control triggered by incidentally encoded semantic cues. \emph{The Quarterly Journal of Experimental Psychology}, \emph{68}, 1920--1930. \url{https://doi.org/10.1080/17470218.2014.1000346}
+Blais, C., Harris, M. B., Sinanian, M. H., \& Bunge, S. A. (2015). Trial-by-trial adjustments in control triggered by incidentally encoded semantic cues. \emph{The Quarterly Journal of Experimental Psychology}, \emph{68}, 1920--1930. doi:\href{https://doi.org/10.1080/17470218.2014.1000346}{10.1080/17470218.2014.1000346}
 
 \leavevmode\hypertarget{ref-brady_visual_2013}{}%
-Brady, T. F., Konkle, T., Gill, J., Oliva, A., \& Alvarez, G. A. (2013). Visual long-term memory has the same limit on fidelity as visual working memory. \emph{Psychological Science}, \emph{24}, 981--990. \url{https://doi.org/10.1177/0956797612465439}
+Brady, T. F., Konkle, T., Gill, J., Oliva, A., \& Alvarez, G. A. (2013). Visual long-term memory has the same limit on fidelity as visual working memory. \emph{Psychological Science}, \emph{24}, 981--990. doi:\href{https://doi.org/10.1177/0956797612465439}{10.1177/0956797612465439}
 
 \leavevmode\hypertarget{ref-brewer_dual_1988}{}%
 Brewer, M. B. (1988). A dual process model of impression formation. In R. S. Wyer Jr \& T. K. Srull (Eds.), \emph{A dual-process model of impression formation: Advances in social cognition} (Vol. 1, pp. 1--36). Hillsdale, NJ: Erlbaum.
 
 \leavevmode\hypertarget{ref-brosowsky_context-specific_2016}{}%
-Brosowsky, N. P., \& Crump, M. J. (2016). Context-specific attentional sampling: Intentional control as a pre-requisite for contextual control. \emph{Consciousness and Cognition}, \emph{44}, 146--160. \url{https://doi.org/10.1016/j.concog.2016.07.001}
+Brosowsky, N. P., \& Crump, M. J. (2016). Context-specific attentional sampling: Intentional control as a pre-requisite for contextual control. \emph{Consciousness and Cognition}, \emph{44}, 146--160. doi:\href{https://doi.org/10.1016/j.concog.2016.07.001}{10.1016/j.concog.2016.07.001}
 
 \leavevmode\hypertarget{ref-brosowsky_memory-guided_2018}{}%
-Brosowsky, N. P., \& Crump, M. J. C. (2018). Memory-guided selective attention: Single experiences with conflict have long-lasting effects on cognitive control. \emph{Journal of Experimental Psychology: General}, \emph{147}, 1134--1153. \url{https://doi.org/10.1037/xge0000431}
+Brosowsky, N. P., \& Crump, M. J. C. (2018). Memory-guided selective attention: Single experiences with conflict have long-lasting effects on cognitive control. \emph{Journal of Experimental Psychology: General}, \emph{147}, 1134--1153. doi:\href{https://doi.org/10.1037/xge0000431}{10.1037/xge0000431}
 
 \leavevmode\hypertarget{ref-bugg_conflict-triggered_2014}{}%
 Bugg, J. (2014). Conflict-triggered top-down control: Default mode, last resort, or no such thing? \emph{Journal of Experimental Psychology: Learning, Memory, and Cognition}, \emph{40}(2), 567.
 
 \leavevmode\hypertarget{ref-bugg_support_2012}{}%
-Bugg, J., \& Crump, M. J. (2012). In support of a distinction between voluntary and stimulus-driven control: A review of the literature on proportion congruent effects. \emph{Frontiers in Psychology}, \emph{3}, 367. \url{https://doi.org/10.3389/fpsyg.2012.00367}
+Bugg, J., \& Crump, M. J. (2012). In support of a distinction between voluntary and stimulus-driven control: A review of the literature on proportion congruent effects. \emph{Frontiers in Psychology}, \emph{3}, 367. doi:\href{https://doi.org/10.3389/fpsyg.2012.00367}{10.3389/fpsyg.2012.00367}
 
 \leavevmode\hypertarget{ref-bugg_converging_2013}{}%
 Bugg, J., \& Hutchison, K. A. (2013). Converging evidence for control of color--word Stroop interference at the item level. \emph{Journal of Experimental Psychology: Human Perception and Performance}, \emph{39}(2), 433.
 
 \leavevmode\hypertarget{ref-bugg_multiple_2008}{}%
-Bugg, J., Jacoby, L. L., \& Toth, J. P. (2008). Multiple levels of control in the Stroop task. \emph{Memory \& Cognition}, \emph{36}, 1484--1494. \url{https://doi.org/10.3758/MC.36.8.1484}
+Bugg, J., Jacoby, L. L., \& Toth, J. P. (2008). Multiple levels of control in the Stroop task. \emph{Memory \& Cognition}, \emph{36}, 1484--1494. doi:\href{https://doi.org/10.3758/MC.36.8.1484}{10.3758/MC.36.8.1484}
 
 \leavevmode\hypertarget{ref-canadas_social_2013}{}%
-Cañadas, E., Rodríguez-Bailón, R., Milliken, B., \& Lupiáñez, J. (2013). Social categories as a context for the allocation of attentional control. \emph{Journal of Experimental Psychology: General}, \emph{142}, 934--943. \url{https://doi.org/10.1037/a0029794}
+Cañadas, E., Rodríguez-Bailón, R., Milliken, B., \& Lupiáñez, J. (2013). Social categories as a context for the allocation of attentional control. \emph{Journal of Experimental Psychology: General}, \emph{142}, 934--943. doi:\href{https://doi.org/10.1037/a0029794}{10.1037/a0029794}
 
 \leavevmode\hypertarget{ref-corballis_independent_2003}{}%
-Corballis, P. M., \& Gratton, G. (2003). Independent control of processing strategies for different locations in the visual field. \emph{Biological Psychology}, \emph{64}, 191--209. \url{https://doi.org/10.1016/S0301-0511(03)00109-1}
+Corballis, P. M., \& Gratton, G. (2003). Independent control of processing strategies for different locations in the visual field. \emph{Biological Psychology}, \emph{64}, 191--209. doi:\href{https://doi.org/10.1016/S0301-0511(03)00109-1}{10.1016/S0301-0511(03)00109-1}
 
 \leavevmode\hypertarget{ref-crisp_multiple_2007}{}%
 Crisp, R. J., \& Hewstone, M. (2007). Multiple social categorization. \emph{Advances in Experimental Social Psychology}, \emph{39}, 163--254.
 
 \leavevmode\hypertarget{ref-crump_learning_2016}{}%
-Crump, M. J. (2016). Learning to selectively attend from context-specific attentional histories: A demonstration and some constraints. \emph{Canadian Journal of Experimental Psychology/Revue Canadienne de Psychologie Expérimentale}, \emph{70}, 59--77. \url{https://doi.org/10.1037/cep0000066}
+Crump, M. J. (2016). Learning to selectively attend from context-specific attentional histories: A demonstration and some constraints. \emph{Canadian Journal of Experimental Psychology/Revue Canadienne de Psychologie Expérimentale}, \emph{70}, 59--77. doi:\href{https://doi.org/10.1037/cep0000066}{10.1037/cep0000066}
 
 \leavevmode\hypertarget{ref-crump_reproducing_2017}{}%
-Crump, M. J., Brosowsky, N. P., \& Milliken, B. (2017). Reproducing the location-based context-specific proportion congruent effect for frequency unbiased items: A reply to Hutcheon and Spieler (2016). \emph{The Quarterly Journal of Experimental Psychology}, \emph{70}, 1792--1807. \url{https://doi.org/10.1080/17470218.2016.1206130}
+Crump, M. J., Brosowsky, N. P., \& Milliken, B. (2017). Reproducing the location-based context-specific proportion congruent effect for frequency unbiased items: A reply to Hutcheon and Spieler (2016). \emph{The Quarterly Journal of Experimental Psychology}, \emph{70}, 1792--1807. doi:\href{https://doi.org/10.1080/17470218.2016.1206130}{10.1080/17470218.2016.1206130}
 
 \leavevmode\hypertarget{ref-r_conflictPower_2019}{}%
-Crump, M. J. C., \& Brosowsky, N. P. (2019). \emph{ConflictPower: Simulation based power analysis for adaptive control designs}.
+Crump, M. J. C., \& Brosowsky, N. P. (2019). \emph{ConflictPower: Simulation based power analysis for adaptive control designs}. Retrieved from \url{https://github.com/CrumpLab/conflictPower}
 
 \leavevmode\hypertarget{ref-crump_flexibility_2009}{}%
-Crump, M. J. C., \& Milliken, B. (2009). The flexibility of context-specific control: Evidence for context-driven generalization of item-specific control settings. \emph{The Quarterly Journal of Experimental Psychology}, \emph{62}, 1523--1532. \url{https://doi.org/10.1080/17470210902752096}
+Crump, M. J. C., \& Milliken, B. (2009). The flexibility of context-specific control: Evidence for context-driven generalization of item-specific control settings. \emph{The Quarterly Journal of Experimental Psychology}, \emph{62}, 1523--1532. doi:\href{https://doi.org/10.1080/17470210902752096}{10.1080/17470210902752096}
 
 \leavevmode\hypertarget{ref-crump_context-dependent_2018}{}%
 Crump, M. J. C., Milliken, B., Leboe-McGowan, J., Leboe-McGowan, L., \& Gao, X. (2018). Context-Dependent Control of Attention Capture: Evidence From Proportion Congruent Effects. \emph{Canadian Journal of Experimental Psychology= Revue Canadienne de Psychologie Experimentale}, \emph{74}, 91--104.
 
 \leavevmode\hypertarget{ref-crump_context-specific_2006}{}%
-Crump, M. J., Gong, Z., \& Milliken, B. (2006). The context-specific proportion congruent Stroop effect: Location as a contextual cue. \emph{Psychonomic Bulletin \& Review}, \emph{13}, 316--321. \url{https://doi.org/10.3758/BF03193850}
+Crump, M. J., Gong, Z., \& Milliken, B. (2006). The context-specific proportion congruent Stroop effect: Location as a contextual cue. \emph{Psychonomic Bulletin \& Review}, \emph{13}, 316--321. doi:\href{https://doi.org/10.3758/BF03193850}{10.3758/BF03193850}
 
 \leavevmode\hypertarget{ref-crump_context-specific_2008}{}%
-Crump, M. J., Vaquero, J. M., \& Milliken, B. (2008). Context-specific learning and control: The roles of awareness, task relevance, and relative salience. \emph{Consciousness and Cognition}, \emph{17}, 22--36. \url{https://doi.org/10.1016/j.concog.2007.01.004}
+Crump, M. J., Vaquero, J. M., \& Milliken, B. (2008). Context-specific learning and control: The roles of awareness, task relevance, and relative salience. \emph{Consciousness and Cognition}, \emph{17}, 22--36. doi:\href{https://doi.org/10.1016/j.concog.2007.01.004}{10.1016/j.concog.2007.01.004}
 
 \leavevmode\hypertarget{ref-devine_stereotypes_1989}{}%
 Devine, P. G. (1989). Stereotypes and prejudice: Their automatic and controlled components. \emph{Journal of Personality and Social Psychology}, \emph{56}(1), 5.
 
+\leavevmode\hypertarget{ref-dienes_using_2014}{}%
+Dienes, Z. (2014). Using Bayes to get the most out of non-significant results. \emph{Frontiers in Psychology}, \emph{5}. doi:\href{https://doi.org/10.3389/fpsyg.2014.00781}{10.3389/fpsyg.2014.00781}
+
 \leavevmode\hypertarget{ref-egner_creatures_2014}{}%
-Egner, T. (2014). Creatures of habit (and control): A multi-level learning perspective on the modulation of congruency effects. \emph{Frontiers in Psychology}, \emph{5}, 1247. \url{https://doi.org/10.3389/fpsyg.2014.01247}
+Egner, T. (2014). Creatures of habit (and control): A multi-level learning perspective on the modulation of congruency effects. \emph{Frontiers in Psychology}, \emph{5}, 1247. doi:\href{https://doi.org/10.3389/fpsyg.2014.01247}{10.3389/fpsyg.2014.01247}
 
 \leavevmode\hypertarget{ref-eriksen_effects_1974}{}%
-Eriksen, B. A., \& Eriksen, C. W. (1974). Effects of noise letters upon the identification of a target letter in a nonsearch task. \emph{Perception \& Psychophysics}, \emph{16}, 143--149. \url{https://doi.org/10.3758/BF03203267}
+Eriksen, B. A., \& Eriksen, C. W. (1974). Effects of noise letters upon the identification of a target letter in a nonsearch task. \emph{Perception \& Psychophysics}, \emph{16}, 143--149. doi:\href{https://doi.org/10.3758/BF03203267}{10.3758/BF03203267}
 
 \leavevmode\hypertarget{ref-fischer_predicting_2015}{}%
 Fischer, R., \& Dreisbach, G. (2015). Predicting high levels of multitasking reduces between-tasks interactions., \emph{41}, 1482--1487. Retrieved from \url{http://psycnet.apa.org/psycinfo/2015-47211-001/}
@@ -478,16 +490,19 @@ Fischer, R., Gottschalk, C., \& Dreisbach, G. (2014). Context-sensitive adjustme
 Fiske, S. T., \& Neuberg, S. L. (1990). A continuum of impression formation, from category-based to individuating processes: Influences of information and motivation on attention and interpretation. In \emph{Advances in experimental social psychology} (Vol. 23, pp. 1--74). Elsevier.
 
 \leavevmode\hypertarget{ref-r_car_2019}{}%
-Fox, J., \& Weisberg, S. (2019). \emph{An R companion to applied regression} (Third). Thousand Oaks CA: Sage. Retrieved from \url{https://socialsciences.mcmaster.ca/jfox/Books/Companion/}
+Fox, J., \& Weisberg, S. (2019). \emph{An R companion to applied regression} (Third.). Thousand Oaks CA: Sage. Retrieved from \url{https://socialsciences.mcmaster.ca/jfox/Books/Companion/}
 
 \leavevmode\hypertarget{ref-hutcheon_limits_2017}{}%
-Hutcheon, T. G., \& Spieler, D. H. (2017). Limits on the generalizability of context-driven control. \emph{Quarterly Journal of Experimental Psychology}, \emph{70}, 1292--1304. \url{https://doi.org/10.1080/17470218.2016.1182193}
+Hutcheon, T. G., \& Spieler, D. H. (2017). Limits on the generalizability of context-driven control. \emph{Quarterly Journal of Experimental Psychology}, \emph{70}, 1292--1304. doi:\href{https://doi.org/10.1080/17470218.2016.1182193}{10.1080/17470218.2016.1182193}
 
 \leavevmode\hypertarget{ref-hubner_location-specific_2016}{}%
-Hübner, R., \& Mishra, S. (2016). Location-specific attentional control is also possible in the Simon task. \emph{Psychonomic Bulletin \& Review}, \emph{23}, 1867--1872. \url{https://doi.org/10.3758/s13423-016-1057-y}
+Hübner, R., \& Mishra, S. (2016). Location-specific attentional control is also possible in the Simon task. \emph{Psychonomic Bulletin \& Review}, \emph{23}, 1867--1872. doi:\href{https://doi.org/10.3758/s13423-016-1057-y}{10.3758/s13423-016-1057-y}
+
+\leavevmode\hypertarget{ref-jeffreys1961theory}{}%
+Jeffreys, H. (1961). \emph{Theory of probability, clarendon}. Oxford: Oxford University Press, Clarendon Press.
 
 \leavevmode\hypertarget{ref-king_priming_2012}{}%
-King, J. A., Korb, F. M., \& Egner, T. (2012). Priming of control: Implicit contextual cuing of top-down attentional set. \emph{The Journal of Neuroscience}, \emph{32}, 8192--8200. \url{https://doi.org/10.1523/JNEUROSCI.0934-12.2012}
+King, J. A., Korb, F. M., \& Egner, T. (2012). Priming of control: Implicit contextual cuing of top-down attentional set. \emph{The Journal of Neuroscience}, \emph{32}, 8192--8200. doi:\href{https://doi.org/10.1523/JNEUROSCI.0934-12.2012}{10.1523/JNEUROSCI.0934-12.2012}
 
 \leavevmode\hypertarget{ref-logan_attention_1980}{}%
 Logan, G. D. (1980). Attention and automaticity in Stroop and priming tasks: Theory and data. \emph{Cognitive Psychology}, \emph{12}, 523--553.
@@ -496,7 +511,7 @@ Logan, G. D. (1980). Attention and automaticity in Stroop and priming tasks: The
 Logan, G. D. (1998). What is learned during automatization? II. Obligatory encoding of spatial location. \emph{Journal of Experimental Psychology: Human Perception and Performance}, \emph{24}, 1720.
 
 \leavevmode\hypertarget{ref-logan_when_1979}{}%
-Logan, G. D., \& Zbrodoff, N. J. (1979). When it helps to be misled: Facilitative effects of increasing the frequency of conflicting stimuli in a Stroop-like task. \emph{Memory \& Cognition}, \emph{7}, 166--174. \url{https://doi.org/10.3758/BF03197535}
+Logan, G. D., \& Zbrodoff, N. J. (1979). When it helps to be misled: Facilitative effects of increasing the frequency of conflicting stimuli in a Stroop-like task. \emph{Memory \& Cognition}, \emph{7}, 166--174. doi:\href{https://doi.org/10.3758/BF03197535}{10.3758/BF03197535}
 
 \leavevmode\hypertarget{ref-logan_strategies_1984}{}%
 Logan, G. D., Zbrodoff, N. J., \& Williamson, J. (1984). Strategies in the color-word Stroop task. \emph{Bulletin of the Psychonomic Society}, \emph{22}, 135--138.
@@ -505,7 +520,7 @@ Logan, G. D., Zbrodoff, N. J., \& Williamson, J. (1984). Strategies in the color
 Lowe, D. G., \& Mitterer, J. O. (1982). Selective and divided Attention in a Stroop task. \emph{Canadian Journal of Psychology/Revue Canadienne de Psychologie}, \emph{36}(4), 684.
 
 \leavevmode\hypertarget{ref-ma_chicago_2015}{}%
-Ma, D. S., Correll, J., \& Wittenbrink, B. (2015). The Chicago face database: A free stimulus set of faces and norming data. \emph{Behavior Research Methods}, \emph{47}, 1122--1135. \url{https://doi.org/10.3758/s13428-014-0532-5}
+Ma, D. S., Correll, J., \& Wittenbrink, B. (2015). The Chicago face database: A free stimulus set of faces and norming data. \emph{Behavior Research Methods}, \emph{47}, 1122--1135. doi:\href{https://doi.org/10.3758/s13428-014-0532-5}{10.3758/s13428-014-0532-5}
 
 \leavevmode\hypertarget{ref-macrae_social_2001}{}%
 Macrae, C. N., \& Bodenhausen, G. V. (2001). Social cognition: Categorical person perception. \emph{British Journal of Psychology}, \emph{92}, 239--255.
@@ -514,7 +529,7 @@ Macrae, C. N., \& Bodenhausen, G. V. (2001). Social cognition: Categorical perso
 Mayr, U. (1996). Spatial attention and implicit sequence learning: Evidence for independent learning of spatial and nonspatial sequences. \emph{Journal of Experimental Psychology: Learning, Memory, and Cognition}, \emph{22}, 350.
 
 \leavevmode\hypertarget{ref-mayr_outsourcing_2007}{}%
-Mayr, U., \& Bryck, R. L. (2007). Outsourcing control to the environment: Effects of stimulus/response locations on task selection. \emph{Psychological Research}, \emph{71}, 107--116. \url{https://doi.org/10.1007/s00426-005-0039-x}
+Mayr, U., \& Bryck, R. L. (2007). Outsourcing control to the environment: Effects of stimulus/response locations on task selection. \emph{Psychological Research}, \emph{71}, 107--116. doi:\href{https://doi.org/10.1007/s00426-005-0039-x}{10.1007/s00426-005-0039-x}
 
 \leavevmode\hypertarget{ref-r_bayesfactor_2018}{}%
 Morey, R. D., \& Rouder, J. N. (2018). \emph{BayesFactor: Computation of bayes factors for common designs}. Retrieved from \url{https://CRAN.R-project.org/package=BayesFactor}
@@ -522,32 +537,44 @@ Morey, R. D., \& Rouder, J. N. (2018). \emph{BayesFactor: Computation of bayes f
 \leavevmode\hypertarget{ref-r_software_2019}{}%
 R Core Team. (2019). \emph{R: A language and environment for statistical computing}. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from \url{https://www.R-project.org/}
 
+\leavevmode\hypertarget{ref-rouder_bayesian_2009}{}%
+Rouder, J. N., Speckman, P. L., Sun, D., Morey, R. D., \& Iverson, G. (2009). Bayesian t tests for accepting and rejecting the null hypothesis. \emph{Psychonomic Bulletin \& Review}, \emph{16}, 225--237. doi:\href{https://doi.org/10.3758/PBR.16.2.225}{10.3758/PBR.16.2.225}
+
 \leavevmode\hypertarget{ref-schmidt_stroop_2008}{}%
-Schmidt, J. R., \& Besner, D. (2008). The Stroop effect: Why proportion congruent has nothing to do with congruency and everything to do with contingency. \emph{Journal of Experimental Psychology: Learning, Memory, and Cognition}, \emph{34}, 514--523. \url{https://doi.org/10.1037/0278-7393.34.3.514}
+Schmidt, J. R., \& Besner, D. (2008). The Stroop effect: Why proportion congruent has nothing to do with congruency and everything to do with contingency. \emph{Journal of Experimental Psychology: Learning, Memory, and Cognition}, \emph{34}, 514--523. doi:\href{https://doi.org/10.1037/0278-7393.34.3.514}{10.1037/0278-7393.34.3.514}
 
 \leavevmode\hypertarget{ref-r_afex_2019}{}%
 Singmann, H., Bolker, B., Westfall, J., \& Aust, F. (2019). \emph{Afex: Analysis of factorial experiments}. Retrieved from \url{https://CRAN.R-project.org/package=afex}
 
 \leavevmode\hypertarget{ref-stroop_studies_1935}{}%
-Stroop, J. R. (1935). Studies of interference in serial verbal reactions. \emph{Journal of Experimental Psychology}, \emph{18}, 643. \url{https://doi.org/10.1037/h0054651}
+Stroop, J. R. (1935). Studies of interference in serial verbal reactions. \emph{Journal of Experimental Psychology}, \emph{18}, 643. doi:\href{https://doi.org/10.1037/h0054651}{10.1037/h0054651}
 
 \leavevmode\hypertarget{ref-tottenham_nimstim_2009}{}%
-Tottenham, N., Tanaka, J. W., Leon, A. C., McCarry, T., Nurse, M., Hare, T. A., \ldots{} Nelson, C. (2009). The NimStim set of facial expressions: Judgments from untrained research participants. \emph{Psychiatry Research}, \emph{168}, 242--249. \url{https://doi.org/10.1016/j.psychres.2008.05.006}
+Tottenham, N., Tanaka, J. W., Leon, A. C., McCarry, T., Nurse, M., Hare, T. A., \ldots{} Nelson, C. (2009). The NimStim set of facial expressions: Judgments from untrained research participants. \emph{Psychiatry Research}, \emph{168}, 242--249. doi:\href{https://doi.org/10.1016/j.psychres.2008.05.006}{10.1016/j.psychres.2008.05.006}
 
 \leavevmode\hypertarget{ref-van_selst_solution_1994}{}%
-Van Selst, M., \& Jolicoeur, P. (1994). A solution to the effect of sample size on outlier elimination. \emph{The Quarterly Journal of Experimental Psychology Section A}, \emph{47}, 631--650. \url{https://doi.org/10.1080/14640749408401131}
+Van Selst, M., \& Jolicoeur, P. (1994). A solution to the effect of sample size on outlier elimination. \emph{The Quarterly Journal of Experimental Psychology Section A}, \emph{47}, 631--650. doi:\href{https://doi.org/10.1080/14640749408401131}{10.1080/14640749408401131}
 
 \leavevmode\hypertarget{ref-vietze_context_2009}{}%
-Vietze, I., \& Wendt, M. (2009). Context specificity of conflict frequency-dependent control. \emph{The Quarterly Journal of Experimental Psychology}, \emph{62}, 1391--1400. \url{https://doi.org/10.1080/17470210802426908}
+Vietze, I., \& Wendt, M. (2009). Context specificity of conflict frequency-dependent control. \emph{The Quarterly Journal of Experimental Psychology}, \emph{62}, 1391--1400. doi:\href{https://doi.org/10.1080/17470210802426908}{10.1080/17470210802426908}
 
 \leavevmode\hypertarget{ref-weidler_transfer_2016}{}%
-Weidler, B. J., \& Bugg, J. (2016). Transfer of location-specific control to untrained locations. \emph{The Quarterly Journal of Experimental Psychology}, \emph{69}, 2202--2217. \url{https://doi.org/10.1080/17470218.2015.1111396}
+Weidler, B. J., \& Bugg, J. (2016). Transfer of location-specific control to untrained locations. \emph{The Quarterly Journal of Experimental Psychology}, \emph{69}, 2202--2217. doi:\href{https://doi.org/10.1080/17470218.2015.1111396}{10.1080/17470218.2015.1111396}
 
 \leavevmode\hypertarget{ref-weidler_attentional_2018}{}%
 Weidler, B. J., Dey, A., \& Bugg, J. (2018). Attentional control transfers beyond the reference frame. \emph{Psychological Research}, 1--14.
 
 \leavevmode\hypertarget{ref-west_effects_1998}{}%
 West, R., \& Baylis, G. C. (1998). Effects of increased response dominance and contextual disintegration on the Stroop interference effect in older adults. \emph{Psychology and Aging}, \emph{13}, 206.
+
+\leavevmode\hypertarget{ref-r_wickham_ggplot2_2016}{}%
+Wickham, H. (2016). \emph{Ggplot2: Elegant graphics for data analysis}. Springer-Verlag New York. Retrieved from \url{https://ggplot2.tidyverse.org}
+
+\leavevmode\hypertarget{ref-r_wickham_dplyr_2019}{}%
+Wickham, H., François, R., Henry, L., \& Müller, K. (2019). \emph{Dplyr: A grammar of data manipulation}. Retrieved from \url{https://CRAN.R-project.org/package=dplyr}
+
+\leavevmode\hypertarget{ref-r_cowplot_2019}{}%
+Wilke, C. O. (2019). \emph{Cowplot: Streamlined plot theme and plot annotations for 'ggplot2'}. Retrieved from \url{https://CRAN.R-project.org/package=cowplot}
 
 \endgroup
 

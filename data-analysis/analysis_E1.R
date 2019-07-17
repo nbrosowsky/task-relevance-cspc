@@ -10,6 +10,7 @@ library(BayesFactor)
 library(papaja)
 library(apaTables)
 
+set.seed(1983)
 
 folderName <- function(){
   wd<-getwd()
@@ -38,18 +39,32 @@ vjoutNR <- function(x,n) {
 
 print_eta_CI <- function(Fval, conf = .90, df1, df2){
   limits <- apaTables::get.ci.partial.eta.squared(F.value=Fval, df1=df1, df2=df2, conf.level=conf)
-  return(paste0("90\\% CI $[",round(limits$LL, 2),"$, $",round(limits$UL, 2),"]$"))
+  return(paste0(", 90\\% CI $[",round(limits$LL, 2),"$, $",round(limits$UL, 2),"]$"))
 }
 
 print_apa_ci <- function(aov_table){
   pap <- apa_print(aov_table, es = "pes")$full_result
   
   for(i in 1:length(pap)){
-    pap[i] <- paste(pap[i], print_eta_CI(Fval = aov_table$anova_table$`F`[i], df1 = aov_table$anova_table$`num Df`[i], df2 = aov_table$anova_table$`den Df`[i]), sep = " ")
+    pap[i] <- paste0(pap[i], print_eta_CI(Fval = aov_table$anova_table$`F`[i], df1 = aov_table$anova_table$`num Df`[i], df2 = aov_table$anova_table$`den Df`[i]))
     pap[i] <- gsub("p = .000", "p < .001", pap[i])
     pap[i] <- gsub(") = 0.00", ") < 0.01", pap[i])
   }
   return(pap)
+}
+
+print_bf <- function(bf){
+  result <- list()
+  for (i in 1:length(bf)){
+    if(extractBF(bf[i])$bf < 1){
+      result[i] <- paste0("$\\mathrm{BF}_{\\textrm{01}} = ", round(extractBF(1/bf[i])$bf, digits = 2),"$ $[\\pm ", round(extractBF(bf[i])$error*100,digits=2), "\\%]$")
+    } else {
+      result[i] <- paste0("$\\mathrm{BF}_{\\textrm{10}} = ", round(extractBF(bf[i])$bf, digits = 2),"$ $[\\pm ", round(extractBF(bf[i])$error*100,digits=2), "\\%]$")
+      
+    }
+  }
+  
+  return(result)
 }
 
 ################## ANALYSIS #########################
@@ -107,6 +122,13 @@ RT_ANOVA <- print_apa_ci(aov_table)
 RT_BF = BayesFactor::anovaBF(CE ~ Condition*Task_Relevant_Context + Subject, data = RT.Analysis,
                              whichRandom="Subject", iterations=10000)
 
+pRT_BF = print_bf(RT_BF)
+BF_contrast = paste0("$", round(extractBF(RT_BF[2]/RT_BF[4])$bf, digits = 2), 
+                           "$ $[\\pm ", 
+                           round(extractBF(RT_BF[2]/RT_BF[4])$error*100, digits = 2),
+                           "\\%]$"
+)
+
 ## Analyze ACC for frequency unbiased items
 ACC.analysis <- raw_data %>%
   mutate(error = (1-ACC)*100) %>%
@@ -120,11 +142,19 @@ ACC.analysis <- raw_data %>%
   select(-con:-inc)
 
 
-ACC_ANOVA <- aov_car(CE ~ Condition*Task_Relevant_Context + Error(Subject/Task_Relevant_Context), data = ACC.analysis)
-ACC_ANOVA <- apa_print(ACC_ANOVA, es = "pes")$full_result
+ACC_aov_table <- aov_car(CE ~ Condition*Task_Relevant_Context + Error(Subject/Task_Relevant_Context), data = ACC.analysis)
+ACC_ANOVA <- print_apa_ci(ACC_aov_table)
 
 ACC_BF = BayesFactor::anovaBF(CE ~ Condition*Task_Relevant_Context + Subject, data = ACC.analysis,
                               whichRandom="Subject", iterations=10000)
+
+
+pACC_BF = print_bf(ACC_BF)
+BF_ACC_contrast = paste0("$", round(extractBF(ACC_BF[2]/ACC_BF[4])$bf, digits = 2), 
+                     "$ $[\\pm ", 
+                     round(extractBF(ACC_BF[2]/ACC_BF[4])$error*100, digits = 2),
+                     "\\%]$"
+)
 
 ##################### GRAPHS ######################
 RT.Diff<-RT.DF %>%
