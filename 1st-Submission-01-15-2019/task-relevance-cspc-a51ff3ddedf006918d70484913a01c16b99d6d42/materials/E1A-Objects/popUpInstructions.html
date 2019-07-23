@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<head>
+	<title>Reaction Time Game</title>
+	<link rel="stylesheet" href="style.css" type="text/css" charset="utf-8" />
+	<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="task.js"></script>
+	<script type="text/javascript">
+	document.ready({
+		if (window.parent.trialCount < (window.parent.trialArray.length - 1)){
+			if (window.parent.countOrder[0][0] === "color") {
+					if (window.parent.countOrder[0][1] === "b") {
+							window.parent.countItem = "blue item";
+					} else {
+							window.parent.countItem = "green item";
+					}
+			} else {
+					if (window.parent.countOrder[0][1] === "hat") {
+							window.parent.countItem = "hat";
+					} else {
+							window.parent.countItem = "chair";
+					}
+			}
+
+			$("#instructCount").html('<ul style="list-style-type:none">' +
+					'<li>Your second task will be to keep count of how many trials include an image of a <strong>' + window.parent.countItem + '</strong></li>' +
+					'<li>Periodically, you will be asked to report the number you have counted. After you have given a response, you will start counting again, <strong>starting from zero</strong> </li></ul>'
+			);
+		} else {
+			if (window.parent.countOrder[1][0] === "color") {
+					if (window.parent.countOrder[1][1] === "b") {
+							window.parent.countItem = "blue item";
+					} else {
+							window.parent.countItem = "green item";
+					}
+			} else {
+					if (window.parent.countOrder[1][1] === "hat") {
+							window.parent.countItem = "hat";
+					} else {
+							window.parent.countItem = "chair";
+					}
+			}
+
+			$("#instructCount").html(
+					'<p><strong>However</strong>, your second task will now be to keep count of how many trials contain an image of a <strong>' + window.parent.countItem + '</strong></p>' +
+					'<p>Periodically you will be asked to report the number you have counted, and to restart from zero. </p>'
+			);
+		}
+
+	});
+
+
+
+	</script>
+</head>
+
+<body>
+	<div class="instructionDisplay">
+			<h2>
+					Task Instructions
+			</h2>
+			<p>
+					On every trial you'll see five arrows (pointed left or right) paired with an image. For example:
+			</p>
+			<div class="examples" display="center">
+					<img src="stim_contexts/LR.png" /><img src="stim_contexts/hatb.jpg" width="250px" />
+			</div>
+			<h3>
+					You will have two tasks:
+			</h3>
+			<ol>
+					<li>
+							<ul style="list-style-type:none">
+									<li>Your first task is to indicate whether the <strong><em>center arrow</em></strong> is pointed left or right. </li>
+									<li>You will use the keyboard to respond: Press "Z" if the arrow is pointed left or press "M", if the arrow is pointed right.</li>
+									<li>Please respond as quickly and as accurately as possible</li>
+							</ul>
+							<br />
+					</li>
+					<li id="instructCount"></li>
+			</ol>
+		</div>
+</body>

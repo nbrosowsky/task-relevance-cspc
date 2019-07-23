@@ -1,0 +1,188 @@
+/* ----------------------------------------------------------------
+  Typography
+-----------------------------------------------------------------*/
+
+body {
+    font-size: 16px;
+    color: black;
+    font-family: Helvetica, arial;
+    padding: 0;
+    margin: 0;
+}
+
+
+/* ----------------------------------------------------------------
+  Content
+-----------------------------------------------------------------*/
+#previewMode {
+  background-color: rgba(255, 0, 0, 0.75);
+  color: white;
+  font-weight:bold;
+  line-height: 4em;
+  position: fixed;
+  width: 100%;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  z-index: 3;
+}
+
+
+.contentDisplay {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.top {
+    height: 100px;
+    padding: 0;
+    margin-left: 25px;
+    z-index: 2;
+    float: left;
+    position: fixed;
+    font-family: arial;
+}
+
+.targetDisplay {
+    display: -webkit-flex;
+    /* Safari */
+    -webkit-flex-direction: column;
+    /* Safari 6.1+ */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 75pt;
+    font-family: Helvetica;
+}
+
+.feedbackDisplay {
+    font-size: 40pt;
+}
+
+.instructionDisplay, .instructionDisplay2 {
+    width: 75%;
+    padding: 10px 20px;
+    border: 2px #1e1e1e solid;
+}
+
+#quizDisplay {
+    width: 50%;
+    padding: 10px 20px;
+    border: 2px #1e1e1e solid;
+    text-align: center;
+}
+
+.examples {
+    display: -webkit-flex;
+    /* Safari */
+    -webkit-flex-direction: column;
+    /* Safari 6.1+ */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button {
+    display: block;
+    padding: 10px 30px 13px 30px;
+    background: #ffffff;
+    border: 2px #0066CC solid;
+    color: #0066CC;
+    text-decoration: none;
+    margin: 25px auto;
+    font-size: 14px;
+    outline: none;
+    border-radius: 100px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    -o-border-radius: 100px;
+    -ms-border-radius: 100px;
+}
+
+.leftButton {
+  font-family: 'Helvetica', arial;
+  background: #ffffff;
+  border: 2px #0066CC solid;
+  color: #0066CC;
+  text-decoration: none;
+  font-size: 14px;
+  outline: none;
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  -o-border-radius: 100px;
+  -ms-border-radius: 100px;
+
+
+}
+
+.button:hover,
+.leftButton:hover {
+    border: 2px #ffffff solid;
+    background: #0066CC;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.demographics {
+    width: 75%;
+    padding: 10px 20px;
+    max-height: 90vh !important;
+}
+
+.questions {
+    border: 2px #1e1e1e solid;
+    padding: 5px 30px 20px 30px;
+}
+
+input[type=radio] {
+    margin: 0 0px 0 10px;
+    outline: none;
+}
+
+.Country, .Age {
+    margin: 0 0px 0 10px;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
