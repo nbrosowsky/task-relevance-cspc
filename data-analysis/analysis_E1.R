@@ -12,62 +12,13 @@ library(apaTables)
 
 set.seed(1983)
 
-folderName <- function(){
-  wd<-getwd()
-  wd<-strsplit(wd,"/")
-  wd<-wd[[1]][length(wd[[1]])]
-  
-  return(wd)
-}
-
-
-vjoutNR <- function(x,n) {
-  xm <- mean(x)
-  xsize <- c(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 20, 
-             25, 30, 35, 50, 80)
-  stds <- c(1.3, 1.458, 1.68, 1.841, 1.961, 2.05, 2.12, 2.173, 
-            2.22, 2.246, 2.274, 2.31, 2.326, 2.391, 2.41, 2.4305, 
-            2.45, 2.48, 2.5)
-  stdindex <- length(xsize[xsize <= length(x)])
-  removed <- x[x < xm+sd(x)*stds[stdindex]]
-  removed <- removed[removed > xm - (sd(x)*stds[stdindex])]
-  proportionRemoved <- length(removed)/length(x)
-  finaldata<-c(mean(removed),1-proportionRemoved)
-  return(finaldata[[n]])
-}
-
-
-print_eta_CI <- function(Fval, conf = .90, df1, df2){
-  limits <- apaTables::get.ci.partial.eta.squared(F.value=Fval, df1=df1, df2=df2, conf.level=conf)
-  return(paste0(", 90\\% CI $[",round(limits$LL, 2),"$, $",round(limits$UL, 2),"]$"))
-}
-
-print_apa_ci <- function(aov_table){
-  pap <- apa_print(aov_table, es = "pes")$full_result
-  
-  for(i in 1:length(pap)){
-    pap[i] <- paste0(pap[i], print_eta_CI(Fval = aov_table$anova_table$`F`[i], df1 = aov_table$anova_table$`num Df`[i], df2 = aov_table$anova_table$`den Df`[i]))
-    pap[i] <- gsub("p = .000", "p < .001", pap[i])
-    pap[i] <- gsub(") = 0.00", ") < 0.01", pap[i])
-  }
-  return(pap)
-}
-
-print_bf <- function(bf){
-  result <- list()
-  for (i in 1:length(bf)){
-    if(extractBF(bf[i])$bf < 1){
-      result[i] <- paste0("$\\mathrm{BF}_{\\textrm{01}} = ", round(extractBF(1/bf[i])$bf, digits = 2),"$ $[\\pm ", round(extractBF(bf[i])$error*100,digits=2), "\\%]$")
-    } else {
-      result[i] <- paste0("$\\mathrm{BF}_{\\textrm{10}} = ", round(extractBF(bf[i])$bf, digits = 2),"$ $[\\pm ", round(extractBF(bf[i])$error*100,digits=2), "\\%]$")
-      
-    }
-  }
-  
-  return(result)
-}
-
 ################## ANALYSIS #########################
+# Load functions
+source("data-analysis/print_apa_ci.R")
+source("data-analysis/print_bf.R")
+source("data-analysis/outlier_removal.R")
+
+# Load data
 load("data-analysis/raw_data_E1.Rda")
 
 

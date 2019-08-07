@@ -64,7 +64,7 @@ RT.DF <- raw_data %>%
   group_by(Condition,Frequency,Task_Relevant_Context,Congruency) %>%
   summarise(N = n_distinct(Subject),
             RT = mean(meanRT),
-            std = sd(meanRT),
+            sd = sd(meanRT),
             se = std/sqrt(N))
 
 RT.DF$PC <- NA

@@ -8,36 +8,14 @@ library(cowplot)
 #devtools::install_github("crsh/papaja")
 library(papaja)
 
+# Load functions
+source("data-analysis/print_apa_ci.R")
+source("data-analysis/print_bf.R")
+source("data-analysis/outlier_removal.R")
 
-folderName <- function(){
-  wd<-getwd()
-  wd<-strsplit(wd,"/")
-  wd<-wd[[1]][length(wd[[1]])]
-  
-  return(wd)
-}
-
-
-vjoutNR <- function(x,n) {
-  xm <- mean(x)
-  xsize <- c(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 20, 
-             25, 30, 35, 50, 80)
-  stds <- c(1.3, 1.458, 1.68, 1.841, 1.961, 2.05, 2.12, 2.173, 
-            2.22, 2.246, 2.274, 2.31, 2.326, 2.391, 2.41, 2.4305, 
-            2.45, 2.48, 2.5)
-  stdindex <- length(xsize[xsize <= length(x)])
-  removed <- x[x < xm+sd(x)*stds[stdindex]]
-  removed <- removed[removed > xm - (sd(x)*stds[stdindex])]
-  proportionRemoved <- length(removed)/length(x)
-  finaldata<-c(mean(removed),1-proportionRemoved)
-  return(finaldata[[n]])
-}
-
-
-
+# Load data
 load("data-analysis/raw_data_E2.Rda")
 load("data-analysis/demographics_E2.Rda")
-
 
 
 # Find subs with < 75% accuracy
@@ -76,36 +54,46 @@ percent_removed_E2 <- raw_data_E2 %>%
 
 ## Analyze RTs 
 RT.Analysis <- RT.DF %>%
+  ungroup() %>%
+  mutate(Subject = factor(Subject),
+         PC = factor(PC)) %>%
   group_by(Subject,PC,Congruency) %>%
-  summarise(meanRT = mean(vjoutRT))
+  summarise(meanRT = mean(vjoutRT)) %>%
+  spread(Congruency, meanRT) %>%
+  ungroup()%>%
+  mutate(CE = inc - con)
 
-RT_ANOVA_E2 <- aov_ez("Subject", "meanRT", RT.Analysis, within = c("PC","Congruency"), anova_table = list(correction = "none", es = "none"))
-RT_ANOVA_E2 <- apa_print(RT_ANOVA_E2, es = "pes", correction = "none")$full_result
+aov_table <- aov_car(CE ~ PC + Error(Subject/PC), data = RT.Analysis, anova_table = list(correction = "none"))
+RT_ANOVA_E2 <- print_apa_ci(aov_table)
+
+RT_BF_E2 = BayesFactor::anovaBF(CE ~ PC + Subject, data = RT.Analysis, whichRandom="Subject", iterations=10000)
+RT_BF_E2 = print_bf(RT_BF_E2)
 
 ## Analyze ACC for frequency unbiased items
-ACC.analysis <- raw_data_E2 %>%
-  mutate(error = (1-ACC)*100) %>%
-  filter(Subject%in%low_acc == FALSE)  %>%
-  group_by(Subject,PC ,Congruency) %>%
-  summarise(error = mean(error))
+ACC.Analysis <- raw_data_E2 %>%
+  mutate(error = (1-ACC)*100,
+         Subject = factor(Subject),
+         PC = factor(PC)) %>%
+  filter(
+    Subject%in%low_acc == FALSE)  %>%
+  group_by(Subject,PC,Congruency) %>%
+  summarise(error = mean(error)) %>%
+  group_by(Subject,PC,Congruency) %>%
+  summarise(
+    error = mean(error)
+  ) %>%
+  spread(Congruency,error) %>%
+  mutate(CE = inc - con)
 
 
-ACC_ANOVA_E2 <- aov_ez("Subject", "error", ACC.analysis, within = c("PC","Congruency"), anova_table = list(correction = "none", es = "none"))
-ACC_ANOVA_E2 <- suppressWarnings(apa_print(ACC_ANOVA_E2, es = "pes", correction = "none")$full_result)
+aov_table <- aov_car(CE ~ PC + Error(Subject/PC), data = ACC.Analysis, anova_table = list(correction = "none"))
+ACC_ANOVA_E2 <- suppressWarnings(print_apa_ci(aov_table))
+
+ACC_BF_E2 = BayesFactor::anovaBF(CE ~ PC + Subject, data = ACC.Analysis, whichRandom="Subject", iterations=10000)
+ACC_BF_E2 = suppressWarnings(print_bf(ACC_BF_E2))
 
 ####### GRAPH FLANKER EFFECTS #########
-RT.Diff <- raw_data_E2 %>%
-  filter(
-    RT < 3000,
-    RT > 0,
-    ACC == TRUE,
-    Subject%in%low_acc == FALSE
-  ) %>%
-  group_by(Subject,Frequency, PC,Congruency)%>%
-  summarise(RT = vjoutNR(RT,1)) %>%
-  spread(Congruency,RT) %>%
-  mutate(Diff = inc - con) %>%
-  select(-con:-inc) %>%
+RT.Diff <- RT.DF %>%
   group_by(Frequency, PC) %>%
   summarise(
     N = n_distinct(Subject), 
@@ -140,17 +128,7 @@ RT.graph <- ggplot(RT.Diff,aes(x=PC, y=Flanker,fill=PC))+
   theme(legend.position = "none")
 
 
-ACC.Diff <- raw_data_E2 %>%
-  mutate(error = (1-ACC)*100) %>%
-  filter(
-    Subject%in%low_acc == FALSE)  %>%
-  group_by(Subject,PC,Congruency) %>%
-  summarise(error = mean(error)) %>%
-  group_by(Subject,PC,Congruency) %>%
-  summarise(
-    error = mean(error)
-  ) %>%
-  spread(Congruency,error) %>%
+ACC.Diff <- ACC.Analysis %>%
   mutate(Diff = inc - con) %>%
   select(-con:-inc)%>%
   group_by(PC) %>%
@@ -200,23 +178,3 @@ figure3<-plot_grid(RT.graph,NULL,ACC.graph,
 
 #clean up environment
 #rm(list=c("ACC.analysis","aov.out","raw_data_E2","RT.Analysis","RT.DF","low_acc","vjoutNR", "RT.Diff"))
-
- 
- ################### Bayesian Analysis #####################
- 
- ## Analyze RTs for frequency unbiased items
- RT.Analysis <- RT.DF %>%
-   ungroup() %>%
-   mutate(Subject = factor(Subject),
-          PC = factor(PC)) %>%
-   group_by(Subject,PC,Congruency) %>%
-   summarise(meanRT = mean(vjoutRT)) %>%
-   spread(Congruency, meanRT) %>%
-   ungroup()%>%
-   mutate(Diff = inc - con)
- 
- 
- 
- RT_BF_E2 = BayesFactor::anovaBF(Diff ~ PC + Subject, data = RT.Analysis,
-                           whichRandom="Subject", iterations=10000)
- 

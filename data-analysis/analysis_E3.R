@@ -8,42 +8,16 @@ library(cowplot)
 #devtools::install_github("crsh/papaja")
 library(papaja)
 
+# Load functions
+source("data-analysis/print_apa_ci.R")
+source("data-analysis/print_bf.R")
+source("data-analysis/outlier_removal.R")
 
-folderName <- function(){
-  wd<-getwd()
-  wd<-strsplit(wd,"/")
-  wd<-wd[[1]][length(wd[[1]])]
-  
-  return(wd)
-}
-
-
-vjoutNR <- function(x,n) {
-  xm <- mean(x)
-  xsize <- c(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 20, 
-             25, 30, 35, 50, 80)
-  stds <- c(1.3, 1.458, 1.68, 1.841, 1.961, 2.05, 2.12, 2.173, 
-            2.22, 2.246, 2.274, 2.31, 2.326, 2.391, 2.41, 2.4305, 
-            2.45, 2.48, 2.5)
-  stdindex <- length(xsize[xsize <= length(x)])
-  removed <- x[x < xm+sd(x)*stds[stdindex]]
-  removed <- removed[removed > xm - (sd(x)*stds[stdindex])]
-  proportionRemoved <- length(removed)/length(x)
-  finaldata<-c(mean(removed),1-proportionRemoved)
-  return(finaldata[[n]])
-}
-
-
-
+# Load data
 load("data-analysis/raw_data_E3.Rda")
 # load("data-analysis/demographics_E3.Rda")
 # demographics_E3$Subject <- demographics_E3$subnum
-# 
-# raw_data_E3 <- inner_join(raw_data_E3, demographics_E3, by = "Subject")
-# raw_data_E3 <- raw_data_E3 %>%
-#   mutate(task_feedback = as.numeric(as.character(task_feedback))) %>%
-#   filter(!is.na(task_feedback),
-#                 task_feedback > 3)
+
 
 # Find subs with < 75% accuracy
 low_acc <- raw_data_E3 %>%
@@ -81,48 +55,60 @@ percent_removed_E3 <- raw_data_E3 %>%
 
 ## Analyze RTs for frequency unbiased items
 RT.Analysis <- RT.DF %>%
-  filter(
-    Frequency == "unbiased"
-  ) %>%
-  group_by(Condition,Subject,Task_Relevant_Context,Congruency) %>%
-  summarise(meanRT = mean(vjoutRT))
-
-RT_ANOVA_E3 <- aov_car(meanRT ~ Task_Relevant_Context*Congruency + Error(Subject/Task_Relevant_Context*Congruency), data = RT.Analysis)
-RT_ANOVA_E3 <- apa_print(RT_ANOVA_E3, es = "pes")$full_result
-
-## Analyze ACC for frequency unbiased items
-ACC.analysis <- raw_data_E3 %>%
-  mutate(error = (1-ACC)*100) %>%
-  filter(
-    Frequency == "unbiased",
-    Subject%in%low_acc == FALSE)  %>%
-  group_by(Subject,Condition,Task_Relevant_Context,Congruency) %>%
-  summarise(error = mean(error))
-
-ACC_ANOVA_E3 <- aov_car(error ~ Task_Relevant_Context*Congruency + Error(Subject/Task_Relevant_Context*Congruency), data = ACC.analysis)
-ACC_ANOVA_E3 <- apa_print(ACC_ANOVA_E3, es = "pes")$full_result
-
-####### GRAPH FLANKER EFFECTS #########
-RT.Diff<-RT.DF %>%
+  ungroup() %>%
+  mutate(Task_Relevant_Context = as.factor(Task_Relevant_Context),
+         Subject = as.factor(Subject)) %>%
   filter(Frequency == "unbiased") %>%
   group_by(Condition,Subject,Task_Relevant_Context,Congruency) %>%
   summarise(
     RT = mean(vjoutRT)
   ) %>%
   spread(Congruency,RT) %>%
-  mutate(Diff = inc - con) %>%
+  mutate(CE = inc - con)
+
+RT_ANOVA_E3 <- aov_car(CE ~ Task_Relevant_Context + Error(Subject/Task_Relevant_Context), data = RT.Analysis)
+RT_ANOVA_E3 <- suppressWarnings(print_apa_ci(RT_ANOVA_E3))
+
+RT_BF_E3 = print_bf(BayesFactor::anovaBF(CE ~ Task_Relevant_Context + Subject, data = RT.Analysis, whichRandom="Subject",whichModel ="withmain", iterations=10000))
+
+
+## Analyze ACC for frequency unbiased items
+ACC.Analysis <- raw_data_E3 %>%
+  ungroup() %>%
+  mutate(Task_Relevant_Context = as.factor(Task_Relevant_Context),
+         Subject = as.factor(Subject)) %>%
+  mutate(error = (1-ACC)*100) %>%
+  filter(
+    Frequency == "unbiased",
+    Subject%in%low_acc == FALSE)  %>%
+  group_by(Subject,Condition,Task_Relevant_Context,Congruency) %>%
+  summarise(error = mean(error)) %>%
+  group_by(Condition,Subject,Task_Relevant_Context,Congruency) %>%
+  summarise(
+    error = mean(error)
+  ) %>%
+  spread(Congruency,error) %>%
+  mutate(CE = inc - con) 
+
+
+ACC_ANOVA_E3 <- aov_car(CE ~ Task_Relevant_Context + Error(Subject/Task_Relevant_Context), data = ACC.Analysis)
+ACC_ANOVA_E3 <- print_apa_ci(ACC_ANOVA_E3)
+
+ACC_BF_E3 = print_bf(BayesFactor::anovaBF(CE ~ Task_Relevant_Context + Subject, data = ACC.Analysis, whichRandom="Subject",whichModel ="withmain", iterations=10000))
+
+
+####### GRAPH FLANKER EFFECTS #########
+RT.Diff<- RT.Analysis %>%
   select(-con:-inc)%>%
   group_by(Condition,Task_Relevant_Context) %>%
   summarise(
     N = n_distinct(Subject), 
-    Flanker = mean(Diff), 
-    sd = sd(Diff), 
+    Flanker = mean(CE), 
+    sd = sd(CE), 
     SE = sd/sqrt(N)
   ) 
 
-#names(RT.Diff)[names(RT.Diff) == "Task_Relevant_Context"] <- 'Task Relevant\nContext'
-levels(RT.Diff$Task_Relevant_Context) <- c("100% PC", "0% PC")
-#levels(RT.Diff$Condition) <- c("Object", "Social", "Social (NR)")
+RT.Diff$Task_Relevant_Context <- factor(RT.Diff$Task_Relevant_Context,levels(RT.Diff$Task_Relevant_Context)[c(2,1)])
 
 limits <- aes(ymax = Flanker + SE, ymin = Flanker - SE)
 RT.graph <- ggplot(RT.Diff,aes(x=Task_Relevant_Context, y=Flanker,fill=Task_Relevant_Context))+
@@ -152,19 +138,10 @@ RT.graph <- ggplot(RT.Diff,aes(x=Task_Relevant_Context, y=Flanker,fill=Task_Rele
   theme(legend.position = "none")
 
 
-RT.Diff<-RT.DF %>%
-  filter(Frequency == "unbiased") %>%
-  group_by(Subject,Task_Relevant_Context,Congruency) %>%
-  summarise(
-    RT = mean(vjoutRT)
-  ) %>%
-  spread(Congruency,RT) %>%
-  mutate(Diff = inc - con) %>%
-  select(-con:-inc)%>%
-  group_by(Subject,Task_Relevant_Context) %>% 
-  spread(Task_Relevant_Context,Diff) 
-
 ACC.Diff <- raw_data_E3 %>%
+  ungroup() %>%
+  mutate(Task_Relevant_Context = as.factor(Task_Relevant_Context),
+         Subject = as.factor(Subject)) %>%
   mutate(error = (1-ACC)*100) %>%
   filter(
     Frequency == "unbiased",
@@ -178,7 +155,7 @@ ACC.Diff <- raw_data_E3 %>%
   spread(Congruency,error) %>%
   mutate(Diff = inc - con) %>%
   select(-con:-inc)%>%
-  group_by(Condition,Task_Relevant_Context) %>%
+  group_by(Task_Relevant_Context) %>%
   summarise(
     N = n_distinct(Subject), 
     Flanker = mean(Diff), 
@@ -187,8 +164,10 @@ ACC.Diff <- raw_data_E3 %>%
   ) 
 
 
-levels(ACC.Diff$Task_Relevant_Context) <- c("100% PC", "0% PC")
+#levels(ACC.Diff$Task_Relevant_Context) <- c("100% PC", "0% PC")
 #levels(ACC.Diff$Condition) <- c("Object", "Social", "Social (NR)")
+ACC.Diff$Task_Relevant_Context <- factor(ACC.Diff$Task_Relevant_Context,levels(ACC.Diff$Task_Relevant_Context)[c(2,1)])
+
 
 limits <- aes(ymax = Flanker + SE, ymin = Flanker - SE)
 ACC.graph <- ggplot(ACC.Diff,aes(x=Task_Relevant_Context, y=Flanker,fill=Task_Relevant_Context))+
@@ -231,24 +210,3 @@ ggsave("figure4.pdf", device = "pdf", dpi = 600,
 
 #clean up environment
 #rm(list=c("ACC.analysis","aov.out","raw_data_E3","RT.Analysis","RT.DF","low_acc","vjoutNR", "RT.Diff"))
-
-
-################### Bayesian Analysis #####################
-
-## Analyze RTs for frequency unbiased items
-RT.Analysis <- RT.DF %>%
-  filter(
-    Frequency == "unbiased"
-  ) %>%
-  ungroup() %>%
-  mutate(Subject = factor(Subject),
-         Task_Relevant_Context = factor(Task_Relevant_Context)) %>%
-  group_by(Subject,Task_Relevant_Context,Congruency) %>%
-  summarise(meanRT = mean(vjoutRT)) %>%
-  spread(Congruency, meanRT) %>%
-  mutate(Diff = inc - con) 
-
-
-
-RT_BF_E3 = BayesFactor::anovaBF(Diff ~ Task_Relevant_Context + Subject, data = RT.Analysis,
-                          whichRandom="Subject",whichModel ="withmain", iterations=10000)
