@@ -7,6 +7,7 @@
 #'
 #' @examples
 print_bf <- function(bf){
+    library(BayesFactor)
     result <- list()
     for (i in 1:length(bf)){
         if(extractBF(bf[i])$bf < 1){

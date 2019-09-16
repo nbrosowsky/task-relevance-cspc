@@ -138,6 +138,7 @@ RT.graph <- ggplot(RT.Diff,aes(x=Condition, y=Flanker,fill=Task_Relevant_Context
   geom_errorbar(limits, width = .2, position=position_dodge(width=0.9))+
   coord_cartesian(ylim = c(0,150))+
   scale_y_continuous(breaks=seq(0, 150, 10), expand = c(0,0))+
+  theme_classic()+
   theme(axis.text=element_text(size=7.5),
         axis.title=element_text(size=10,face="bold")) +
   labs(title="")+
@@ -174,10 +175,6 @@ ACC.Diff <- raw_data %>%
   ) 
 
 
-
-levels(ACC.Diff$Task_Relevant_Context) <- c("100% PC", "0% PC")
-levels(ACC.Diff$Condition) <- c("Object", "Social", "Social (NR)")
-
 ACC.Diff <- raw_data %>%
   mutate(error = (1-ACC)*100) %>%
   filter(
@@ -200,6 +197,8 @@ ACC.Diff <- raw_data %>%
     SE = sd/sqrt(N)
   ) 
 
+levels(ACC.Diff$Task_Relevant_Context) <- c("100% PC", "0% PC")
+levels(ACC.Diff$Condition) <- c("Object", "Social", "Social (NR)")
 
 limits <- aes(ymax = Flanker + SE, ymin = Flanker - SE)
 ACC.graph <- ggplot(ACC.Diff,aes(x=Condition, y=Flanker,fill=Task_Relevant_Context))+
@@ -208,6 +207,7 @@ ACC.graph <- ggplot(ACC.Diff,aes(x=Condition, y=Flanker,fill=Task_Relevant_Conte
   geom_errorbar(limits, width = .2, position=position_dodge(width=0.9))+
   coord_cartesian(ylim = c(0,10))+
   scale_y_continuous(breaks=seq(0, 10, 1), expand = c(0,0))+
+  theme_classic()+
   theme(axis.text=element_text(size=7.5),
         axis.title=element_text(size=10,face="bold")) +
   labs(title="")+
@@ -229,7 +229,7 @@ ACC.graph <- ggplot(ACC.Diff,aes(x=Condition, y=Flanker,fill=Task_Relevant_Conte
 figure2<-plot_grid(RT.graph,NULL,ACC.graph, 
                    nrow = 1, 
                    rel_widths = c(1, 0.05, 1),
-                   labels = c("A", "", "B"))
+                   labels = c("A.", "", "B."))
 
 #title <- ggdraw() + draw_label("Experiment 1", fontface='bold')
 #figure2<-plot_grid(title, figure2, ncol=1, rel_heights=c(0.1, 1)) # rel_heights values control title margins

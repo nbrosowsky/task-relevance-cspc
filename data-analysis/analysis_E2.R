@@ -4,6 +4,7 @@ library(tidyr)
 library(afex)
 library(ggplot2)
 library(cowplot)
+library(BayesFactor)
 #As of 2018/12/07 apa_print() requires development version of Papaja
 #devtools::install_github("crsh/papaja")
 library(papaja)
@@ -94,11 +95,19 @@ ACC_BF_E2 = suppressWarnings(print_bf(ACC_BF_E2))
 
 ####### GRAPH FLANKER EFFECTS #########
 RT.Diff <- RT.DF %>%
-  group_by(Frequency, PC) %>%
+  ungroup() %>%
+  mutate(Subject = factor(Subject),
+         PC = factor(PC)) %>%
+  group_by(Subject,PC,Congruency) %>%
+  summarise(meanRT = mean(vjoutRT)) %>%
+  spread(Congruency, meanRT) %>%
+  ungroup()%>%
+  mutate(CE = inc - con) %>%
+  group_by(PC) %>%
   summarise(
     N = n_distinct(Subject), 
-    Flanker = mean(Diff), 
-    sd = sd(Diff), 
+    Flanker = mean(CE), 
+    sd = sd(CE), 
     SE = sd/sqrt(N)
   ) 
 
@@ -110,20 +119,22 @@ RT.graph <- ggplot(RT.Diff,aes(x=PC, y=Flanker,fill=PC))+
   geom_errorbar(limits, width = .2, position=position_dodge(width=0.9))+
   coord_cartesian(ylim = c(0,150))+
   scale_y_continuous(breaks=seq(0, 150, 10), expand = c(0,0))+
+  theme_classic()+
   theme(axis.text=element_text(size=7.5),
         axis.title=element_text(size=10,face="bold")) +
   labs(title="")+
   ylab("Congruency Effect (ms)")+
   xlab("Proportion\nCongruent") +
+  theme_classic()+
   theme(       legend.position=c(1,1),
                legend.justification = c(1,1),
                legend.direction = "horizontal",
-               legend.background = element_rect(colour = "black", fill = "white", size=1),
-               legend.box.background = element_rect(colour = "black"),
+               #legend.background = element_rect(colour = "black", fill = "white", size=1),
+               #legend.box.background = element_rect(colour = "black"),
                legend.margin = margin(t = .1, r = .10, b = .05, l = .1, unit = "cm"),
                legend.text = element_text(size = 8),
                legend.title = element_text(size = 8)
-  )+
+  ) +
   guides(fill=guide_legend(title="Proportion Congruent",title.position = "top")) + 
   theme(legend.position = "none")
 
@@ -146,11 +157,13 @@ ACC.graph <- ggplot(ACC.Diff,aes(x=PC, y=Flanker,fill=PC))+
   geom_errorbar(limits, width = .2, position=position_dodge(width=0.9))+
   coord_cartesian(ylim = c(0,10))+
   scale_y_continuous(breaks=seq(0, 10, 1), expand = c(0,0))+
+  theme_classic()+
   theme(axis.text=element_text(size=7.5),
         axis.title=element_text(size=10,face="bold")) +
   labs(title="")+
   ylab("Congruency Effect (% Error)")+
   xlab("Proportion\nCongruent") +
+  theme_classic()+
   theme(       legend.position=c(1,1),
                legend.justification = c(1,1),
                legend.direction = "horizontal",
@@ -168,7 +181,7 @@ ACC.graph <- ggplot(ACC.Diff,aes(x=PC, y=Flanker,fill=PC))+
 figure3<-plot_grid(RT.graph,NULL,ACC.graph, 
                    nrow = 1, 
                    rel_widths = c(1, 0.05, 1),
-                   labels = c("A", "", "B"))
+                   labels = c("A.", "", "B."))
 
 #title <- ggdraw() + draw_label("Experiment 2", fontface='bold')
 #figure3<-plot_grid(title, figure3, ncol=1, rel_heights=c(0.1, 1)) # rel_heights values control title margins
