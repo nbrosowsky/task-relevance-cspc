@@ -1,9 +1,13 @@
 load(file="data-analysis/sim_effectSizes.Rda")
 
+theme_set(theme_cowplot())
 
 sim_effectSizes <- sim_effectSizes %>% filter(effect.size < 41)
+levels(sim_effectSizes$effect) <- c("CSPC x\nContext-Type", "CSPC (N = 50)","CSPC (N = 150)")
 
-plot.1 <- ggplot(sim_effectSizes[sim_effectSizes$effect != "CSPC x Condition",], aes(effect.size, prop.sig, color = effect)) + 
+
+
+plot.1 <- ggplot(sim_effectSizes[sim_effectSizes$effect != levels(sim_effectSizes$effect)[1],], aes(effect.size, prop.sig, color = effect)) + 
   geom_smooth( aes(color = effect), se = FALSE, method = "gam", formula = y ~ s(log(x)))+
   geom_point(aes(x = effect.size, y = prop.sig, color=effect, shape = effect), size = 2) +
   geom_vline(xintercept = 20, linetype = "dashed") +
@@ -22,8 +26,7 @@ plot.1 <- ggplot(sim_effectSizes[sim_effectSizes$effect != "CSPC x Condition",],
         legend.title = element_text(size = 8)
   ) 
 
-sim_effectSizes <- sim_effectSizes[sim_effectSizes$effect == "CSPC x Condition",]
-levels(sim_effectSizes$effect) <- c("CSPC x\nCondition", "CSPC (N = 50)","CSPC (N = 150)")
+sim_effectSizes <- sim_effectSizes[sim_effectSizes$effect == levels(sim_effectSizes$effect)[1],]
 
 plot.2 <- ggplot(sim_effectSizes, aes(effect.size, prop.sig, color = effect)) + 
   geom_smooth( aes(color = effect), se = FALSE, method = "gam", formula = y ~ s(log(x)))+
@@ -82,7 +85,7 @@ plot.4 <- ggplot(sim_sampleSizes[sim_sampleSizes$effect != "PC",], aes(sample.si
   geom_smooth(aes(color = effect.size), se = FALSE, method = "gam", formula = y ~ s(log(x)), size = .9) +
   geom_point(aes(color = effect.size, shape = effect.size), size = 2) +
   geom_hline(yintercept = .8, linetype ="dashed") +
-  labs(y = "Proportion p < .05", x = "Sample Size", color = "CSPC x\nCondition Effect", shape =  "CSPC x\nCondition Effect") +
+  labs(y = "Proportion p < .05", x = "Sample Size", color = "CSPC x\nContext-Type Effect", shape =  "CSPC x\nContext-Type Effect") +
   scale_x_continuous(limits = c(0, 140), breaks=c(seq(from=0, to=140, by=20)), expand = expand_scale(mult = c(0,0.05)))+
   scale_y_continuous(limits = c(0, 1.01), breaks=c(seq(from=0, to=1, by=.1)), expand = expand_scale(mult =c(0,0.01)) )+
   theme(axis.text=element_text(size=7.5),
@@ -99,15 +102,22 @@ plot.4 <- ggplot(sim_sampleSizes[sim_sampleSizes$effect != "PC",], aes(sample.si
 
 
 ########## ARRANGE #########
-figure5 <- plot_grid(plot.1,NULL,plot.2, plot.3, NULL, plot.4,
-                   nrow = 2, ncol = 3,
+figure5 <- plot_grid(NULL, NULL, NULL, 
+                     plot.1,NULL,plot.2, 
+                     NULL, NULL, NULL, 
+                     plot.3, NULL, plot.4,
+                   nrow = 4, ncol = 3,
                    rel_widths = c(1, 0.05, 1),
-                   labels = c("A", "", "B", "C","","D"))
-
+                   rel_heights = c(.1, 1, .1, 1),
+                   labels = c("A.", "", "B.", 
+                              "", "", "", 
+                              "C.","","D.",
+                              "", "", "")
+)
 #title <- ggdraw() + draw_label("Experiment 1", fontface='bold')
 #figure2<-plot_grid(title, figure2, ncol=1, rel_heights=c(0.1, 1)) # rel_heights values control title margins
 
 #figure2
 
 ggsave("figure5.pdf", device = "pdf", dpi = 600,
-       width = 6.875, height = 5, units = "in") 
+       width = 6.875, height = 6, units = "in") 

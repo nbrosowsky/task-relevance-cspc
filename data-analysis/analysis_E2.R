@@ -18,7 +18,7 @@ source("data-analysis/outlier_removal.R")
 load("data-analysis/raw_data_E2.Rda")
 load("data-analysis/demographics_E2.Rda")
 
-
+theme_set(theme_cowplot())
 # Find subs with < 75% accuracy
 low_acc <- raw_data_E2 %>%
   group_by(Subject,Condition,PC,Congruency) %>%
@@ -167,8 +167,8 @@ ACC.graph <- ggplot(ACC.Diff,aes(x=PC, y=Flanker,fill=PC))+
   theme(       legend.position=c(1,1),
                legend.justification = c(1,1),
                legend.direction = "horizontal",
-               legend.background = element_rect(colour = "black", fill = "white", size=1),
-               legend.box.background = element_rect(colour = "black"),
+               # legend.background = element_rect(colour = "black", fill = "white", size=1),
+               # legend.box.background = element_rect(colour = "black"),
                legend.margin = margin(t = .1, r = .10, b = .05, l = .1, unit = "cm"),
                legend.text = element_text(size = 8),
                legend.title = element_text(size = 8)

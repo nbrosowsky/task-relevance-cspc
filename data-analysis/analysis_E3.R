@@ -18,6 +18,7 @@ load("data-analysis/raw_data_E3.Rda")
 # load("data-analysis/demographics_E3.Rda")
 # demographics_E3$Subject <- demographics_E3$subnum
 
+theme_set(theme_cowplot())
 
 # Find subs with < 75% accuracy
 low_acc <- raw_data_E3 %>%
@@ -184,7 +185,7 @@ ACC.graph <- ggplot(ACC.Diff,aes(x=Task_Relevant_Context, y=Flanker,fill=Task_Re
   theme(       legend.position=c(1,1),
                legend.justification = c(1,1),
                legend.direction = "vertical",
-               legend.background = element_rect(colour = "black", fill = "white", size=1),
+               # legend.background = element_rect(colour = "black", fill = "white", size=1),
                #legend.box.background = element_rect(colour = "black"),
                legend.margin = margin(t = .1, r = .10, b = .05, l = .1, unit = "cm"),
                legend.text = element_text(size = 8),
@@ -200,7 +201,7 @@ ACC.graph <- ggplot(ACC.Diff,aes(x=Task_Relevant_Context, y=Flanker,fill=Task_Re
 figure4<-plot_grid(RT.graph,NULL,ACC.graph, 
                    nrow = 1, 
                    rel_widths = c(1, 0.05, 1),
-                   labels = c("A", "", "B"))
+                   labels = c("A.", "", "B."))
 
 #title <- ggdraw() + draw_label("Experiment 3", fontface='bold')
 #figure4<-plot_grid(title, figure4, ncol=1, rel_heights=c(0.1, 1)) # rel_heights values control title margins
