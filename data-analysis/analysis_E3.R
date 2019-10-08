@@ -110,6 +110,7 @@ RT.Diff<- RT.Analysis %>%
   ) 
 
 RT.Diff$Task_Relevant_Context <- factor(RT.Diff$Task_Relevant_Context,levels(RT.Diff$Task_Relevant_Context)[c(2,1)])
+levels(RT.Diff$Task_Relevant_Context) <- c("Low Conflict", "High Conflict")
 
 limits <- aes(ymax = Flanker + SE, ymin = Flanker - SE)
 RT.graph <- ggplot(RT.Diff,aes(x=Task_Relevant_Context, y=Flanker,fill=Task_Relevant_Context))+
@@ -165,7 +166,7 @@ ACC.Diff <- raw_data_E3 %>%
   ) 
 
 
-#levels(ACC.Diff$Task_Relevant_Context) <- c("100% PC", "0% PC")
+levels(ACC.Diff$Task_Relevant_Context) <- c("Low Conflict", "High Conflict")
 #levels(ACC.Diff$Condition) <- c("Object", "Social", "Social (NR)")
 ACC.Diff$Task_Relevant_Context <- factor(ACC.Diff$Task_Relevant_Context,levels(ACC.Diff$Task_Relevant_Context)[c(2,1)])
 

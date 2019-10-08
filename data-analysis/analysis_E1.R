@@ -126,7 +126,7 @@ RT.Diff<-RT.DF %>%
   ) 
 
 #names(RT.Diff)[names(RT.Diff) == "Task_Relevant_Context"] <- 'Task Relevant\nContext'
-levels(RT.Diff$Task_Relevant_Context) <- c("100% PC", "0% PC")
+levels(RT.Diff$Task_Relevant_Context) <- c("Low Conflict", "High Conflict")
 levels(RT.Diff$Condition) <- c("Object", "Social", "Social (NR)")
 
 
@@ -197,7 +197,7 @@ ACC.Diff <- raw_data %>%
     SE = sd/sqrt(N)
   ) 
 
-levels(ACC.Diff$Task_Relevant_Context) <- c("100% PC", "0% PC")
+levels(ACC.Diff$Task_Relevant_Context) <- c("Low Conflict", "High Conflict")
 levels(ACC.Diff$Condition) <- c("Object", "Social", "Social (NR)")
 
 limits <- aes(ymax = Flanker + SE, ymin = Flanker - SE)

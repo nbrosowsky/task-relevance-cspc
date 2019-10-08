@@ -178,7 +178,7 @@ TR_Table<-paste(
     "\\cmidrule(rl){6-7}",
     "\\multicolumn{1}{c}{Task-Relevant Context} & \\multicolumn{1}{c}{Condition} & \\multicolumn{1}{c}{PC} & \\multicolumn{1}{c}{RT} & \\multicolumn{1}{c}{ER} & \\multicolumn{1}{c}{RT} & \\multicolumn{1}{c}{ER}  \\\\",
     "\\midrule", 
-    paste0("\\multirow{9}{*}{Low Conflict} & \\multirow{3}{*}{Object} & \\multicolumn{1}{l}{0\\%} & \\multicolumn{1}{l}{", paste(forTable[1,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    paste0("\\multirow{9}{*}{100\\% PC} & \\multirow{3}{*}{Object} & \\multicolumn{1}{l}{0\\%} & \\multicolumn{1}{l}{", paste(forTable[1,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
     paste0("& & \\multicolumn{1}{l}{50\\%} & \\multicolumn{1}{l}{", paste(forTable[2,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
     paste0("& & \\multicolumn{1}{l}{100\\%} & \\multicolumn{1}{l}{", paste(forTable[3,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
     "\\cmidrule(rl){2-7}",
@@ -191,7 +191,7 @@ TR_Table<-paste(
     paste0("& & \\multicolumn{1}{l}{100\\%} & \\multicolumn{1}{l}{", paste(forTable[9,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
     "\\midrule", 
     
-    paste0("\\multirow{9}{*}{High Conflict} & \\multirow{3}{*}{Object} & \\multicolumn{1}{l}{0\\%} & \\multicolumn{1}{l}{", paste(forTable[10,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+    paste0("\\multirow{9}{*}{0\\% PC} & \\multirow{3}{*}{Object} & \\multicolumn{1}{l}{0\\%} & \\multicolumn{1}{l}{", paste(forTable[10,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
     paste0("& & \\multicolumn{1}{l}{50\\%} & \\multicolumn{1}{l}{", paste(forTable[11,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
     paste0("& & \\multicolumn{1}{l}{100\\%} & \\multicolumn{1}{l}{", paste(forTable[12,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
     "\\cmidrule(rl){2-7}",
@@ -213,4 +213,57 @@ TR_Table<-paste(
 )
 
 print(kableExtra::kable(TR_Table,format="latex"))
-    
+
+
+
+
+
+# Load data
+load("data-analysis/raw_data_E3.Rda")
+
+
+# Find subs with < 75% accuracy
+low_acc <- raw_data_E3 %>%
+  group_by(Subject,Condition,Task_Relevant_Context,Frequency,Congruency) %>%
+  summarise(meanAccuracy = mean(ACC)) %>%
+  filter(meanAccuracy < .75) %>%
+  .$Subject
+
+N_subjects_removed_E3 <-length(unique(low_acc))
+
+## summarise by subject
+RT.DF <- raw_data_E3 %>%
+  filter(
+    RT < 3000,
+    RT > 0,
+    ACC == TRUE,
+    Subject%in%low_acc == FALSE
+  ) %>%
+  group_by(Condition,Subject,Order,Phase,Block,Frequency,Task_Relevant_Context,Congruency)%>%
+  summarise(vjoutRT = vjoutNR(RT,1))
+
+## Find percentage of trials removed 
+percent_removed_E3 <- raw_data_E3 %>%
+  filter(
+    RT < 3000,
+    RT > 0,
+    ACC == TRUE,
+    Subject%in%low_acc == FALSE
+  ) %>%
+  group_by(Condition,Subject,Order,Phase,Frequency,Task_Relevant_Context,Congruency)%>%
+  summarise(percent_removed = vjoutNR(RT,2)) %>%
+  ungroup() %>%
+  summarise(avg_removed = mean(percent_removed)) %>%
+  .$avg_removed
+
+## Analyze RTs for frequency unbiased items
+RT.Analysis <- RT.DF %>%
+  ungroup() %>%
+  mutate(Task_Relevant_Context = as.factor(Task_Relevant_Context),
+         Subject = as.factor(Subject)) %>%
+  filter(Frequency == "unbiased") %>%
+  group_by(Condition,Subject,Task_Relevant_Context,Congruency) %>%
+  summarise(
+    RT = mean(vjoutRT),
+    se = sd(vjoutRT)/sqrt(n())
+  ) 
