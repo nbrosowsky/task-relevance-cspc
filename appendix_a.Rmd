@@ -1,0 +1,18 @@
+---
+title: "appendix_a"
+output: html_document
+---
+```{r include=FALSE, eval=TRUE,echo=FALSE}
+#As of 2018/12/07 apa_print() requires development version of Papaja
+#devtools::install_github("crsh/papaja")
+library(papaja)
+source("data-analysis/demographics.R")
+
+```
+
+```{r echo=FALSE, results='asis'}
+#, fig.align="center", fig.cap="" ,out.width="\\textwidth", fig.env="figure*"
+cat(TR_Table_4)
+ 
+#knitr::include_graphics("images/table1.pdf")
+```

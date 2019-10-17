@@ -157,6 +157,8 @@ forTable<-as.matrix(table[,3:6])
 
 TR_Table_3 <-paste(
     "\\begin{table}[htbp]",
+    "\\centering",
+    "\\begin{threeparttable}",
     "\\caption{Reaction times and error rates from Experiment 3.}",
     "\\label{TR_table_3}",
     "\\centering",
@@ -179,6 +181,7 @@ TR_Table_3 <-paste(
     "\\multicolumn{6}{l}{\\textit{Note}: RT = Reaction Time (ms);  ER = Error Rates (\\%);} \\\\",
     "\\multicolumn{6}{l}{PC = Proportion Congruent; Standard Errors are presented in parantheses.} \\\\",
     "\\end{tabular}%",
+    "\\end{threeparttable}",
     "\\end{table}",
     sep = "\n"
 )

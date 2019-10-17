@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.10.8)  8 OCT 2019 16:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.10.8)  17 OCT 2019 13:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**manuscript_pretty.tex
-(./manuscript_pretty.tex
+**manuscript.tex
+(./manuscript.tex
 LaTeX2e <2019-10-01>
 (c:/Users/npb15/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/apa6/apa6.cls
 Document Class: apa6 2018/09/01 v2.33 APA formatting (6th edition)
@@ -754,34 +754,34 @@ Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'english'.
-(./manuscript_pretty.aux)
-\openout1 = `manuscript_pretty.aux'.
+(./manuscript.aux)
+\openout1 = `manuscript.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 109.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 110.
+LaTeX Font Info:    ... okay on input line 110.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 110.
+LaTeX Font Info:    ... okay on input line 110.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 110.
+LaTeX Font Info:    ... okay on input line 110.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 110.
+LaTeX Font Info:    ... okay on input line 110.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 110.
+LaTeX Font Info:    ... okay on input line 110.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 110.
+LaTeX Font Info:    ... okay on input line 110.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 110.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 1
-09.
+10.
 (c:/Users/npb15/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 10
-9.
+LaTeX Font Info:    ... okay on input line 110.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 110.
+LaTeX Font Info:    ... okay on input line 110.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 110.
+LaTeX Font Info:    ... okay on input line 110.
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 11
+0.
 (c:/Users/npb15/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
@@ -855,7 +855,7 @@ Package: ltcaption 2018/08/26 v1.4a longtable captions (AR)
 )
 Package caption Info: End \AtBeginDocument code.
 \AtBeginShipoutBox=\box39
-Package hyperref Info: Link coloring OFF on input line 109.
+Package hyperref Info: Link coloring OFF on input line 110.
 
 (c:/Users/npb15/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.s
 ty
@@ -867,45 +867,45 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count142
 )
-LaTeX Info: Redefining \ref on input line 109.
-LaTeX Info: Redefining \pageref on input line 109.
-LaTeX Info: Redefining \nameref on input line 109.
-(./manuscript_pretty.out) (./manuscript_pretty.out)
+LaTeX Info: Redefining \ref on input line 110.
+LaTeX Info: Redefining \pageref on input line 110.
+LaTeX Info: Redefining \nameref on input line 110.
+(./manuscript.out) (./manuscript.out)
 \@outlinefile=\write5
-\openout5 = `manuscript_pretty.out'.
+\openout5 = `manuscript.out'.
 
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
-11.
+12.
 (c:/Users/npb15/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
-11.
+12.
 (c:/Users/npb15/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-111.
+112.
 (c:/Users/npb15/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-111.
+112.
 (c:/Users/npb15/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 111.
+(Font)              <12> on input line 112.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 111.
+(Font)              <8> on input line 112.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 111.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 111
+(Font)              <6> on input line 112.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 112
 .
 (c:/Users/npb15/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 111
+LaTeX Font Info:    Trying to load font information for U+msb on input line 112
 .
 (c:/Users/npb15/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -916,70 +916,69 @@ dftex.map}
 <"images/""Task".jpg, id=137, 1972.36874pt x 1224.575pt>
 File: "images/""Task".jpg Graphic file (type jpg)
 <use "images/""Task".jpg>
-Package pdftex.def Info: "images/""Task".jpg  used on input line 137.
+Package pdftex.def Info: "images/""Task".jpg  used on input line 138.
 (pdftex.def)             Requested size: 469.73657pt x 291.64307pt.
 [5] [6 <./images/Task.jpg>] [7] [8]
-<"manuscript_pretty_files/figure-latex/""figure2-1".pdf, id=163, 496.85625pt x 
-289.08pt>
-File: "manuscript_pretty_files/figure-latex/""figure2-1".pdf Graphic file (type
- pdf)
-<use "manuscript_pretty_files/figure-latex/""figure2-1".pdf>
-Package pdftex.def Info: "manuscript_pretty_files/figure-latex/""figure2-1".pdf
-  used on input line 188.
+<"manuscript_files/figure-latex/""figure2-1".pdf, id=163, 496.85625pt x 289.08p
+t>
+File: "manuscript_files/figure-latex/""figure2-1".pdf Graphic file (type pdf)
+<use "manuscript_files/figure-latex/""figure2-1".pdf>
+Package pdftex.def Info: "manuscript_files/figure-latex/""figure2-1".pdf  used 
+on input line 189.
 (pdftex.def)             Requested size: 469.75908pt x 273.31436pt.
-[9] [10 <./manuscript_pretty_files/figure-latex/figure2-1.pdf>]
-Overfull \hbox (14.77895pt too wide) in paragraph at lines 216--251
+[9] [10 <./manuscript_files/figure-latex/figure2-1.pdf>]
+Overfull \hbox (14.77895pt too wide) in paragraph at lines 217--252
  [][] 
  []
 
 [11] [12] [13] [14]
-<"manuscript_pretty_files/figure-latex/""figure3-1".pdf, id=214, 234.8775pt x 2
-89.08pt>
-File: "manuscript_pretty_files/figure-latex/""figure3-1".pdf Graphic file (type
- pdf)
-<use "manuscript_pretty_files/figure-latex/""figure3-1".pdf>
-Package pdftex.def Info: "manuscript_pretty_files/figure-latex/""figure3-1".pdf
-  used on input line 304.
+<"manuscript_files/figure-latex/""figure3-1".pdf, id=214, 234.8775pt x 289.08pt
+>
+File: "manuscript_files/figure-latex/""figure3-1".pdf Graphic file (type pdf)
+<use "manuscript_files/figure-latex/""figure3-1".pdf>
+Package pdftex.def Info: "manuscript_files/figure-latex/""figure3-1".pdf  used 
+on input line 305.
 (pdftex.def)             Requested size: 234.87692pt x 289.07928pt.
-[15 <./manuscript_pretty_files/figure-latex/figure3-1.pdf>] [16] [17]
-<"manuscript_pretty_files/figure-latex/""figure4-1".pdf, id=242, 234.8775pt x 2
-52.945pt>
-File: "manuscript_pretty_files/figure-latex/""figure4-1".pdf Graphic file (type
- pdf)
-<use "manuscript_pretty_files/figure-latex/""figure4-1".pdf>
-Package pdftex.def Info: "manuscript_pretty_files/figure-latex/""figure4-1".pdf
-  used on input line 396.
+[15 <./manuscript_files/figure-latex/figure3-1.pdf>] [16] [17]
+<"manuscript_files/figure-latex/""figure4-1".pdf, id=243, 234.8775pt x 252.945p
+t>
+File: "manuscript_files/figure-latex/""figure4-1".pdf Graphic file (type pdf)
+<use "manuscript_files/figure-latex/""figure4-1".pdf>
+Package pdftex.def Info: "manuscript_files/figure-latex/""figure4-1".pdf  used 
+on input line 401.
 (pdftex.def)             Requested size: 234.87692pt x 252.94438pt.
-[18 <./manuscript_pretty_files/figure-latex/figure4-1.pdf>] [19]
-<"manuscript_pretty_files/figure-latex/""figure5-1".pdf, id=262, 496.85625pt x 
-361.35pt>
-File: "manuscript_pretty_files/figure-latex/""figure5-1".pdf Graphic file (type
- pdf)
-<use "manuscript_pretty_files/figure-latex/""figure5-1".pdf>
-Package pdftex.def Info: "manuscript_pretty_files/figure-latex/""figure5-1".pdf
-  used on input line 448.
+[18 <./manuscript_files/figure-latex/figure4-1.pdf>] [19]
+<"manuscript_files/figure-latex/""figure5-1".pdf, id=264, 496.85625pt x 361.35p
+t>
+File: "manuscript_files/figure-latex/""figure5-1".pdf Graphic file (type pdf)
+<use "manuscript_files/figure-latex/""figure5-1".pdf>
+Package pdftex.def Info: "manuscript_files/figure-latex/""figure5-1".pdf  used 
+on input line 456.
 (pdftex.def)             Requested size: 469.75908pt x 341.64297pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[20] [21 <./manuscript_pretty_files/figure-latex/figure5-1.pdf>] [22] [23] [24]
-[25] [26] [27] AED endfloat: Processing end Figures and Tables [28]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 725.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 725.
-(./manuscript_pretty.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 725.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 725.
-Package rerunfilecheck Info: File `manuscript_pretty.out' has not changed.
-(rerunfilecheck)             Checksum: 56D4627EC0937B9AB70C74FACF39894E;3852.
+[20] [21 <./manuscript_files/figure-latex/figure5-1.pdf>] [22] [23] [24] [25] [
+26] [27] [28] AED endfloat: Processing end Figures and Tables [29
+
+
+]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 780.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 780.
+(./manuscript.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 780.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 780.
+Package rerunfilecheck Info: File `manuscript.out' has not changed.
+(rerunfilecheck)             Checksum: F29CDE6DFBEE42BEC0B3F85E389AD8EE;3852.
  ) 
 Here is how much of TeX's memory you used:
- 14439 strings out of 494110
- 211221 string characters out of 6172300
- 316161 words of memory out of 5000000
- 18147 multiletter control sequences out of 15000+600000
+ 14453 strings out of 494110
+ 211179 string characters out of 6172300
+ 316237 words of memory out of 5000000
+ 18155 multiletter control sequences out of 15000+600000
  57512 words of font info for 52 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 46i,11n,51p,1752b,455s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 46i,11n,51p,1745b,510s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/npb15/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-math
 sy.enc}{c:/Users/npb15/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm
 -mathit.enc}{c:/Users/npb15/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/
@@ -992,10 +991,10 @@ fonts/type1/public/lm/lmr12.pfb><c:/Users/npb15/AppData/Roaming/TinyTeX/texmf-d
 ist/fonts/type1/public/lm/lmr8.pfb><c:/Users/npb15/AppData/Roaming/TinyTeX/texm
 f-dist/fonts/type1/public/lm/lmri12.pfb><c:/Users/npb15/AppData/Roaming/TinyTeX
 /texmf-dist/fonts/type1/public/lm/lmsy10.pfb>
-Output written on manuscript_pretty.pdf (28 pages, 1531764 bytes).
+Output written on manuscript.pdf (29 pages, 1532997 bytes).
 PDF statistics:
- 514 PDF objects out of 1000 (max. 8388607)
- 463 compressed objects within 5 object streams
- 172 named destinations out of 1000 (max. 500000)
+ 524 PDF objects out of 1000 (max. 8388607)
+ 472 compressed objects within 5 object streams
+ 178 named destinations out of 1000 (max. 500000)
  250 words of extra memory for PDF output out of 10000 (max. 10000000)
 

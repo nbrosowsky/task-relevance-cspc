@@ -115,6 +115,8 @@ forTable<-as.matrix(table[,2:5])
 
 TR_Table_2 <-paste(
   "\\begin{table}[htbp]",
+  "\\centering",
+  "\\begin{threeparttable}",
   "\\caption{Reaction times and error rates from Experiment 2.}",
   "\\label{TR_table_2}",
   "\\centering",
@@ -128,11 +130,13 @@ TR_Table_2 <-paste(
   paste0("\\multicolumn{1}{l}{25\\%} & \\multicolumn{1}{l}{", paste(forTable[1,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
   paste0("\\multicolumn{1}{l}{50\\%} & \\multicolumn{1}{l}{", paste(forTable[2,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
   paste0("\\multicolumn{1}{l}{100\\%} & \\multicolumn{1}{l}{", paste(forTable[3,],collapse="} & \\multicolumn{1}{l}{"), "} \\\\"),
+  "& & & & \\\\",
   "\\bottomrule",
-  "\\multicolumn{5}{l}{\\textit{Note}: RT = Reaction Time (ms);  ER = Error Rates (\\%);} \\\\",
-  "\\multicolumn{5}{l}{PC = Proportion Congruent; Standard Errors} \\\\",
-  "\\multicolumn{5}{l}{are presented in parantheses.} \\\\",
+  "\\multicolumn{5}{l}{\\textit{Note}: RT = Reaction Time (ms);  ER = Error} \\\\",
+  "\\multicolumn{5}{l}{Rates (\\%); PC = Proportion Congruent; Standard} \\\\",
+  "\\multicolumn{5}{l}{Errors are presented in parantheses.} \\\\",
   "\\end{tabular}%",
+  "\\end{threeparttable}",
   "\\end{table}",
   sep = "\n"
 )

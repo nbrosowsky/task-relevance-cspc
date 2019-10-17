@@ -23,7 +23,7 @@ keywords          : "Attention, Memory, Cognitive Control, Conflict Adaptation, 
 wordcount         : "4024 \\vspace{2mm} \\par \\textit{Public Significance Statement:} Contextual cues have been shown to automatically trigger adjustments in selective attention independent of awareness and intention. Here, we find that task-relevance plays an important role in determining which context cues are used to direct attention. These findings contribute to a better understanding of how context-dependency might occur in more complex environments and more generally, how learning and memory processes enable flexible control over attention."
 
 bibliography      : ["task-relevance-cspc.bib"]
-appendix          : "appendix_a.Rmd"
+appendix          : "appendix_a.rmd"
 
 figsintext        : yes
 figurelist        : no
@@ -369,9 +369,4 @@ In sum, our results provide new evidence that changes in task-relevance can upda
 <div id = "refs"></div>
 \endgroup
 
-
-
-```{r echo = FALSE, results = 'asis'}
-render_appendix('appendix_a.rmd')
-```
 
